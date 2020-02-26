@@ -1,0 +1,110 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+button.reset {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+.nodeTree {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.firstNode {
+  width: 100%;
+}
+
+.subLevel {
+  display: flex;
+  flex-direction: row;
+}
+
+.nodeContainer {
+  position: relative;
+  width: -webkit-fill-available;
+}
+
+.node {
+  position: relative;
+  display: flex;
+  padding: 2px;
+  margin: 2px;
+  height: 48px;
+  margin-bottom: 6px;
+  justify-content: center;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+
+.node:before {
+  content: "|";
+  color: transparent;
+  overflow: hidden;
+  width: 4px;
+  height: 8px;
+  background: #ddd;
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  z-index: -1;
+}
+
+.node span.title {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  font-size: 16px;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+}
+
+.node input.title {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  font-size: 16px;
+  text-align: center;
+  background: #efefef;
+}
+
+.node .text {
+  padding: 10px;
+}
+
+.node .button {
+  display: flex;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  appearance: none;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  background: white;
+  border-radius: 50%;
+  z-index: 9;
+}
+
+.node .button img {
+  width: 24px;
+  height: 24px;
+}
+
+.button.add {
+  position: absolute;
+  bottom: -11px;
+  left: calc(50% - 11px);
+}
+
+.button.remove {
+  position: absolute;
+  z-index: 1;
+  top: 2px;
+  right: 2px;
+}
