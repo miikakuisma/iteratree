@@ -20,14 +20,29 @@ export default function App() {
     window.localStorage.setItem("tree", JSON.stringify(newTree));
   }
 
+  function handleUpdateNodeChildren(oldNode, newNode) {
+    var traverse = require("traverse");
+    traverse(tree).forEach(function(x) {
+      if (typeof x === "object" && JSON.stringify(x) === JSON.stringify(oldNode)) {
+        x.options = newNode.options;
+      }
+    });
+    refresh();
+  }
+
   function refresh() {
     let newTree = JSON.stringify(tree);
     handleUpdateTree(JSON.parse(newTree));
   }
 
+  function reset() {
+    window.localStorage.clear();
+    window.location.reload();
+  }
+
   return (
     <div className="App">
-      <Tree tree={tree} onRefresh={refresh} />
+      <Tree tree={tree} onRefresh={refresh} onUpdateNodeChildren={handleUpdateNodeChildren} />
       <button
         className="reset"
         onClick={() => {
@@ -39,8 +54,7 @@ export default function App() {
         className="confirm"
         onClick={() => {
           askConfirm(false);
-          window.localStorage.clear();
-          refresh();
+          reset();
         }}
       >Sure?</button>}
       <button

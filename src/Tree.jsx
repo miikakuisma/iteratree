@@ -2,12 +2,60 @@ import React from "react";
 import Node from "./Node";
 import "./styles.css";
 
-export default function Tree({ tree, onRefresh }) {
+export default function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
   const [clipboard, setClipboard] = React.useState(null);
 
-  window.onkeyup = e => {
-    if (e.key === "Backspace") {
-      deleteSelectedNodes();
+  window.onkeydown = e => {
+    switch (e.key) {
+      // DELETE
+      case "Backspace":
+        deleteSelectedNodes();
+        break;
+      // COPY
+      case "c":
+        if (e.metaKey || e.ctrlKey) {
+          var traverse = require("traverse");
+          traverse(tree).forEach(function(x) {
+            if (typeof x === "object" && x.selected) {
+              copyNode(x);
+            }
+          });
+        }
+        break;
+      // PASTE
+      case "v":
+        if (e.metaKey || e.ctrlKey) {
+          var traverse = require("traverse");
+          traverse(tree).forEach(function(x) {
+            if (typeof x === "object" && x.selected) {
+              pasteNode(x);
+            }
+          });
+        }
+        break;
+      // MOVE
+      case "ArrowLeft":
+        if (e.metaKey || e.ctrlKey) {
+          var traverse = require("traverse");
+          traverse(tree).forEach(function(x) {
+            if (typeof x === "object" && x.selected) {
+              moveNode({ direction: 'left', node: x, parent: this.parent });
+            }
+          });
+        }
+        break;
+      case "ArrowRight":
+        if (e.metaKey || e.ctrlKey) {
+          var traverse = require("traverse");
+          traverse(tree).forEach(function(x) {
+            if (typeof x === "object" && x.selected) {
+              moveNode({ direction: 'right', node: x, parent: this.parent });
+            }
+          });
+        }
+        break;
+      default:
+        break;
     }
   };
 
@@ -40,6 +88,55 @@ export default function Tree({ tree, onRefresh }) {
       }
     });
     onRefresh();
+  }
+
+  function copyNode(node) {
+    setClipboard(node);
+  }
+
+  function pasteNode(node) {
+    // Each pasted node should have new ID
+    let pastedNode = clipboard;
+    pastedNode.id = Date.now();
+
+    if (node.options) {
+      node.options.push(clipboard);
+      onRefresh();
+    } else {
+      node.options = [clipboard];
+      onRefresh();
+    }
+  }
+
+  function array_move(arr, old_index, new_index) {
+    if (new_index >= arr.length) {
+        var k = new_index - arr.length + 1;
+        while (k--) {
+            arr.push(undefined);
+        }
+    }
+    arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+    return arr;
+  };
+
+  function moveNode({ direction, node, parent}) {
+    // Moves child node left-right inside the parent
+    let newParent = JSON.parse(JSON.stringify(parent.parent.node));
+    let oldIndex;
+    newParent.options.forEach((option, index) => {
+      if (option.id === node.id) {
+        oldIndex = index;
+      }
+    });
+    if (direction === 'right' && oldIndex < (newParent.options.length - 1)) {
+      const newIndex = oldIndex + 1;
+      array_move(newParent.options, oldIndex, newIndex);
+    } 
+    if (direction === 'left' && oldIndex > 0) {
+      const newIndex = oldIndex - 1;
+      array_move(newParent.options, oldIndex, newIndex);
+    }
+    onUpdateNodeChildren(parent.parent.node, newParent);
   }
 
   function deleteSelectedNodes() {
@@ -80,18 +177,10 @@ export default function Tree({ tree, onRefresh }) {
           deleteNode(node);
         }}
         onCopyNode={() => {
-          let copiedNode = node;
-          copiedNode.id = Date.now();
-          setClipboard(copiedNode);
+          copyNode(node);
         }}
         onPasteNode={() => {
-          if (node.options) {
-            node.options.push(clipboard);
-            onRefresh();
-          } else {
-            node.options = [clipboard];
-            onRefresh();
-          }
+          pasteNode(node);
         }}
         onUpdateNode={(key, value) => {
           node[key] = value;
