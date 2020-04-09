@@ -26,15 +26,27 @@ class Node extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({
-      isEditing: this.props.editing || false
-    });
+    const { node } = this.props;
+    this.setState({ selected: node.selected || false });
+    window.addEventListener('keyup', this.handleKeyDown.bind(this));
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keyup', this.handleKeyDown.bind(this));
+  }
+
+  handleKeyDown(e) {
+    const { node } = this.props;
+    if (e.key === "Enter" && node.selected) {
+      this.setState({ isEditing: true });
+      this.inputField.focus();  
+    }
   }
 
   saveTitle() {
     if (this.inputField) {
-      this.props.onUpdateNode("title", this.inputField.value);
       this.setState({ isEditing: false });
+      this.props.onUpdateNode("title", this.inputField.value);
     }
   }
 
