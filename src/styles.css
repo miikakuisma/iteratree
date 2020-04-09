@@ -121,7 +121,12 @@ button.export {
 
 .button.paste {
   position: absolute;
-  left: 30px;
+  left: 24px;
+}
+
+.button.copy img, .button.paste img {
+  width: 16px;
+  height: 16px;
 }
 
 .button.remove {
