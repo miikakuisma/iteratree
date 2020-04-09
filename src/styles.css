@@ -6,6 +6,18 @@
 button.reset {
   position: fixed;
   bottom: 20px;
+  right: 80px;
+}
+
+button.confirm {
+  position: fixed;
+  bottom: 50px;
+  right: 80px;
+}
+
+button.export {
+  position: fixed;
+  bottom: 20px;
   right: 20px;
 }
 
@@ -100,6 +112,16 @@ button.reset {
   position: absolute;
   bottom: -11px;
   left: calc(50% - 11px);
+}
+
+.button.copy {
+  position: absolute;
+  left: 0px;
+}
+
+.button.paste {
+  position: absolute;
+  left: 30px;
 }
 
 .button.remove {

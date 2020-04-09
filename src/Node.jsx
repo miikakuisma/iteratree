@@ -5,6 +5,9 @@ import "./styles.css";
 const propTypes = {
   node: PropTypes.object.isRequired,
   subNodes: PropTypes.array,
+  pasteEnabled: PropTypes.bool,
+  onCopyNode: PropTypes.func,
+  onPasteNode: PropTypes.func,
   onRemoveNode: PropTypes.func.isRequired,
   onUpdateNode: PropTypes.func.isRequired,
   onAddNode: PropTypes.func.isRequired
@@ -39,7 +42,10 @@ class Node extends React.Component {
     const {
       node,
       subNodes,
+      pasteEnabled,
       onAddNode,
+      onCopyNode,
+      onPasteNode,
       onRemoveNode,
       onSelectNode
     } = this.props;
@@ -86,6 +92,14 @@ class Node extends React.Component {
     const handleAdd = () => {
       onAddNode();
     };
+
+    const handleCopy = () => {
+      onCopyNode();
+    }
+
+    const handlePaste = () => {
+      onPasteNode();
+    }
 
     const handleRemove = () => {
       onRemoveNode();
@@ -134,6 +148,8 @@ class Node extends React.Component {
                   style={{ transform: "rotate(180deg) scaleX(-1)" }}
                 />
               </div>
+              <div onClick={handleCopy} className="button copy">C</div>
+              {pasteEnabled && <div onClick={handlePaste} className="button paste">P</div>}
               {node.id !== 0 && (
                 <div
                   onClick={handleRemove}

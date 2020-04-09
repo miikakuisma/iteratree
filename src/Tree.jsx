@@ -3,6 +3,8 @@ import Node from "./Node";
 import "./styles.css";
 
 export default function Tree({ tree, onRefresh }) {
+  const [clipboard, setClipboard] = React.useState(null);
+
   window.onkeyup = e => {
     if (e.key === "Backspace") {
       deleteSelectedNodes();
@@ -70,11 +72,26 @@ export default function Tree({ tree, onRefresh }) {
         key={node.id}
         node={node}
         subNodes={subNodes}
+        pasteEnabled={clipboard !== null}
         onSelectNode={() => {
           selectNode(node);
         }}
         onRemoveNode={() => {
           deleteNode(node);
+        }}
+        onCopyNode={() => {
+          let copiedNode = node;
+          copiedNode.id = Date.now();
+          setClipboard(copiedNode);
+        }}
+        onPasteNode={() => {
+          if (node.options) {
+            node.options.push(clipboard);
+            onRefresh();
+          } else {
+            node.options = [clipboard];
+            onRefresh();
+          }
         }}
         onUpdateNode={(key, value) => {
           node[key] = value;

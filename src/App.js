@@ -33,6 +33,7 @@ export default function App() {
   }
 
   const [tree, updateTree] = useState(storedTree || flow);
+  const [confirm, askConfirm] = useState(false);
 
   function handleUpdateTree(newTree) {
     updateTree(newTree);
@@ -50,11 +51,24 @@ export default function App() {
       <button
         className="reset"
         onClick={() => {
+          askConfirm(!confirm);
           window.localStorage.clear();
         }}
-      >
-        Reset
-      </button>
+      >Clear</button>
+      {confirm && <button
+        className="confirm"
+        onClick={() => {
+          askConfirm(false);
+          window.localStorage.clear();
+        }}
+      >Sure?</button>}
+      <button
+        className="export"
+        onClick={() => {
+          alert("You can find JSON from the Console now")
+          console.log(JSON.stringify(tree));
+        }}
+      >Export</button>
     </div>
   );
 }
