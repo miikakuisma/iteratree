@@ -2,27 +2,7 @@ import React, { useState } from "react";
 import Tree from "./Tree";
 import "./styles.css";
 
-let flow = [
-  {
-    title: "Week",
-    id: 0,
-    options: [
-      {
-        id: 1582404772377,
-        title: "Monday",
-        options: [
-          { id: 1582404817558, title: "New" },
-          { id: 1582405067308, title: "New" },
-          { id: 1582405068038, title: "New" }
-        ]
-      },
-      { id: 1582404775678, title: "Tuesday" },
-      { id: 1582404776568, title: "Wednesday" },
-      { id: 1582404777119, title: "Thurday" },
-      { id: 1582404778083, title: "Friday" }
-    ]
-  }
-];
+let flow = [{ "title": "Are you happy?", "id": 0, "options": [{ "id": 1582404775678, "title": "Yes", "selected": false, "options": [{ "id": 1586420215794, "title": "Keep doing whatever you're doing", "selected": false }] }, { "id": 1582404776568, "title": "No", "selected": false, "options": [{ "id": 1586420159745, "title": "Do you want to be happy?", "selected": false, "options": [{ "id": 1586420171860, "title": "Yes", "selected": false, "options": [{ "id": 1586420181042, "title": "Change something?", "selected": false }] }, { "id": 1586420173508, "title": "No", "selected": false, "options": [{ "id": 1586420191163, "title": "Keep doing whatever you're doing", "selected": false }] }] }] }], "selected": false }];
 
 export default function App() {
   let storedTree;
@@ -60,12 +40,13 @@ export default function App() {
         onClick={() => {
           askConfirm(false);
           window.localStorage.clear();
+          refresh();
         }}
       >Sure?</button>}
       <button
         className="export"
         onClick={() => {
-          alert("You can find JSON from the Console now")
+          alert("You can find JSON from the Console now");
           console.log(JSON.stringify(tree));
         }}
       >Export</button>
