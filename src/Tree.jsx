@@ -214,14 +214,15 @@ export default function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
           if (node.options) {
             node.options.push({
               id: Date.now(),
-              title: "New"
+              title: "New",
             });
             onRefresh();
           } else {
             node.options = [
               {
                 id: Date.now(),
-                title: "New"
+                title: "New",
+                selected: true
               }
             ];
             onRefresh();
