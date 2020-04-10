@@ -49,35 +49,39 @@ button.export {
 
 .node {
   position: relative;
-  display: flex;
-  padding: 2px;
-  margin: 2px;
-  height: 48px;
-  margin-bottom: 6px;
-  justify-content: center;
-  border: 1px solid black;
-  border-radius: 3px;
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5715;
+  padding: 15px;
+  margin: 11px 2px 2px 2px;
+  -webkit-font-feature-settings: 'tnum';
+  font-feature-settings: 'tnum', "tnum";
 }
 
-.ant-card {
-  /* border: 1px solid #dedede; */
-  margin: 4px 2px 2px 2px;
-}
-
-.ant-card:before {
+.node:before {
   content: "|";
-  color: transparent;
-  overflow: hidden;
-  width: 4px;
-  height: 6px;
-  background: #bbb;
+  color: #bfbfbf;
+  font-size: 14px;
+  font-weight: bolder;
+  line-height: 27px;
+  background: white;
   position: absolute;
-  top: -7px;
-  left: calc(50% - 2px);
-  z-index: 0;
+  top: -20px;
+  left: calc(50% - 4px);
+  z-index: 1;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid #bfbfbf;
 }
 
-.ant-card span.title {
+.node.selected:before {
+  color: #1890ff;
+  border: 2px solid #1890ff;
+}
+
+.node span.title {
   display: flex;
   width: 100%;
   height: 100%;
@@ -86,11 +90,11 @@ button.export {
   align-items: center;
 }
 
-.ant-card input.title {
+.node input.title {
   display: flex;
   width: 100%;
+  height: 100%;
   justify-content: center;
-  font-size: 16px;
   text-align: center;
   background: #efefef;
 }
@@ -103,19 +107,13 @@ button.export {
   display: flex;
   width: 24px;
   height: 24px;
+  font-size: 24px;
   cursor: pointer;
   appearance: none;
   justify-content: center;
   align-content: center;
   align-items: center;
-  background: white;
-  border-radius: 50%;
   z-index: 9;
-}
-
-.node .button img {
-  width: 24px;
-  height: 24px;
 }
 
 .button.add {

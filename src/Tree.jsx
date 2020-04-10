@@ -234,5 +234,14 @@ export default function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
 
   const nodeTree = tree.map(node => renderNode(node));
 
-  return <div className="nodeTree">{nodeTree}</div>;
+  return (
+    <div
+      className="nodeTree"
+      onClick={(e) => {
+        if (e.target.classList.contains('nodeContainer')) { 
+          unselectAll();
+        }
+      }}
+    >{nodeTree}</div>
+  );
 }

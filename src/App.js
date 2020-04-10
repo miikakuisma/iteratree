@@ -49,30 +49,28 @@ export default function App() {
 
   return (
     <Layout>
-      
-        <Menu mode="horizontal">
-          <SubMenu
-            title={
-              <span className="submenu-title-wrapper">
-                <BranchesOutlined />
-                Iteratree
-              </span>
-            }
-          >
-            <Menu.Item
-              onClick={() => {
-                reset();
-              }}
-            >Clear</Menu.Item>
-            <Menu.Item
-              onClick={() => {
-                alert("You can find JSON from the Console now");
-                console.log(JSON.stringify(tree));
-              }}
-            >Export JSON</Menu.Item>
-          </SubMenu>
-        </Menu>
-      
+      <Menu mode="horizontal">
+        <SubMenu
+          title={
+            <span className="submenu-title-wrapper">
+              <BranchesOutlined />
+              Iteratree
+            </span>
+          }
+        >
+          <Menu.Item
+            onClick={() => {
+              reset();
+            }}
+          >Clear</Menu.Item>
+          <Menu.Item
+            onClick={() => {
+              alert("You can find JSON from the Console now");
+              console.log(JSON.stringify(tree));
+            }}
+          >Export JSON</Menu.Item>
+        </SubMenu>
+      </Menu>
       <Content className="App">
         <div className="App">
           <Tree tree={tree} onRefresh={refresh} onUpdateNodeChildren={handleUpdateNodeChildren} />
