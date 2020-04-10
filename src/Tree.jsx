@@ -1,7 +1,11 @@
 import React from "react";
+import { message } from 'antd';
+import 'antd/dist/antd.css';
+import "./styles.css";
+
 import Node from "./Node";
 import { arrayMove } from "./helpers";
-import "./styles.css";
+
 const traverse = require("traverse");
 
 export default function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
@@ -100,6 +104,7 @@ export default function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
 
   function copyNode(node) {
     setClipboard(node);
+    message.info(`Node copied to clipboard`);
   }
 
   function pasteNode(node) {

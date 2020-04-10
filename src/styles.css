@@ -1,7 +1,12 @@
+.ant-layout-content.App {
+  height: calc(100vh - 47px);
+}
+
 .App {
   font-family: sans-serif;
   text-align: center;
   user-select: none;
+  padding: 20px;
 }
 
 button.reset {
@@ -54,30 +59,34 @@ button.export {
   border-radius: 3px;
 }
 
-.node:before {
+.ant-card {
+  /* border: 1px solid #dedede; */
+  margin: 4px 2px 2px 2px;
+}
+
+.ant-card:before {
   content: "|";
   color: transparent;
   overflow: hidden;
   width: 4px;
-  height: 8px;
-  background: #ddd;
+  height: 6px;
+  background: #bbb;
   position: absolute;
-  top: -11px;
-  left: 50%;
-  z-index: -1;
+  top: -7px;
+  left: calc(50% - 2px);
+  z-index: 0;
 }
 
-.node span.title {
+.ant-card span.title {
   display: flex;
   width: 100%;
   height: 100%;
-  font-size: 16px;
   cursor: pointer;
   justify-content: center;
   align-items: center;
 }
 
-.node input.title {
+.ant-card input.title {
   display: flex;
   width: 100%;
   justify-content: center;
