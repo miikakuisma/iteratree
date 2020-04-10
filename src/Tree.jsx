@@ -59,64 +59,12 @@ export default function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
         });
       }
     }
-  ])
-
-  // window.onkeydown = e => {
-  //   const traverse = require("traverse");
-  //   switch (e.key) {
-  //     // DELETE
-  //     case "Backspace":
-  //       deleteSelectedNodes();
-  //       break;
-  //     // COPY
-  //     case "c":
-  //       if (e.metaKey || e.ctrlKey) {
-  //         traverse(tree).forEach(function(x) {
-  //           if (typeof x === "object" && x.selected) {
-  //             copyNode(x);
-  //           }
-  //         });
-  //       }
-  //       break;
-  //     // PASTE
-  //     case "v":
-  //       if (e.metaKey || e.ctrlKey) {
-  //         traverse(tree).forEach(function(x) {
-  //           if (typeof x === "object" && x.selected) {
-  //             pasteNode(x);
-  //           }
-  //         });
-  //       }
-  //       break;
-  //     // MOVE
-  //     case "ArrowLeft":
-  //       if (e.metaKey || e.ctrlKey) {
-  //         traverse(tree).forEach(function(x) {
-  //           if (typeof x === "object" && x.selected) {
-  //             moveNode({ direction: 'left', node: x, parent: this.parent });
-  //           }
-  //         });
-  //       }
-  //       break;
-  //     case "ArrowRight":
-  //       if (e.metaKey || e.ctrlKey) {
-  //         traverse(tree).forEach(function(x) {
-  //           if (typeof x === "object" && x.selected) {
-  //             moveNode({ direction: 'right', node: x, parent: this.parent });
-  //           }
-  //         });
-  //       }
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // };
+  ]);
 
   function selectNode(node) {
     if (node.id === 0) {
       return;
     }
-    var traverse = require("traverse");
     traverse(tree).forEach(function(x) {
       if (typeof x === 'object') {
         if (x === node) {
@@ -134,7 +82,6 @@ export default function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
   }
 
   function unselectAll(node) {
-    var traverse = require("traverse");
     traverse(tree).forEach(function(x) {
       if (typeof x === 'object') {
         x.selected = false;
@@ -151,6 +98,7 @@ export default function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
     // Each pasted node should have new ID
     let pastedNode = clipboard;
     pastedNode.id = Date.now();
+    pastedNode.selected = false;
 
     if (node.options) {
       node.options.push(clipboard);
@@ -182,7 +130,6 @@ export default function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
   }
 
   function deleteSelectedNodes() {
-    var traverse = require("traverse");
     traverse(tree).forEach(function(x) {
       if (typeof x === "object" && x.selected) {
         deleteNode(x);
@@ -194,7 +141,6 @@ export default function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
     if (node.id === 0) {
       return;
     }
-    var traverse = require("traverse");
     traverse(tree).forEach(function(x) {
       if (x === node) {
         this.remove();
