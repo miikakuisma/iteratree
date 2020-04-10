@@ -20,6 +20,7 @@ class Node extends React.Component {
       isHovering: false,
       isHoveringRemove: false,
       isClicking: false,
+      isPressingEnter: false,
       isEditing: false,
       selected: false
     };
@@ -28,17 +29,21 @@ class Node extends React.Component {
   componentDidMount() {
     const { node } = this.props;
     this.setState({ selected: node.selected || false });
-    window.addEventListener('keyup', this.handleKeyDown.bind(this));
+    window.addEventListener('keydown', this.handleKeyDown.bind(this));
   }
 
   componentWillUnmount() {
-    window.removeEventListener('keyup', this.handleKeyDown.bind(this));
+    window.removeEventListener('keydown', this.handleKeyDown.bind(this));
   }
 
   handleKeyDown(e) {
-    const { node } = this.props;
-    if (e.key === "Enter" && node.selected) {
-      this.setState({ isEditing: true });
+    const { node } = this.props;
+    if (e.key === "Enter" && node.selected && !this.state.isEditing) {
+      this.setState({
+        isEditing: true,
+        isHovering: false,
+        isPressingEnter: true,
+      });
       this.inputField.focus();  
     }
   }
@@ -96,8 +101,17 @@ class Node extends React.Component {
     };
 
     const handleKeyUp = e => {
-      if (e.key === "Enter") {
-        this.saveTitle();
+      if (!this.state.isPressingEnter) {
+        if (e.key === "Enter") {
+          this.saveTitle();
+        }
+        if (e.key === "Escape") {
+          this.setState({ isEditing: false });
+        }
+      } else {
+        this.setState({
+          isPressingEnter: false,
+        });
       }
     };
 

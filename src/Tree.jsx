@@ -1,63 +1,116 @@
 import React from "react";
 import Node from "./Node";
+import { arrayMove } from "./helpers";
+import { bindKeys } from "./keyboard";
 import "./styles.css";
+const traverse = require("traverse");
 
 export default function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
   const [clipboard, setClipboard] = React.useState(null);
 
-  window.onkeydown = e => {
-    switch (e.key) {
-      // DELETE
-      case "Backspace":
+  bindKeys([
+    {
+      key: "Backspace",
+      fn: () => {
         deleteSelectedNodes();
-        break;
-      // COPY
-      case "c":
-        if (e.metaKey || e.ctrlKey) {
-          var traverse = require("traverse");
-          traverse(tree).forEach(function(x) {
-            if (typeof x === "object" && x.selected) {
-              copyNode(x);
-            }
-          });
-        }
-        break;
-      // PASTE
-      case "v":
-        if (e.metaKey || e.ctrlKey) {
-          var traverse = require("traverse");
-          traverse(tree).forEach(function(x) {
-            if (typeof x === "object" && x.selected) {
-              pasteNode(x);
-            }
-          });
-        }
-        break;
-      // MOVE
-      case "ArrowLeft":
-        if (e.metaKey || e.ctrlKey) {
-          var traverse = require("traverse");
-          traverse(tree).forEach(function(x) {
-            if (typeof x === "object" && x.selected) {
-              moveNode({ direction: 'left', node: x, parent: this.parent });
-            }
-          });
-        }
-        break;
-      case "ArrowRight":
-        if (e.metaKey || e.ctrlKey) {
-          var traverse = require("traverse");
-          traverse(tree).forEach(function(x) {
-            if (typeof x === "object" && x.selected) {
-              moveNode({ direction: 'right', node: x, parent: this.parent });
-            }
-          });
-        }
-        break;
-      default:
-        break;
+      }
+    },
+    {
+      key: "c",
+      withCmd: true,
+      fn: () => {
+        traverse(tree).forEach(function(x) {
+          if (typeof x === "object" && x.selected) {
+            copyNode(x);
+          }
+        });
+      }
+    },
+    {
+      key: "v",
+      withCmd: true,
+      fn: () => {
+        traverse(tree).forEach(function(x) {
+          if (typeof x === "object" && x.selected) {
+            pasteNode(x);
+          }
+        });
+      }
+    },
+    {
+      key: "ArrowLeft",
+      withCmd: true,
+      fn: () => {
+        traverse(tree).forEach(function(x) {
+          if (typeof x === "object" && x.selected) {
+            moveNode({ direction: 'left', node: x, parent: this.parent });
+          }
+        });
+      }
+    },
+    {
+      key: "ArrowRight",
+      withCmd: true,
+      fn: () => {
+        traverse(tree).forEach(function(x) {
+          if (typeof x === "object" && x.selected) {
+            moveNode({ direction: 'right', node: x, parent: this.parent });
+          }
+        });
+      }
     }
-  };
+  ])
+
+  // window.onkeydown = e => {
+  //   const traverse = require("traverse");
+  //   switch (e.key) {
+  //     // DELETE
+  //     case "Backspace":
+  //       deleteSelectedNodes();
+  //       break;
+  //     // COPY
+  //     case "c":
+  //       if (e.metaKey || e.ctrlKey) {
+  //         traverse(tree).forEach(function(x) {
+  //           if (typeof x === "object" && x.selected) {
+  //             copyNode(x);
+  //           }
+  //         });
+  //       }
+  //       break;
+  //     // PASTE
+  //     case "v":
+  //       if (e.metaKey || e.ctrlKey) {
+  //         traverse(tree).forEach(function(x) {
+  //           if (typeof x === "object" && x.selected) {
+  //             pasteNode(x);
+  //           }
+  //         });
+  //       }
+  //       break;
+  //     // MOVE
+  //     case "ArrowLeft":
+  //       if (e.metaKey || e.ctrlKey) {
+  //         traverse(tree).forEach(function(x) {
+  //           if (typeof x === "object" && x.selected) {
+  //             moveNode({ direction: 'left', node: x, parent: this.parent });
+  //           }
+  //         });
+  //       }
+  //       break;
+  //     case "ArrowRight":
+  //       if (e.metaKey || e.ctrlKey) {
+  //         traverse(tree).forEach(function(x) {
+  //           if (typeof x === "object" && x.selected) {
+  //             moveNode({ direction: 'right', node: x, parent: this.parent });
+  //           }
+  //         });
+  //       }
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
 
   function selectNode(node) {
     if (node.id === 0) {
@@ -108,17 +161,6 @@ export default function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
     }
   }
 
-  function array_move(arr, old_index, new_index) {
-    if (new_index >= arr.length) {
-        var k = new_index - arr.length + 1;
-        while (k--) {
-            arr.push(undefined);
-        }
-    }
-    arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-    return arr;
-  };
-
   function moveNode({ direction, node, parent}) {
     // Moves child node left-right inside the parent
     let newParent = JSON.parse(JSON.stringify(parent.parent.node));
@@ -130,11 +172,11 @@ export default function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
     });
     if (direction === 'right' && oldIndex < (newParent.options.length - 1)) {
       const newIndex = oldIndex + 1;
-      array_move(newParent.options, oldIndex, newIndex);
+      arrayMove(newParent.options, oldIndex, newIndex);
     } 
     if (direction === 'left' && oldIndex > 0) {
       const newIndex = oldIndex - 1;
-      array_move(newParent.options, oldIndex, newIndex);
+      arrayMove(newParent.options, oldIndex, newIndex);
     }
     onUpdateNodeChildren(parent.parent.node, newParent);
   }
