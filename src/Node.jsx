@@ -174,15 +174,6 @@ class Node extends React.Component {
               <div onClick={handleAdd} className="button add">
                 <PlusCircleTwoTone />
               </div>
-              <div onClick={handleCopy} className="button copy">
-
-              </div>
-              {pasteEnabled && <div onClick={handlePaste} className="button paste">
-                <img
-                  src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaGVpZ2h0PSIyMnB4IiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAxOCAyMiIgd2lkdGg9IjE4cHgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6c2tldGNoPSJodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2gvbnMiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj48dGl0bGUvPjxkZXNjLz48ZGVmcy8+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiBpZD0iUGFnZS0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSI+PGcgZmlsbD0iIzAwMDAwMCIgaWQ9IkNvcmUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xNzEuMDAwMDAwLCAtMTI3LjAwMDAwMCkiPjxnIGlkPSJjb250ZW50LXBhc3RlIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNzEuMDAwMDAwLCAxMjcuMDAwMDAwKSI+PHBhdGggZD0iTTE2LDIgTDExLjgsMiBDMTEuNCwwLjggMTAuMywwIDksMCBDNy43LDAgNi42LDAuOCA2LjIsMiBMMiwyIEMwLjksMiAwLDIuOSAwLDQgTDAsMjAgQzAsMjEuMSAwLjksMjIgMiwyMiBMMTYsMjIgQzE3LjEsMjIgMTgsMjEuMSAxOCwyMCBMMTgsNCBDMTgsMi45IDE3LjEsMiAxNiwyIEwxNiwyIFogTTksMiBDOS42LDIgMTAsMi40IDEwLDMgQzEwLDMuNiA5LjYsNCA5LDQgQzguNCw0IDgsMy42IDgsMyBDOCwyLjQgOC40LDIgOSwyIEw5LDIgWiBNMTYsMjAgTDIsMjAgTDIsNCBMNCw0IEw0LDcgTDE0LDcgTDE0LDQgTDE2LDQgTDE2LDIwIEwxNiwyMCBaIiBpZD0iU2hhcGUiLz48L2c+PC9nPjwvZz48L3N2Zz4="
-                  alt="copy"
-                />
-              </div>}
               {node.id !== 0 && (
                 <div
                   onClick={handleRemove}
@@ -194,7 +185,6 @@ class Node extends React.Component {
                   }}
                   className="button remove"
                 >
-                  
                 </div>
               )}
             </Fragment>

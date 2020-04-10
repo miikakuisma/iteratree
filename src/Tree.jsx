@@ -1,5 +1,5 @@
-import React from "react";
-import { message } from 'antd';
+import React, { useState, useEffect, Fragment } from "react";
+import { message, Drawer } from 'antd';
 import 'antd/dist/antd.css';
 import "./styles.css";
 
@@ -10,6 +10,23 @@ const traverse = require("traverse");
 
 export default function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
   const [clipboard, setClipboard] = React.useState(null);
+  const [selectedNode, setSelectedNode] = useState(null);
+
+  useEffect(() => {
+    const found = [];
+    traverse(tree).forEach(function(x) {
+      if (typeof x === 'object') {
+        if (x.selected) {
+          found.push(x);
+        };
+      }
+    });
+    if (found.length > 0) {
+      setSelectedNode(found[0]);
+    } else {
+      setSelectedNode(null);
+    }
+  });
 
   window.onkeydown = e => {
     switch (e.key) {
@@ -235,13 +252,39 @@ export default function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
   const nodeTree = tree.map(node => renderNode(node));
 
   return (
-    <div
-      className="nodeTree"
-      onClick={(e) => {
-        if (e.target.classList.contains('nodeContainer')) { 
-          unselectAll();
-        }
-      }}
-    >{nodeTree}</div>
+    <Fragment>
+      <div
+        className="nodeTree"
+        onClick={(e) => {
+          if (e.target.classList.contains('nodeContainer')) { 
+            unselectAll();
+          }
+        }}
+      >{nodeTree}</div>
+      <Drawer
+        title="Node Inspector"
+        placement='bottom'
+        closable={true}
+        mask={false}
+        onClose={() => {
+          setSelectedNode(null);
+        }}
+        visible={selectedNode !== null}
+      >
+        <p>{selectedNode && selectedNode.title}</p>
+        
+        <button onClick={() => {
+          copyNode(selectedNode);
+        }}>Copy</button>
+
+        <button onClick={() => {
+          pasteNode(selectedNode);
+        }}>Paste</button>
+
+        <button onClick={() => {
+          deleteNode(selectedNode);
+        }}>Delete</button>
+      </Drawer>
+    </Fragment>
   );
 }
