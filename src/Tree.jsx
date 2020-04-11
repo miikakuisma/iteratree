@@ -1,12 +1,13 @@
 import React, { useState, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
-import { message, Drawer, Modal, Space, Button } from 'antd';
-import { ExclamationCircleOutlined, EditFilled, CopyOutlined, DiffOutlined, DeleteOutlined } from '@ant-design/icons';
+import { message, Modal } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { arrayMove } from "./helpers";
 import 'antd/dist/antd.css';
 import "./styles.css";
 
 import Node from "./Node";
-import { arrayMove } from "./helpers";
+import Inspector from "./Inspector";
 
 const traverse = require("traverse");
 
@@ -289,6 +290,25 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
     );
   };
 
+  const handleInspectorAction = action => {
+    switch (action) {
+      case "edit":
+        setEditing(selectedNode.id);
+        break;
+      case "copy":
+        copyNode(selectedNode);
+        break;
+      case "paste":
+        pasteNode(selectedNode);
+        break;
+      case "delete":
+        deleteNode(selectedNode);
+        break;
+      default:
+        break;
+    }
+  }
+
   const nodeTree = tree.map(node => renderNode(node));
 
   return (
@@ -302,49 +322,11 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
         }}
       >{nodeTree}</div>
       {selectedNode &&
-        <Drawer
-          title={selectedNode.title}
-          placement='bottom'
-          closable={false}
-          mask={false}
-          height={56}
-          onClose={() => {
-            setSelectedNode(null);
-          }}
-          visible={selectedNode !== null}
-        >
-          <div className="actions">
-            <Space>
-              <Button
-                type="primary"
-                icon={<EditFilled />}
-                onClick={() => {
-                  setEditing(selectedNode.id);
-                }}
-              >Edit</Button>
-              <Button
-                icon={<CopyOutlined />}
-                onClick={() => {
-                  copyNode(selectedNode);
-                }}
-              >Copy</Button>
-              <Button
-                icon={<DiffOutlined />}
-                disabled={clipboard === null}
-                onClick={() => {
-                  pasteNode(selectedNode);
-                }}
-              >Paste</Button>
-              <Button
-                icon={<DeleteOutlined />}
-                onClick={() => {
-                  deleteNode(selectedNode);
-                }}
-                danger
-              >Delete</Button>
-            </Space>
-          </div>
-        </Drawer>
+        <Inspector
+          selectedNode={selectedNode}
+          clipboard={clipboard}
+          onAction={handleInspectorAction}
+        />
       }
     </Fragment>
   );

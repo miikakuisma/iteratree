@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { Layout, Menu, Modal, notification } from 'antd';
-import {
-  BranchesOutlined,
-  ExclamationCircleOutlined,
-} from '@ant-design/icons';
+import { BranchesOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import Tree from "./Tree";
 import "./styles.css";
 
@@ -72,7 +69,7 @@ export default function App() {
             onClick={() => {
               reset();
             }}
-          >Clear</Menu.Item>
+          >New</Menu.Item>
           <Menu.Item
             onClick={() => {
               console.log(JSON.stringify(tree));
