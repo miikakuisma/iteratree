@@ -23,7 +23,7 @@ function Inspector({ selectedNode, clipboard, onAction }) {
       mask={false}
       visible={selectedNode !== null}
     >
-      <Content>
+      {/* <Content>
         <Row gutter={8}>
           <Col span={8}>
             <Title level={1}>Text</Title>
@@ -31,7 +31,7 @@ function Inspector({ selectedNode, clipboard, onAction }) {
           <Col span={8}>Yo</Col>
           <Col span={8}>Yo</Col>
         </Row>
-      </Content>
+      </Content> */}
       <div className="actions">
         <Space>
           <Button

@@ -25,83 +25,14 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
   const [previewDeleteNode, setPreviewDeleteNode] = useState(null);
   const [isDeleting, setDeleting] = useState(false);
 
-  useEffect(() => {
-    const found = [];
-    traverse(tree).forEach(function(x) {
-      if (typeof x === 'object') {
-        if (x.selected) {
-          found.push(x);
-        };
-      }
+  function getSelectedNode(callback) {
+    const traverse = require("traverse");
+    traverse(tree).forEach(function(node) {
+      if (typeof node === "object" && node.selected) {
+        callback(node, this.parent);
+      };
     });
-    if (found.length > 0) {
-      setSelectedNode(found[0]);
-    } else {
-      setSelectedNode(null);
-    }
-  }, [tree]);
-
-  window.onkeydown = e => {
-    switch (e.key) {
-      // COPY
-      case "c":
-        if (e.metaKey || e.ctrlKey) {
-          traverse(tree).forEach(function(x) {
-            if (typeof x === "object" && x.selected) {
-              copyNode(x);
-            }
-          });
-        }
-        break;
-      // PASTE
-      case "v":
-        if (e.metaKey || e.ctrlKey) {
-          traverse(tree).forEach(function(x) {
-            if (typeof x === "object" && x.selected) {
-              pasteNode(x);
-            }
-          });
-        }
-        break;
-      // MOVE
-      case "ArrowLeft":
-        if (isEditing === null) {
-          if (e.metaKey || e.ctrlKey) {
-            traverse(tree).forEach(function(x) {
-              if (typeof x === "object" && x.selected) {
-                moveNode({ direction: 'left', node: x, parent: this.parent });
-              }
-            });
-          } else {
-            traverse(tree).forEach(function(x) {
-              if (typeof x === "object" && x.selected) {
-                selectChildNode({ direction: 'left', node: x, parent: this.parent });
-              }
-            });
-          }
-        }
-        break;
-      case "ArrowRight":
-        if (isEditing === null) {
-          if (e.metaKey || e.ctrlKey) {
-            traverse(tree).forEach(function(x) {
-              if (typeof x === "object" && x.selected) {
-                moveNode({ direction: 'right', node: x, parent: this.parent });
-              }
-            });
-          } else {
-            traverse(tree).forEach(function(x) {
-              if (typeof x === "object" && x.selected) {
-                selectChildNode({ direction: 'right', node: x, parent: this.parent });
-              }
-            });
-          }
-        }
-        break;
-      default:
-        break;
-    }
-  };
+  }
 
   function selectNode(node) {
     traverse(tree).forEach(function(x) {
@@ -128,6 +59,54 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
     });
     onRefresh();
   }
+
+  useEffect(() => {
+    getSelectedNode((node) => {
+      if (node) {
+        setSelectedNode(node);
+      } else {
+        setSelectedNode(null);
+      }
+    })
+  }, [tree]);
+
+  window.onkeydown = e => {
+    switch (e.key) {
+      // COPY
+      case "c":
+        if (e.metaKey || e.ctrlKey) {
+          getSelectedNode((node) => copyNode(node));
+        }
+        break;
+      // PASTE
+      case "v":
+        if (e.metaKey || e.ctrlKey) {
+          getSelectedNode((node) => pasteNode(node));
+        }
+        break;
+      // MOVE
+      case "ArrowLeft":
+        if (isEditing === null) {
+          if (e.metaKey || e.ctrlKey) {
+            getSelectedNode((node, parent) => moveNode({ direction: 'left', node, parent }));
+          } else {
+            getSelectedNode((node, parent) => selectChildNode({ direction: 'left', node, parent }));
+          }
+        }
+        break;
+      case "ArrowRight":
+        if (isEditing === null) {
+          if (e.metaKey || e.ctrlKey) {
+            getSelectedNode((node, parent) => moveNode({ direction: 'right', node, parent }));
+          } else {
+            getSelectedNode((node, parent) => selectChildNode({ direction: 'right', node, parent }));
+          }
+        }
+        break;
+      default:
+        break;
+    }
+  };
 
   function addNode(node) {
     if (node.options) {
@@ -230,26 +209,26 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
         if (x === node) {
           this.remove();
           this.node.options = [];
-          onRefresh();
         }
       });
+      onRefresh();
     } else {
+      if (node.id === 0) {
+        return;
+      }
       confirm({
         title: 'Are you sure you want to delete these node(s)?',
         icon: <ExclamationCircleOutlined />,
         content: 'All children will be removed also.',
         onOk() {
-          if (node.id === 0) {
-            return;
-          }
           setDeleting(true);
           traverse(tree).forEach(function(x) {
             if (x === node) {
               this.remove();
               this.node.options = [];
-              onRefresh();
             }
           });
+          onRefresh();
           setDeleting(false);
           setPreviewDeleteNode(null);
         },
