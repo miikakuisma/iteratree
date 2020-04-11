@@ -150,6 +150,10 @@ button.export {
   right: 2px;
 }
 
+.ant-drawer-content {
+  overflow: hidden;
+}
+
 .ant-drawer-body .actions {
   position: absolute;
   top: 13px;

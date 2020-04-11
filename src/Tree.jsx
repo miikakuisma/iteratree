@@ -21,6 +21,7 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
   const [clipboard, setClipboard] = React.useState(null);
   const [selectedNode, setSelectedNode] = useState(null);
   const [previewDeleteNode, setPreviewDeleteNode] = useState(null);
+  const [isDeleting, setDeleting] = useState(false);
 
   useEffect(() => {
     const found = [];
@@ -125,6 +126,25 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
     onRefresh();
   }
 
+  function addNode(node) {
+    if (node.options) {
+      node.options.push({
+        id: Date.now(),
+        title: "New",
+      });
+      onRefresh();
+    } else {
+      node.options = [
+        {
+          id: Date.now(),
+          title: "New",
+          selected: true
+        }
+      ];
+      onRefresh();
+    }
+  }
+
   function copyNode(node) {
     setClipboard(node);
     message.info(`Node copied to clipboard`);
@@ -198,27 +218,39 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
   function deleteNode(node) {
     setPreviewDeleteNode(node.id);
     const { confirm } = Modal;
-    confirm({
-      title: 'Are you sure you want to delete these node(s)?',
-      icon: <ExclamationCircleOutlined />,
-      content: 'All children will be removed also.',
-      onOk() {
-        if (node.id === 0) {
-          return;
+    if (isDeleting) {
+      traverse(tree).forEach(function(x) {
+        if (x === node) {
+          this.remove();
+          this.node.options = [];
+          onRefresh();
         }
-        traverse(tree).forEach(function(x) {
-          if (x === node) {
-            this.remove();
-            this.node.options = [];
-            onRefresh();
+      });
+    } else {
+      confirm({
+        title: 'Are you sure you want to delete these node(s)?',
+        icon: <ExclamationCircleOutlined />,
+        content: 'All children will be removed also.',
+        onOk() {
+          if (node.id === 0) {
+            return;
           }
-        });
-        setPreviewDeleteNode(null);
-      },
-      onCancel() {
-        setPreviewDeleteNode(null);
-      },
-    });
+          setDeleting(true);
+          traverse(tree).forEach(function(x) {
+            if (x === node) {
+              this.remove();
+              this.node.options = [];
+              onRefresh();
+            }
+          });
+          setDeleting(false);
+          setPreviewDeleteNode(null);
+        },
+        onCancel() {
+          setPreviewDeleteNode(null);
+        },
+      });
+    }
   }
 
   const renderNode = node => {
@@ -248,22 +280,7 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
           // unselectAll();
         }}
         onAddNode={() => {
-          if (node.options) {
-            node.options.push({
-              id: Date.now(),
-              title: "New",
-            });
-            onRefresh();
-          } else {
-            node.options = [
-              {
-                id: Date.now(),
-                title: "New",
-                selected: true
-              }
-            ];
-            onRefresh();
-          }
+          addNode(node);
         }}
       />
     );
@@ -287,6 +304,7 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
           placement='bottom'
           closable={false}
           mask={false}
+          height={56}
           onClose={() => {
             setSelectedNode(null);
           }}
@@ -309,6 +327,7 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
               >Copy</Button>
               <Button
                 icon={<DiffOutlined />}
+                disabled={clipboard === null}
                 onClick={() => {
                   pasteNode(selectedNode);
                 }}
