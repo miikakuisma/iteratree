@@ -59,6 +59,7 @@ function Inspector({ selectedNode, clipboard, onAction }) {
             onClick={() => {
               onAction("delete");
             }}
+            disabled={selectedNode.id === 0}
             danger
           >Delete</Button>
         </Space>

@@ -65,39 +65,37 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
         break;
       // MOVE
       case "ArrowLeft":
-        if (isEditing !== null) {
-          return false;
-        }
-        if (e.metaKey || e.ctrlKey) {
-          traverse(tree).forEach(function(x) {
-            if (typeof x === "object" && x.selected) {
-              moveNode({ direction: 'left', node: x, parent: this.parent });
-            }
-          });
-        } else {
-          traverse(tree).forEach(function(x) {
-            if (typeof x === "object" && x.selected) {
-              selectChildNode({ direction: 'left', node: x, parent: this.parent });
-            }
-          });
+        if (isEditing === null) {
+          if (e.metaKey || e.ctrlKey) {
+            traverse(tree).forEach(function(x) {
+              if (typeof x === "object" && x.selected) {
+                moveNode({ direction: 'left', node: x, parent: this.parent });
+              }
+            });
+          } else {
+            traverse(tree).forEach(function(x) {
+              if (typeof x === "object" && x.selected) {
+                selectChildNode({ direction: 'left', node: x, parent: this.parent });
+              }
+            });
+          }
         }
         break;
       case "ArrowRight":
-        if (isEditing !== null) {
-          return false;
-        }
-        if (e.metaKey || e.ctrlKey) {
-          traverse(tree).forEach(function(x) {
-            if (typeof x === "object" && x.selected) {
-              moveNode({ direction: 'right', node: x, parent: this.parent });
-            }
-          });
-        } else {
-          traverse(tree).forEach(function(x) {
-            if (typeof x === "object" && x.selected) {
-              selectChildNode({ direction: 'right', node: x, parent: this.parent });
-            }
-          });
+        if (isEditing === null) {
+          if (e.metaKey || e.ctrlKey) {
+            traverse(tree).forEach(function(x) {
+              if (typeof x === "object" && x.selected) {
+                moveNode({ direction: 'right', node: x, parent: this.parent });
+              }
+            });
+          } else {
+            traverse(tree).forEach(function(x) {
+              if (typeof x === "object" && x.selected) {
+                selectChildNode({ direction: 'right', node: x, parent: this.parent });
+              }
+            });
+          }
         }
         break;
       default:
@@ -106,9 +104,6 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
   };
 
   function selectNode(node) {
-    if (node.id === 0) {
-      return;
-    }
     traverse(tree).forEach(function(x) {
       if (typeof x === 'object') {
         if (x === node) {
@@ -224,6 +219,10 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
   // }
 
   function deleteNode(node) {
+    if (node.id === 0) {
+      message.error(`Cannot delete root node`);
+      return
+    }
     setPreviewDeleteNode(node.id);
     const { confirm } = Modal;
     if (isDeleting) {
