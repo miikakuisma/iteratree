@@ -20,6 +20,7 @@ const propTypes = {
 function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
   const [clipboard, setClipboard] = React.useState(null);
   const [selectedNode, setSelectedNode] = useState(null);
+  const [isEditing, setEditing] = useState(null);
   const [previewDeleteNode, setPreviewDeleteNode] = useState(null);
   const [isDeleting, setDeleting] = useState(false);
 
@@ -261,6 +262,7 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
         node={node}
         subNodes={subNodes}
         pasteEnabled={clipboard !== null}
+        isEditing={isEditing === node.id}
         isPreviewingRemove={previewDeleteNode === node.id}
         onSelectNode={() => {
           selectNode(node);
@@ -277,6 +279,7 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
         onUpdateNode={(key, value) => {
           node[key] = value;
           onRefresh();
+          setEditing(null);
           // unselectAll();
         }}
         onAddNode={() => {
@@ -316,7 +319,7 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
                 type="primary"
                 icon={<EditFilled />}
                 onClick={() => {
-                  
+                  setEditing(selectedNode.id);
                 }}
               >Edit</Button>
               <Button

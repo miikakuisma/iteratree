@@ -7,6 +7,7 @@ import "./styles.css";
 const propTypes = {
   node: PropTypes.object.isRequired,
   subNodes: PropTypes.array,
+  isEditing: PropTypes.bool,
   isPreviewingRemove: PropTypes.bool,
   onRemoveNode: PropTypes.func.isRequired,
   onUpdateNode: PropTypes.func.isRequired,
@@ -26,9 +27,19 @@ class Node extends React.Component {
   }
 
   componentDidMount() {
-    const { node } = this.props;
-    this.setState({ selected: node.selected || false });
+    const { node, isEditing } = this.props;
+    this.setState({
+      selected: node.selected || false,
+      isEditing,
+    });
     window.addEventListener('keydown', this.handleKeyDown.bind(this));
+  }
+
+  componentDidUpdate() {
+    if (this.props.isEditing !== this.state.isEditing) {
+      this.setState({ isEditing: this.props.isEditing });
+      setTimeout(() => { this.inputField.focus(); });
+    }
   }
 
   componentWillUnmount() {
@@ -43,7 +54,7 @@ class Node extends React.Component {
         isHovering: false,
         isPressingEnter: true,
       });
-      setTimeout(() => { this.inputField.focus(); })
+      setTimeout(() => { this.inputField.focus(); });
     }
     if (e.key === "Backspace" && node.selected && !this.state.isEditing) {
       onRemoveNode();
