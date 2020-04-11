@@ -23,6 +23,7 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
   const [selectedNode, setSelectedNode] = useState(null);
   const [isEditing, setEditing] = useState(null);
   const [previewDeleteNode, setPreviewDeleteNode] = useState(null);
+  const [isAskingToConfirm, setAskingConfirm] = useState(false);
   const [isDeleting, setDeleting] = useState(false);
 
   function getSelectedNode(callback) {
@@ -40,6 +41,7 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
         if (x === node) {
           if (x.selected) {
             x.selected = false;
+            setSelectedNode(null);
           } else {
             x.selected = true;
           }
@@ -57,6 +59,7 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
         x.selected = false;
       }
     });
+    setSelectedNode(null);
     onRefresh();
   }
 
@@ -71,6 +74,9 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
   }, [tree]);
 
   window.onkeydown = e => {
+    if (isAskingToConfirm) {
+      return
+    }
     switch (e.key) {
       // COPY
       case "c":
@@ -84,7 +90,7 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
           getSelectedNode((node) => pasteNode(node));
         }
         break;
-      // MOVE
+      // MOVE and SELECT
       case "ArrowLeft":
         if (isEditing === null) {
           if (e.metaKey || e.ctrlKey) {
@@ -102,6 +108,16 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
             getSelectedNode((node, parent) => selectChildNode({ direction: 'right', node, parent }));
           }
         }
+        break;
+      // ADD NODES
+      case "ArrowDown":
+        if (isEditing === null) {
+          getSelectedNode((node) => addNode(node));
+        }
+        break;
+      // SELECT PARENT
+      case "ArrowUp":
+        getSelectedNode((node, parent) => selectParentNode(parent));
         break;
       default:
         break;
@@ -145,6 +161,10 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
       node.options = [clipboard];
       onRefresh();
     }
+  }
+
+  function selectParentNode(node) {
+    selectNode(node.parent.node);
   }
 
   function selectChildNode({ direction, node, parent }) {
@@ -216,11 +236,14 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
       if (node.id === 0) {
         return;
       }
+      setAskingConfirm(true);
       confirm({
         title: 'Are you sure you want to delete these node(s)?',
         icon: <ExclamationCircleOutlined />,
         content: 'All children will be removed also.',
+        maskClosable: true,
         onOk() {
+          setAskingConfirm(false);
           setDeleting(true);
           traverse(tree).forEach(function(x) {
             if (x === node) {
@@ -233,6 +256,7 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
           setPreviewDeleteNode(null);
         },
         onCancel() {
+          setAskingConfirm(false);
           setPreviewDeleteNode(null);
         },
       });
@@ -253,13 +277,19 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
           selectNode(node);
         }}
         onRemoveNode={() => {
-          deleteNode(node);
+          if (!isAskingToConfirm) {
+            deleteNode(node);
+          }
         }}
         onCopyNode={() => {
-          copyNode(node);
+          if (!isAskingToConfirm) {
+            copyNode(node);
+          }
         }}
         onPasteNode={() => {
-          pasteNode(node);
+          if (!isAskingToConfirm) {
+            pasteNode(node);
+          }
         }}
         onUpdateNode={(key, value) => {
           node[key] = value;
@@ -268,13 +298,17 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
           // unselectAll();
         }}
         onStartEditing={() => {
-          setEditing(node.id);
+          if (!isAskingToConfirm) {
+            setEditing(node.id);
+          }
         }}
         onCancelEditing={() => {
           setEditing(null);
         }}
         onAddNode={() => {
-          addNode(node);
+          if (!isAskingToConfirm) {
+            addNode(node);
+          }
         }}
       />
     );
