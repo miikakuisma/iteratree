@@ -65,6 +65,9 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
         break;
       // MOVE
       case "ArrowLeft":
+        if (isEditing !== null) {
+          return false;
+        }
         if (e.metaKey || e.ctrlKey) {
           traverse(tree).forEach(function(x) {
             if (typeof x === "object" && x.selected) {
@@ -80,6 +83,9 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
         }
         break;
       case "ArrowRight":
+        if (isEditing !== null) {
+          return false;
+        }
         if (e.metaKey || e.ctrlKey) {
           traverse(tree).forEach(function(x) {
             if (typeof x === "object" && x.selected) {
@@ -282,6 +288,12 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
           onRefresh();
           setEditing(null);
           // unselectAll();
+        }}
+        onStartEditing={() => {
+          setEditing(node.id);
+        }}
+        onCancelEditing={() => {
+          setEditing(null);
         }}
         onAddNode={() => {
           addNode(node);

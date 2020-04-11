@@ -7,9 +7,12 @@ import "./styles.css";
 const propTypes = {
   node: PropTypes.object.isRequired,
   subNodes: PropTypes.array,
+  isEditing: PropTypes.bool,
   isPreviewingRemove: PropTypes.bool,
   onRemoveNode: PropTypes.func.isRequired,
   onUpdateNode: PropTypes.func.isRequired,
+  onStartEditing: PropTypes.func,
+  onCancelEditing: PropTypes.func,
   onAddNode: PropTypes.func.isRequired,
 };
 
@@ -20,14 +23,11 @@ class Node extends React.Component {
       isHovering: false,
       isClicking: false,
       isPressingEnter: false,
-      isEditing: false,
       selected: false
     };
   }
 
   componentDidMount() {
-    const { node } = this.props;
-    this.setState({ selected: node.selected || false });
     window.addEventListener('keydown', this.handleKeyDown.bind(this));
   }
 
@@ -36,23 +36,21 @@ class Node extends React.Component {
   }
 
   handleKeyDown(e) {
-    const { node, onRemoveNode } = this.props;
-    if (e.key === "Enter" && node.selected && !this.state.isEditing && !this.props.isPreviewingRemove) {
+    const { node, isEditing, onStartEditing, isPreviewingRemove, onRemoveNode } = this.props;
+    if (e.key === "Enter" && node.selected && !isEditing && !isPreviewingRemove) {
       this.setState({
-        isEditing: true,
         isHovering: false,
         isPressingEnter: true,
       });
-      setTimeout(() => { this.inputField.focus(); })
+      onStartEditing();
     }
-    if (e.key === "Backspace" && node.selected && !this.state.isEditing) {
+    if (e.key === "Backspace" && node.selected && !isEditing) {
       onRemoveNode();
     }
   }
 
   saveTitle() {
     if (this.inputField) {
-      this.setState({ isEditing: false });
       this.props.onUpdateNode("title", this.inputField.value);
     }
   }
@@ -61,11 +59,14 @@ class Node extends React.Component {
     const {
       node,
       subNodes,
+      isEditing,
       isPreviewingRemove,
       onAddNode,
+      onStartEditing,
+      onCancelEditing,
       onSelectNode,
     } = this.props;
-    const { isHovering, isClicking, isEditing } = this.state;
+    const { isHovering, isClicking } = this.state;
 
     const handleClickTitle = () => {
       if (isClicking) {
@@ -73,15 +74,9 @@ class Node extends React.Component {
         clearTimeout(this.doubleClickTimer);
         this.setState({
           isClicking: false,
-          isEditing: true
+          isHovering: false
         });
-        onSelectNode();
-        setTimeout(() => {
-          if (this.inputField) {
-            this.inputField.focus();
-            this.setState({ isHovering: false });
-          }
-        });
+        onStartEditing();
       } else {
         this.setState({ isClicking: true });
         this.doubleClickTimer = setTimeout(() => {
@@ -106,7 +101,7 @@ class Node extends React.Component {
           this.saveTitle();
         }
         if (e.key === "Escape") {
-          this.setState({ isEditing: false });
+          onCancelEditing();
         }
       } else {
         this.setState({
@@ -139,6 +134,7 @@ class Node extends React.Component {
             <input
               ref={ref => (this.inputField = ref)}
               type="text"
+              autoFocus
               onFocus={handleFocus}
               onBlur={handleBlur}
               onKeyUp={handleKeyUp}
