@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
-import { message, Drawer, Modal } from 'antd';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { message, Drawer, Modal, Space, Button } from 'antd';
+import { ExclamationCircleOutlined, EditFilled, CopyOutlined, DiffOutlined, DeleteOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import "./styles.css";
 
@@ -292,18 +292,36 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
           }}
           visible={selectedNode !== null}
         >
-          
-          <button onClick={() => {
-            copyNode(selectedNode);
-          }}>Copy</button>
-
-          <button onClick={() => {
-            pasteNode(selectedNode);
-          }}>Paste</button>
-
-          <button onClick={() => {
-            deleteNode(selectedNode);
-          }}>Delete</button>
+          <div className="actions">
+            <Space>
+              <Button
+                type="primary"
+                icon={<EditFilled />}
+                onClick={() => {
+                  
+                }}
+              >Edit</Button>
+              <Button
+                icon={<CopyOutlined />}
+                onClick={() => {
+                  copyNode(selectedNode);
+                }}
+              >Copy</Button>
+              <Button
+                icon={<DiffOutlined />}
+                onClick={() => {
+                  pasteNode(selectedNode);
+                }}
+              >Paste</Button>
+              <Button
+                icon={<DeleteOutlined />}
+                onClick={() => {
+                  deleteNode(selectedNode);
+                }}
+                danger
+              >Delete</Button>
+            </Space>
+          </div>
         </Drawer>
       }
     </Fragment>

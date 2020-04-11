@@ -149,3 +149,9 @@ button.export {
   top: 2px;
   right: 2px;
 }
+
+.ant-drawer-body .actions {
+  position: absolute;
+  top: 13px;
+  right: 13px;
+}
