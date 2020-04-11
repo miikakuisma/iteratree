@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, notification } from 'antd';
 import {
   BranchesOutlined,
 } from '@ant-design/icons';
@@ -66,8 +66,8 @@ export default function App() {
           >Clear</Menu.Item>
           <Menu.Item
             onClick={() => {
-              alert("You can find JSON from the Console now");
               console.log(JSON.stringify(tree));
+              notification.success({ message: "Exported to JSON", description: "You can find JSON from the Console now" });
             }}
           >Export JSON</Menu.Item>
         </SubMenu>

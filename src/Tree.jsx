@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
+import PropTypes from "prop-types";
 import { message, Drawer } from 'antd';
 import 'antd/dist/antd.css';
 import "./styles.css";
@@ -8,7 +9,14 @@ import { arrayMove } from "./helpers";
 
 const traverse = require("traverse");
 
-export default function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
+const propTypes = {
+  tree: PropTypes.object.isRequired,
+  subNodes: PropTypes.array,
+  onRefresh: PropTypes.func,
+  onUpdateNodeChildren: PropTypes.func,
+};
+
+function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
   const [clipboard, setClipboard] = React.useState(null);
   const [selectedNode, setSelectedNode] = useState(null);
 
@@ -30,10 +38,6 @@ export default function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
 
   window.onkeydown = e => {
     switch (e.key) {
-      // DELETE
-      case "Backspace":
-        deleteSelectedNodes();
-        break;
       // COPY
       case "c":
         if (e.metaKey || e.ctrlKey) {
@@ -261,30 +265,34 @@ export default function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
           }
         }}
       >{nodeTree}</div>
-      <Drawer
-        title="Node Inspector"
-        placement='bottom'
-        closable={true}
-        mask={false}
-        onClose={() => {
-          setSelectedNode(null);
-        }}
-        visible={selectedNode !== null}
-      >
-        <p>{selectedNode && selectedNode.title}</p>
-        
-        <button onClick={() => {
-          copyNode(selectedNode);
-        }}>Copy</button>
+      {selectedNode &&
+        <Drawer
+          title={selectedNode.title}
+          placement='bottom'
+          closable={true}
+          mask={false}
+          onClose={() => {
+            setSelectedNode(null);
+          }}
+          visible={selectedNode !== null}
+        >
+          
+          <button onClick={() => {
+            copyNode(selectedNode);
+          }}>Copy</button>
 
-        <button onClick={() => {
-          pasteNode(selectedNode);
-        }}>Paste</button>
+          <button onClick={() => {
+            pasteNode(selectedNode);
+          }}>Paste</button>
 
-        <button onClick={() => {
-          deleteNode(selectedNode);
-        }}>Delete</button>
-      </Drawer>
+          <button onClick={() => {
+            deleteNode(selectedNode);
+          }}>Delete</button>
+        </Drawer>
+      }
     </Fragment>
   );
 }
+
+Tree.propTypes = propTypes;
+export default Tree;

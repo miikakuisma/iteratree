@@ -6,9 +6,6 @@ import "./styles.css";
 const propTypes = {
   node: PropTypes.object.isRequired,
   subNodes: PropTypes.array,
-  pasteEnabled: PropTypes.bool,
-  onCopyNode: PropTypes.func,
-  onPasteNode: PropTypes.func,
   onRemoveNode: PropTypes.func.isRequired,
   onUpdateNode: PropTypes.func.isRequired,
   onAddNode: PropTypes.func.isRequired
@@ -38,14 +35,17 @@ class Node extends React.Component {
   }
 
   handleKeyDown(e) {
-    const { node } = this.props;
+    const { node, onRemoveNode } = this.props;
     if (e.key === "Enter" && node.selected && !this.state.isEditing) {
       this.setState({
         isEditing: true,
         isHovering: false,
         isPressingEnter: true,
       });
-      this.inputField.focus();  
+      setTimeout(() => { this.inputField.focus(); })
+    }
+    if (e.key === "Backspace" && node.selected && !this.state.isEditing) {
+      onRemoveNode();
     }
   }
 
@@ -60,11 +60,7 @@ class Node extends React.Component {
     const {
       node,
       subNodes,
-      pasteEnabled,
       onAddNode,
-      onCopyNode,
-      onPasteNode,
-      onRemoveNode,
       onSelectNode
     } = this.props;
     const { isHovering, isHoveringRemove, isClicking, isEditing } = this.state;
@@ -120,18 +116,6 @@ class Node extends React.Component {
       onAddNode();
     };
 
-    const handleCopy = () => {
-      onCopyNode();
-    }
-
-    const handlePaste = () => {
-      onPasteNode();
-    }
-
-    const handleRemove = () => {
-      onRemoveNode();
-    };
-
     return (
       <div className="nodeContainer">
         <div
@@ -176,7 +160,6 @@ class Node extends React.Component {
               </div>
               {node.id !== 0 && (
                 <div
-                  onClick={handleRemove}
                   onMouseEnter={() => {
                     this.setState({ isHoveringRemove: true });
                   }}
