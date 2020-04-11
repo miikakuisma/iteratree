@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
-import { message, Drawer } from 'antd';
+import { message, Drawer, Modal } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import "./styles.css";
 
@@ -10,15 +11,16 @@ import { arrayMove } from "./helpers";
 const traverse = require("traverse");
 
 const propTypes = {
-  tree: PropTypes.object.isRequired,
+  tree: PropTypes.array.isRequired,
   subNodes: PropTypes.array,
-  onRefresh: PropTypes.func,
-  onUpdateNodeChildren: PropTypes.func,
+  onRefresh: PropTypes.func.isRequired,
+  onUpdateNodeChildren: PropTypes.func.isRequired,
 };
 
 function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
   const [clipboard, setClipboard] = React.useState(null);
   const [selectedNode, setSelectedNode] = useState(null);
+  const [previewDeleteNode, setPreviewDeleteNode] = useState(null);
 
   useEffect(() => {
     const found = [];
@@ -34,7 +36,7 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
     } else {
       setSelectedNode(null);
     }
-  });
+  }, [tree]);
 
   window.onkeydown = e => {
     switch (e.key) {
@@ -185,24 +187,37 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
     onUpdateNodeChildren(parent.parent.node, newParent);
   }
 
-  function deleteSelectedNodes() {
-    traverse(tree).forEach(function(x) {
-      if (typeof x === "object" && x.selected) {
-        deleteNode(x);
-      }
-    });
-  }
+  // function deleteSelectedNodes() {
+  //   traverse(tree).forEach(function(x) {
+  //     if (typeof x === "object" && x.selected) {
+  //       deleteNode(x);
+  //     }
+  //   });
+  // }
 
   function deleteNode(node) {
-    if (node.id === 0) {
-      return;
-    }
-    traverse(tree).forEach(function(x) {
-      if (x === node) {
-        this.remove();
-        this.node.options = [];
-        onRefresh();
-      }
+    setPreviewDeleteNode(node.id);
+    const { confirm } = Modal;
+    confirm({
+      title: 'Are you sure you want to delete these node(s)?',
+      icon: <ExclamationCircleOutlined />,
+      content: 'All children will be removed also.',
+      onOk() {
+        if (node.id === 0) {
+          return;
+        }
+        traverse(tree).forEach(function(x) {
+          if (x === node) {
+            this.remove();
+            this.node.options = [];
+            onRefresh();
+          }
+        });
+        setPreviewDeleteNode(null);
+      },
+      onCancel() {
+        setPreviewDeleteNode(null);
+      },
     });
   }
 
@@ -214,6 +229,7 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
         node={node}
         subNodes={subNodes}
         pasteEnabled={clipboard !== null}
+        isPreviewingRemove={previewDeleteNode === node.id}
         onSelectNode={() => {
           selectNode(node);
         }}
@@ -269,7 +285,7 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
         <Drawer
           title={selectedNode.title}
           placement='bottom'
-          closable={true}
+          closable={false}
           mask={false}
           onClose={() => {
             setSelectedNode(null);

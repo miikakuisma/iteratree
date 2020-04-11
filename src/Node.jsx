@@ -1,14 +1,16 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { PlusCircleTwoTone } from '@ant-design/icons';
+import 'antd/dist/antd.css';
 import "./styles.css";
 
 const propTypes = {
   node: PropTypes.object.isRequired,
   subNodes: PropTypes.array,
+  isPreviewingRemove: PropTypes.bool,
   onRemoveNode: PropTypes.func.isRequired,
   onUpdateNode: PropTypes.func.isRequired,
-  onAddNode: PropTypes.func.isRequired
+  onAddNode: PropTypes.func.isRequired,
 };
 
 class Node extends React.Component {
@@ -16,7 +18,6 @@ class Node extends React.Component {
     super(props);
     this.state = {
       isHovering: false,
-      isHoveringRemove: false,
       isClicking: false,
       isPressingEnter: false,
       isEditing: false,
@@ -36,7 +37,7 @@ class Node extends React.Component {
 
   handleKeyDown(e) {
     const { node, onRemoveNode } = this.props;
-    if (e.key === "Enter" && node.selected && !this.state.isEditing) {
+    if (e.key === "Enter" && node.selected && !this.state.isEditing && !this.props.isPreviewingRemove) {
       this.setState({
         isEditing: true,
         isHovering: false,
@@ -60,10 +61,11 @@ class Node extends React.Component {
     const {
       node,
       subNodes,
+      isPreviewingRemove,
       onAddNode,
-      onSelectNode
+      onSelectNode,
     } = this.props;
-    const { isHovering, isHoveringRemove, isClicking, isEditing } = this.state;
+    const { isHovering, isClicking, isEditing } = this.state;
 
     const handleClickTitle = () => {
       if (isClicking) {
@@ -121,9 +123,9 @@ class Node extends React.Component {
         <div
           className={node.selected ? "node selected" : "node"}
           style={{
-            background: node.selected ? '#1890ff' : '#ffffff',
+            background: node.selected ? (isPreviewingRemove ? 'red' : '#1890ff') : '#ffffff',
             border: node.selected ? '2px solid #1890ff' : '2px solid #bfbfbf',
-            opacity: isHoveringRemove ? 0.3 : 1
+            opacity: isPreviewingRemove ? 0.3 : 1
           }}
           onMouseEnter={() => {
             this.setState({ isHovering: true });
@@ -158,24 +160,12 @@ class Node extends React.Component {
               <div onClick={handleAdd} className="button add">
                 <PlusCircleTwoTone />
               </div>
-              {node.id !== 0 && (
-                <div
-                  onMouseEnter={() => {
-                    this.setState({ isHoveringRemove: true });
-                  }}
-                  onMouseLeave={() => {
-                    this.setState({ isHoveringRemove: false });
-                  }}
-                  className="button remove"
-                >
-                </div>
-              )}
             </Fragment>
           )}
         </div>
         <div
           className="subLevel"
-          style={{ opacity: isHoveringRemove ? "0.3" : "1" }}
+          style={{ opacity: isPreviewingRemove ? "0.3" : "1" }}
         >
           {subNodes}
         </div>

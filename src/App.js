@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Layout, Menu, notification } from 'antd';
+import { Layout, Menu, Modal, notification } from 'antd';
 import {
   BranchesOutlined,
+  ExclamationCircleOutlined,
 } from '@ant-design/icons';
 import Tree from "./Tree";
 import "./styles.css";
@@ -10,7 +11,7 @@ const traverse = require("traverse");
 
 let flow = [{ "title": "Are you happy?", "id": 0, "options": [{ "id": 1582404775678, "title": "Yes", "selected": false, "options": [{ "id": 1586420215794, "title": "Keep doing whatever you're doing", "selected": false }] }, { "id": 1582404776568, "title": "No", "selected": false, "options": [{ "id": 1586420159745, "title": "Do you want to be happy?", "selected": false, "options": [{ "id": 1586420171860, "title": "Yes", "selected": false, "options": [{ "id": 1586420181042, "title": "Change something?", "selected": false }] }, { "id": 1586420173508, "title": "No", "selected": false, "options": [{ "id": 1586420191163, "title": "Keep doing whatever you're doing", "selected": false }] }] }] }], "selected": false }];
 
-const { Header, Content } = Layout;
+const { Content } = Layout;
 const { SubMenu } = Menu;
 
 export default function App() {
@@ -22,7 +23,6 @@ export default function App() {
   }
 
   const [tree, updateTree] = useState(storedTree || flow);
-  const [confirm, askConfirm] = useState(false);
 
   function handleUpdateTree(newTree) {
     updateTree(newTree);
@@ -44,8 +44,17 @@ export default function App() {
   }
 
   function reset() {
-    window.localStorage.clear();
-    window.location.reload();
+    const { confirm } = Modal;
+    confirm({
+      title: 'Do you want to start over?',
+      icon: <ExclamationCircleOutlined />,
+      content: 'Everything will be lost forever',
+      onOk() {
+        window.localStorage.clear();
+        window.location.reload();
+      },
+      onCancel() {},
+    });
   }
 
   return (
