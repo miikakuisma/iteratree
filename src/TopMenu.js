@@ -42,7 +42,7 @@ export default function TopMenu() {
         >New</Menu.Item>
         <Menu.Item
           onClick={() => {
-            UI.setUI({ questionnaire: true });
+            UI.setState({ questionnaire: true });
           }}
         >Generate Questionnaire</Menu.Item>
         <Menu.Item
@@ -54,7 +54,7 @@ export default function TopMenu() {
       </SubMenu>
       {UI.state.questionnaire && <Menu.Item
         onClick={() => {
-          UI.setUI({ questionnaire: false });
+          UI.setState({ questionnaire: false });
         }}
       >EXIT</Menu.Item>}
     </Menu>

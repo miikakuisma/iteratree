@@ -29,7 +29,7 @@ export default function App() {
 
   return (
     <TreeContext.Provider value={{ tree, onRefresh: refresh }}>
-      <UIContext.Provider value={{ state: UI, setUI: updateUI }}>
+      <UIContext.Provider value={{ state: UI, setState: updateUI }}>
         <Layout>
           <TopMenu />
           <Content className="App">

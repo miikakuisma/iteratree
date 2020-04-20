@@ -35,7 +35,7 @@ class Questionnaire extends React.Component {
 
   getBoxContent(node) {
     const { boxVisible, switcherRunning } = this.state
-    if (node.title) {
+    if (node.options) {
       return (<Question
         title={node.title}
         isVisible={boxVisible}
@@ -49,13 +49,20 @@ class Questionnaire extends React.Component {
         }}
       />)
     } else {
-      if (node.options.length === 1) {
-        console.log("YO")
-      }
+      
       return (<div>
-        <div className="boxContainer">
-          <p>THE END</p>
-        </div>
+        <Question
+          title={node.title}
+          isVisible={boxVisible}
+          node={node}
+          onClickNode={(answer) => {
+            if (answer.options.length === 1) {
+              this.handleClick(answer.options[0]);
+            } else {
+              this.handleClick(answer);
+            }
+          }}
+        />
         <div className="buttons">
           <button
             style={{ width: '100%' }}
