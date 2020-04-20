@@ -53,7 +53,6 @@ button.export {
   font-size: 14px;
   font-variant: tabular-nums;
   line-height: 1.5715;
-  padding: 15px;
   margin: 11px 2px 2px 2px;
   -webkit-font-feature-settings: 'tnum';
   font-feature-settings: 'tnum', "tnum";
@@ -88,6 +87,7 @@ button.export {
   cursor: pointer;
   justify-content: center;
   align-items: center;
+  padding: 15px;
 }
 
 .node input.title {
@@ -97,6 +97,7 @@ button.export {
   justify-content: center;
   text-align: center;
   background: #efefef;
+  padding: 15px;
 }
 
 .node .text {

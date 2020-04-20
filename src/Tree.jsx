@@ -1,24 +1,20 @@
-import React, { useState, useEffect, Fragment } from "react";
-import PropTypes from "prop-types";
+import React, { useState, Fragment } from "react";
+import { TreeContext } from './Store';
 import { message, Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { arrayMove } from "./helpers";
 import 'antd/dist/antd.css';
 import "./styles.css";
-
 import Node from "./Node";
 import Inspector from "./Inspector";
 
 const traverse = require("traverse");
 
-const propTypes = {
-  tree: PropTypes.array.isRequired,
-  subNodes: PropTypes.array,
-  onRefresh: PropTypes.func.isRequired,
-  onUpdateNodeChildren: PropTypes.func.isRequired,
-};
+function Tree() {
+  const store = React.useContext(TreeContext);
+  const { tree } = store;
+  const { onRefresh } = store;
 
-function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
   const [clipboard, setClipboard] = React.useState(null);
   const [selectedNode, setSelectedNode] = useState(null);
   const [isEditing, setEditing] = useState(null);
@@ -27,7 +23,6 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
   const [isDeleting, setDeleting] = useState(false);
 
   function getSelectedNode(callback) {
-    const traverse = require("traverse");
     traverse(tree).forEach(function(node) {
       if (typeof node === "object" && node.selected) {
         callback(node, this.parent);
@@ -62,16 +57,6 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
     setSelectedNode(null);
     onRefresh();
   }
-
-  useEffect(() => {
-    getSelectedNode((node) => {
-      if (node) {
-        setSelectedNode(node);
-      } else {
-        setSelectedNode(null);
-      }
-    })
-  }, [tree]);
 
   window.onkeydown = e => {
     if (isAskingToConfirm) {
@@ -136,7 +121,7 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
         {
           id: Date.now(),
           title: "New",
-          selected: true
+          selected: false
         }
       ];
       onRefresh();
@@ -163,6 +148,15 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
     }
   }
 
+  function updateNodeChildren(oldNode, newNode) {
+    traverse(tree).forEach(function(x) {
+      if (typeof x === "object" && JSON.stringify(x) === JSON.stringify(oldNode)) {
+        x.options = newNode.options;
+      }
+    });
+    onRefresh();
+  }
+
   function selectParentNode(node) {
     selectNode(node.parent.node);
   }
@@ -186,7 +180,7 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
       newParent.options[oldIndex].selected = false;
       newParent.options[newIndex].selected = true;
     }
-    onUpdateNodeChildren(parent.parent.node, newParent);
+    updateNodeChildren(parent.parent.node, newParent);
   }
 
   function moveNode({ direction, node, parent}) {
@@ -206,7 +200,7 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
       const newIndex = oldIndex - 1;
       arrayMove(newParent.options, oldIndex, newIndex);
     }
-    onUpdateNodeChildren(parent.parent.node, newParent);
+    updateNodeChildren(parent.parent.node, newParent);
   }
 
   // function deleteSelectedNodes() {
@@ -254,6 +248,7 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
           onRefresh();
           setDeleting(false);
           setPreviewDeleteNode(null);
+          setSelectedNode(null);
         },
         onCancel() {
           setAskingConfirm(false);
@@ -273,6 +268,7 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
         pasteEnabled={clipboard !== null}
         isEditing={isEditing === node.id}
         isPreviewingRemove={previewDeleteNode === node.id}
+        isSelected={node.selected}
         onSelectNode={() => {
           selectNode(node);
         }}
@@ -356,5 +352,4 @@ function Tree({ tree, onRefresh, onUpdateNodeChildren }) {
   );
 }
 
-Tree.propTypes = propTypes;
 export default Tree;

@@ -9,6 +9,7 @@ const propTypes = {
   subNodes: PropTypes.array,
   isEditing: PropTypes.bool,
   isPreviewingRemove: PropTypes.bool,
+  isSelected: PropTypes.bool,
   onRemoveNode: PropTypes.func.isRequired,
   onUpdateNode: PropTypes.func.isRequired,
   onStartEditing: PropTypes.func,
@@ -61,6 +62,7 @@ class Node extends React.Component {
       subNodes,
       isEditing,
       isPreviewingRemove,
+      isSelected,
       onAddNode,
       onStartEditing,
       onCancelEditing,
@@ -76,12 +78,17 @@ class Node extends React.Component {
           isClicking: false,
           isHovering: false
         });
+        onSelectNode();
         onStartEditing();
       } else {
         this.setState({ isClicking: true });
         this.doubleClickTimer = setTimeout(() => {
           // Single click event
-          onSelectNode();
+          if (isSelected) {
+            onStartEditing();
+          } else {
+            onSelectNode();
+          }
           this.setState({ isClicking: false });
         }, 200);
       }
