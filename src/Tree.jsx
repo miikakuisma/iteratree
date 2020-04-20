@@ -22,6 +22,12 @@ function Tree() {
   const [isAskingToConfirm, setAskingConfirm] = useState(false);
   const [isDeleting, setDeleting] = useState(false);
 
+  React.useEffect(() => {
+    getSelectedNode((node) => {
+      setSelectedNode(node)
+    })
+  }, [tree]);
+
   function getSelectedNode(callback) {
     traverse(tree).forEach(function(node) {
       if (typeof node === "object" && node.selected) {
