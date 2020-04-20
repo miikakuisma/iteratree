@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import { TreeContext, initialAppState } from './Store';
+import { TreeContext, UIContext, initialAppState, initialUIState } from './Store';
 import { Layout } from 'antd';
 import TopMenu from "./TopMenu";
 import Tree from "./Tree";
+import Questionnaire from "./Questionnaire";
 import "./styles.css";
 
 const { Content } = Layout;
 
 export default function App() {
+  document.addEventListener('contextmenu', e => e.preventDefault())
+
   let storedTree;
   try {
     storedTree = JSON.parse(window.localStorage.getItem("tree"));
@@ -16,6 +19,7 @@ export default function App() {
   }
 
   const [tree, updateTree] = useState(storedTree || initialAppState);
+  const [UI, updateUI] = useState(initialUIState);
 
   function refresh() {
     let newTree = JSON.stringify(tree);
@@ -25,12 +29,15 @@ export default function App() {
 
   return (
     <TreeContext.Provider value={{ tree, onRefresh: refresh }}>
-      <Layout>
-        <TopMenu />
-        <Content className="App">
-          <Tree />
-        </Content>
-      </Layout>
+      <UIContext.Provider value={{ state: UI, setUI: updateUI }}>
+        <Layout>
+          <TopMenu />
+          <Content className="App">
+            <Tree />
+          </Content>
+        </Layout>
+        {UI.questionnaire && <Questionnaire flow={tree} />}
+      </UIContext.Provider>
     </TreeContext.Provider>
   );
 }
