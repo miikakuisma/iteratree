@@ -65,7 +65,6 @@ function Tree() {
   }
 
   window.onkeydown = e => {
-    e.preventDefault();
     if (isAskingToConfirm) {
       return
     }
