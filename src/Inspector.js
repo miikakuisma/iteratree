@@ -50,7 +50,7 @@ function Inspector({ selectedNode, clipboard, onAction }) {
       title={selectedNode.title}
       placement='bottom'
       closable={false}
-      height={58}
+      height={55}
       mask={false}
       visible={selectedNode !== null}
     >

@@ -152,7 +152,7 @@ button.export {
 }
 
 .ant-drawer-content {
-  overflow: hidden;
+  overflow: hidden !important;
 }
 
 .ant-drawer-body .actions {
