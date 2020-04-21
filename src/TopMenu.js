@@ -2,7 +2,7 @@ import React from "react";
 import { TreeContext, UIContext } from './Store';
 import { Menu, Modal, notification } from 'antd';
 import { BranchesOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { happy } from './Examples';
+import { happy, feedback } from './Examples';
 import "./styles.css";
 
 const { SubMenu } = Menu;
@@ -33,7 +33,7 @@ export default function TopMenu() {
       icon: <ExclamationCircleOutlined />,
       content: 'Are you sure you want to open this tutorial?',
       onOk() {
-        store.onRefresh(happy);
+        store.onRefresh(tree);
       },
       onCancel() {},
     });
@@ -78,6 +78,11 @@ export default function TopMenu() {
             load(happy);
           }}
         >Are you happy?</Menu.Item>
+        <Menu.Item
+          onClick={() => {
+            load(feedback);
+          }}
+        >Customer Feedback</Menu.Item>
       </SubMenu>
       {UI.state.questionnaire && <Menu.Item
         onClick={() => {
