@@ -41,7 +41,7 @@ class Questionnaire extends React.Component {
         isVisible={boxVisible}
         node={node}
         onClickNode={(answer) => {
-          if (answer.options.length === 1) {
+          if (answer && answer.options && answer.options.length === 1) {
             this.handleClick(answer.options[0]);
           } else {
             this.handleClick(answer);

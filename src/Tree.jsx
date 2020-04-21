@@ -85,6 +85,7 @@ function Tree() {
       case "ArrowLeft":
         if (isEditing === null) {
           if (e.metaKey || e.ctrlKey) {
+            e.preventDefault();
             getSelectedNode((node, parent) => moveNode({ direction: 'left', node, parent }));
           } else {
             getSelectedNode((node, parent) => selectChildNode({ direction: 'left', node, parent }));
@@ -94,6 +95,7 @@ function Tree() {
       case "ArrowRight":
         if (isEditing === null) {
           if (e.metaKey || e.ctrlKey) {
+            e.preventDefault();
             getSelectedNode((node, parent) => moveNode({ direction: 'right', node, parent }));
           } else {
             getSelectedNode((node, parent) => selectChildNode({ direction: 'right', node, parent }));
