@@ -2,6 +2,7 @@ import React from "react";
 import { TreeContext, UIContext } from './Store';
 import { Menu, Modal, notification } from 'antd';
 import { BranchesOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { happy } from './Examples';
 import "./styles.css";
 
 const { SubMenu } = Menu;
@@ -20,6 +21,19 @@ export default function TopMenu() {
       onOk() {
         window.localStorage.clear();
         window.location.reload();
+      },
+      onCancel() {},
+    });
+  }
+
+  function load(tree) {
+    const { confirm } = Modal;
+    confirm({
+      title: 'Current work will be lost',
+      icon: <ExclamationCircleOutlined />,
+      content: 'Are you sure you want to open this tutorial?',
+      onOk() {
+        store.onRefresh(happy);
       },
       onCancel() {},
     });
@@ -51,6 +65,19 @@ export default function TopMenu() {
             notification.success({ message: "Exported to JSON", description: "You can find JSON from the Console now" });
           }}
         >Export JSON</Menu.Item>
+      </SubMenu>
+      <SubMenu
+        title={
+          <span className="submenu-title-wrapper">
+            Examples
+          </span>
+        }
+      >
+        <Menu.Item
+          onClick={() => {
+            load(happy);
+          }}
+        >Are you happy?</Menu.Item>
       </SubMenu>
       {UI.state.questionnaire && <Menu.Item
         onClick={() => {

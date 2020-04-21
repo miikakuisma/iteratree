@@ -21,8 +21,8 @@ export default function App() {
   const [tree, updateTree] = useState(storedTree || initialAppState);
   const [UI, updateUI] = useState(initialUIState);
 
-  function refresh() {
-    let newTree = JSON.stringify(tree);
+  function refresh(loadNewTree) {
+    let newTree = JSON.stringify(loadNewTree) || JSON.stringify(tree);
     updateTree(JSON.parse(newTree));
     window.localStorage.setItem("tree", JSON.stringify(tree));
   }
