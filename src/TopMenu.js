@@ -65,6 +65,11 @@ export default function TopMenu() {
             notification.success({ message: "Exported to JSON", description: "You can find JSON from the Console now" });
           }}
         >Export JSON</Menu.Item>
+        <Menu.Item
+          onClick={() => {
+            UI.setState({ shortcuts: true });
+          }}
+        >Keyboard Shortcuts</Menu.Item>
       </SubMenu>
       <SubMenu
         title={

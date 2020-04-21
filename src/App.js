@@ -4,6 +4,7 @@ import { Layout } from 'antd';
 import TopMenu from "./TopMenu";
 import Tree from "./Tree";
 import Questionnaire from "./Questionnaire";
+import Shortcuts from "./Shortcuts";
 import "./styles.css";
 
 const { Content } = Layout;
@@ -37,6 +38,7 @@ export default function App() {
           </Content>
         </Layout>
         {UI.questionnaire && <Questionnaire flow={tree} />}
+        {UI.shortcuts && <Shortcuts />}
       </UIContext.Provider>
     </TreeContext.Provider>
   );

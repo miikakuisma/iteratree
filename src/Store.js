@@ -6,6 +6,6 @@ export let UIContext = React.createContext();
 
 export const initialAppState = blank;
 export const initialUIState = {
-  questionnaire: false
+  questionnaire: false,
+  shortcuts: false
 }
-

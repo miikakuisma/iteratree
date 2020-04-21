@@ -160,3 +160,7 @@ button.export {
   top: 13px;
   right: 13px;
 }
+
+button.ant-btn[disabled] {
+  display: none;
+}
