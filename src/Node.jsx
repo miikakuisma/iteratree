@@ -127,7 +127,7 @@ class Node extends React.Component {
           className={node.selected ? "node selected" : "node"}
           style={{
             background: node.selected ? (isPreviewingRemove ? 'red' : '#1890ff') : '#ffffff',
-            border: node.selected ? '2px solid #1890ff' : '2px solid #bfbfbf',
+            border: node.selected ? (isPreviewingRemove ? '2px solid red' : '2px solid #1890ff') : '2px solid #bfbfbf',
             opacity: isPreviewingRemove ? 0.3 : 1
           }}
           onMouseEnter={() => {
@@ -146,7 +146,7 @@ class Node extends React.Component {
               onBlur={handleBlur}
               onKeyUp={handleKeyUp}
               className="title"
-              defaultValue={node.title || node.id.toString()}
+              defaultValue={node.title || ''}
             />
           ) : (
             <span
@@ -156,7 +156,7 @@ class Node extends React.Component {
                 color: node.selected ? '#fff' : '#111',
               }}
             >
-              {node.title || node.id.toString()}
+              {node.title || 'Untitled'}
             </span>
           )}
           {isHovering && (
@@ -169,7 +169,10 @@ class Node extends React.Component {
         </div>
         <div
           className="subLevel"
-          style={{ opacity: isPreviewingRemove ? "0.3" : "1" }}
+          style={{
+            opacity: isPreviewingRemove ? "0.3" : "1",
+            background: isPreviewingRemove && 'red'
+          }}
         >
           {subNodes}
         </div>

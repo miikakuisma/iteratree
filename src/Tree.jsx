@@ -125,11 +125,12 @@ function Tree() {
       });
       onRefresh();
     } else {
+      unselectAll();
       node.options = [
         {
           id: Date.now(),
           title: "New",
-          selected: false
+          selected: true
         }
       ];
       onRefresh();
@@ -286,12 +287,12 @@ function Tree() {
           }
         }}
         onCopyNode={() => {
-          if (!isAskingToConfirm) {
+          if (!isAskingToConfirm && !isEditing) {
             copyNode(node);
           }
         }}
         onPasteNode={() => {
-          if (!isAskingToConfirm) {
+          if (!isAskingToConfirm && !isEditing) {
             pasteNode(node);
           }
         }}

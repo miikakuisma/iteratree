@@ -87,7 +87,7 @@ button.export {
   cursor: pointer;
   justify-content: center;
   align-items: center;
-  padding: 15px;
+  padding: 10px;
 }
 
 .node input.title {
@@ -97,7 +97,7 @@ button.export {
   justify-content: center;
   text-align: center;
   background: #efefef;
-  padding: 15px;
+  padding: 10px;
 }
 
 .node .text {

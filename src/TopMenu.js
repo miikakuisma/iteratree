@@ -2,7 +2,7 @@ import React from "react";
 import { TreeContext, UIContext } from './Store';
 import { Menu, Modal, notification } from 'antd';
 import { BranchesOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { happy, feedback } from './Examples';
+import { happy, feedback, setPlanning, week } from './Examples';
 import "./styles.css";
 
 const { SubMenu } = Menu;
@@ -80,9 +80,19 @@ export default function TopMenu() {
         >Are you happy?</Menu.Item>
         <Menu.Item
           onClick={() => {
+            load(week);
+          }}
+        >Weekly Routine</Menu.Item>
+        <Menu.Item
+          onClick={() => {
             load(feedback);
           }}
         >Customer Feedback</Menu.Item>
+        <Menu.Item
+          onClick={() => {
+            load(setPlanning);
+          }}
+        >DJ Set Plan</Menu.Item>
       </SubMenu>
       {UI.state.questionnaire && <Menu.Item
         onClick={() => {
