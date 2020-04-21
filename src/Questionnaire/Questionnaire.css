@@ -20,7 +20,7 @@
   right: 0;
   top: 0;
   bottom: 155px;
-  overflow: scroll;
+  overflow: overlay;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,6 +1,6 @@
 import React from "react";
 import { TreeContext, UIContext } from './Store';
-import { Menu, Modal, notification } from 'antd';
+import { Menu, Modal, Button, notification } from 'antd';
 import { BranchesOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { happy, feedback, setPlanning, week } from './Examples';
 import "./styles.css";
@@ -99,11 +99,13 @@ export default function TopMenu() {
           }}
         >DJ Set Plan</Menu.Item>
       </SubMenu>
-      {UI.state.questionnaire && <Menu.Item
+      {UI.state.questionnaire && <Button
+        type="primary"
+        style={{ position: 'absolute', right: '7px', top: '7px' }}
         onClick={() => {
           UI.setState({ questionnaire: false });
         }}
-      >EXIT</Menu.Item>}
+      >EXIT</Button>}
     </Menu>
   );
 }
