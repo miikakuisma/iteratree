@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { UIContext } from '../Store';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 import { Space, Input, Button, notification } from 'antd';
-import { signUp } from "../lib/user";
+import { signUp } from "../lib/parse";
 import "../styles.css";
 
 export default function Signup({ onSuccess, onError }) {

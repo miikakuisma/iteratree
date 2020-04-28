@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { TreeContext, UIContext, initialAppState, initialUIState } from './Store';
 import { Layout } from 'antd';
-import { getCurrentUser, loadTree } from "./lib/user";
+import { getCurrentUser, loadTree } from "./lib/parse";
 import TopMenu from "./TopMenu/";
 import UserMenu from "./UserMenu/";
 import TreeName from "./TopMenu/TreeName";

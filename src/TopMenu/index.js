@@ -2,7 +2,7 @@ import React from "react";
 import { TreeContext, UIContext } from '../Store';
 import { Menu, Modal, Button, notification } from 'antd';
 import { BranchesOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { signOut, saveToDB, updateTreeInDB, getMyTrees, loadTree } from "../lib/user";
+import { signOut, saveToDB, updateTreeInDB, getMyTrees, loadTree } from "../lib/parse";
 import { happy, feedback, setPlanning, week } from './Examples';
 import md5 from "md5";
 import "../styles.css";
@@ -19,7 +19,7 @@ export default function TopMenu() {
     confirm({
       title: 'Do you want to start over?',
       icon: <ExclamationCircleOutlined />,
-      content: 'Everything will be lost forever',
+      content: 'Unsaved changes will be lost',
       onOk() {
         window.localStorage.removeItem('tree');
         window.location.reload();
@@ -31,7 +31,7 @@ export default function TopMenu() {
   function load(tree) {
     const { confirm } = Modal;
     confirm({
-      title: 'Current work will be lost',
+      title: 'Unsaved changes will be lost',
       icon: <ExclamationCircleOutlined />,
       content: 'Are you sure you want to open this tutorial?',
       onOk() {
@@ -42,7 +42,6 @@ export default function TopMenu() {
   }
 
   function saveAs(tree) {
-    console.log(tree)
     saveToDB({
       tree,
       onSuccess: (response) => {
@@ -50,9 +49,19 @@ export default function TopMenu() {
         console.log(store.tree[0])
         store.tree[0].root.id = response.objectId;
         store.onRefresh();
+        notification.success({ message: "Saved to Cloud" });
+        // refresh menu list
+        getMyTrees({
+          onSuccess: (response) => {
+            setMyTrees(response);
+          },
+          onError: (error) => {
+            console.error(error);
+          }
+        });
       },
       onError: (response) => {
-        notification.error({ message: "Cannot save", description: response })
+        notification.error({ message: "Cannot save", description: response });
         console.log('ERROR', response)
       }
     });
@@ -63,24 +72,35 @@ export default function TopMenu() {
       tree,
       onSuccess: (response) => {
         console.log("TREE UPDATED", response);
+        notification.success({ message: "Updated" });
       },
       onError: (response) => {
-        notification.error({ message: "Cannot save", description: response })
+        notification.error({ message: "Cannot save", description: response });
         console.log('ERROR', response)
       }
     })
   }
 
   function fetchTree(id) {
-    loadTree({
-      id,
-      onSuccess: (response) => {
-        console.log(response)
-        store.onRefresh(response[0].tree);
+    const { confirm } = Modal;
+    confirm({
+      title: 'Unsaved changes will be lost',
+      icon: <ExclamationCircleOutlined />,
+      content: 'Are you sure you want to open that?',
+      onOk() {
+        loadTree({
+          id,
+          onSuccess: (response) => {
+            console.log(response)
+            store.onRefresh(response[0].tree);
+          },
+          onError: (error) => {
+            console.error(error);
+            notification.error({ message: "Cannot load", description: error })
+          }
+        });
       },
-      onError: (error) => {
-        console.error(error);
-      }
+      onCancel() {},
     });
   }
 
@@ -94,7 +114,7 @@ export default function TopMenu() {
       onError: (error) => {
         console.error(error);
       }
-    });  
+    });
   }, []);
 
   const myTreeList = myTrees.map(item => <Menu.Item
@@ -178,7 +198,7 @@ export default function TopMenu() {
           }}
         >DJ Set Plan</Menu.Item>
       </SubMenu>
-      <SubMenu
+      {myTreeList.length > 0 && <SubMenu
         title={
           <span className="submenu-title-wrapper">
             My Trees
@@ -186,7 +206,7 @@ export default function TopMenu() {
         }
       >
         {myTreeList}
-      </SubMenu>
+      </SubMenu>}
       <SubMenu
         style={{ float: 'right' }}
         className="usermenu"

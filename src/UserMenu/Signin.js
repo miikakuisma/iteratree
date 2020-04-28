@@ -3,7 +3,7 @@ import React, {useState } from "react";
 import { UIContext } from '../Store';
 import { Space, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { signIn } from "../lib/user";
+import { signIn } from "../lib/parse";
 import "../styles.css";
 
 export default function Signin({ onSuccess, onError }) {

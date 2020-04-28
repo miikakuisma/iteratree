@@ -87,7 +87,7 @@ export function saveToDB({ tree, onSuccess, onError }) {
   const TreeClass = Parse.Object.extend('Tree');
   const newTree = new TreeClass();
 
-  newTree.set('name', tree[0].title);
+  newTree.set('name', tree[0].root.name);
   newTree.set('tree', tree);
   newTree.set('owner', currentUser.id);
 
