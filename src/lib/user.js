@@ -125,3 +125,42 @@ export function updateTreeInDB({ tree, onSuccess, onError }) {
     });
   });
 }
+
+export function getMyTrees({ onSuccess, onError }) {
+  let results = [];
+  const currentUser = Parse.User.current();
+  if (!currentUser) {
+    onError("Log in first");
+    return false;
+  }
+
+  const TreeClass = Parse.Object.extend('Tree');
+  const query = new Parse.Query(TreeClass);
+  query.equalTo("owner", currentUser.id);
+  query.find().then((results) => {
+    if (typeof document !== 'undefined') {
+      console.log(JSON.parse(JSON.stringify(results)))
+      onSuccess(JSON.parse(JSON.stringify(results)));
+    }
+  }, (error) => {
+    if (typeof document !== 'undefined') {
+      onError(error);
+    }
+  });
+}
+
+export function loadTree({ id, onSuccess, onError }) {
+  const TreeClass = Parse.Object.extend('Tree');
+  const query = new Parse.Query(TreeClass);
+  query.equalTo("objectId", id);
+  query.find().then((results) => {
+    if (typeof document !== 'undefined') {
+      console.log(JSON.parse(JSON.stringify(results)))
+      onSuccess(JSON.parse(JSON.stringify(results)));
+    }
+  }, (error) => {
+    if (typeof document !== 'undefined') {
+      onError(error);
+    }
+  });
+}

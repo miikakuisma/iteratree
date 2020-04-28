@@ -2,7 +2,7 @@ import React from "react";
 import { TreeContext, UIContext } from '../Store';
 import { Menu, Modal, Button, notification } from 'antd';
 import { BranchesOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { signOut, saveToDB, updateTreeInDB } from "../lib/user";
+import { signOut, saveToDB, updateTreeInDB, getMyTrees, loadTree } from "../lib/user";
 import { happy, feedback, setPlanning, week } from './Examples';
 import md5 from "md5";
 import "../styles.css";
@@ -71,6 +71,39 @@ export default function TopMenu() {
     })
   }
 
+  function fetchTree(id) {
+    loadTree({
+      id,
+      onSuccess: (response) => {
+        console.log(response)
+        store.onRefresh(response[0].tree);
+      },
+      onError: (error) => {
+        console.error(error);
+      }
+    });
+  }
+
+  const [myTrees, setMyTrees] = React.useState([]);
+
+  React.useEffect(() => {
+    getMyTrees({
+      onSuccess: (response) => {
+        setMyTrees(response);
+      },
+      onError: (error) => {
+        console.error(error);
+      }
+    });  
+  }, []);
+
+  const myTreeList = myTrees.map(item => <Menu.Item
+    key={item.id}
+    onClick={() => {
+      fetchTree(item.objectId);
+    }}
+  >{item.name}</Menu.Item>);
+
   const avatarImage = UI.state.user ? <img className="avatar" src={`http://gravatar.com/avatar/${md5(UI.state.user.email)}`} /> : <img src="" />;
 
   return (
@@ -89,13 +122,13 @@ export default function TopMenu() {
           }}
         >New</Menu.Item>
         <Menu.Item
-          disabled={!UI.state.user || store.tree[0].root.id !== ""}
+          disabled={!UI.state.user || store.tree[0].root && store.tree[0].root.id !== ""}
           onClick={() => {
             saveAs(tree);
           }}
         >Save to Cloud</Menu.Item>
         <Menu.Item
-          disabled={!UI.state.user || store.tree[0].root.id === ""}
+          disabled={!UI.state.user || store.tree[0].root && store.tree[0].root.id === ""}
           onClick={() => {
             updateTree(tree);
           }}
@@ -144,6 +177,15 @@ export default function TopMenu() {
             load(setPlanning);
           }}
         >DJ Set Plan</Menu.Item>
+      </SubMenu>
+      <SubMenu
+        title={
+          <span className="submenu-title-wrapper">
+            My Trees
+          </span>
+        }
+      >
+        {myTreeList}
       </SubMenu>
       <SubMenu
         style={{ float: 'right' }}

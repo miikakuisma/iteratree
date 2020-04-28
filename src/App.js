@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { TreeContext, UIContext, initialAppState, initialUIState } from './Store';
 import { Layout } from 'antd';
-import { getCurrentUser } from "./lib/user";
+import { getCurrentUser, loadTree } from "./lib/user";
 import TopMenu from "./TopMenu/";
 import UserMenu from "./UserMenu/";
 import TreeName from "./TopMenu/TreeName";
@@ -15,17 +15,20 @@ const { Content } = Layout;
 export default function App() {
   document.addEventListener('contextmenu', e => e.preventDefault());
 
+  // Get last edited Tree from localstorage
   let storedTree;
   try {
     storedTree = JSON.parse(window.localStorage.getItem("tree"));
   } catch (e) {
     storedTree = null;
-  }
+  }  
 
   const [tree, updateTree] = useState(storedTree || initialAppState);
   const [UI, updateUI] = useState(initialUIState);
 
+  // On launch
   useEffect(() => {
+    // Fetch user data
     getCurrentUser({
       onSuccess: (response) => {
         console.log("RESPONSE", response)
@@ -41,8 +44,25 @@ export default function App() {
         });
       }
     });
+    // Load Tree from given ?id= in the URL params
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const id = urlParams.get("id");
+    if (id) {
+      loadTree({
+        id: 'xLZZaUVqcF',
+        onSuccess: (response) => {
+          console.log(response)
+          refresh(response[0].tree);
+        },
+        onError: (error) => {
+          console.error(error);
+        }
+      });
+    }
   }, []);
 
+  // Generic Tree refreshing function that forces re-rendering
   function refresh(loadNewTree) {
     let newTree = JSON.stringify(loadNewTree) || JSON.stringify(tree);
     updateTree(JSON.parse(newTree));
