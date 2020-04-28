@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { UIContext } from './Store';
+import { UIContext } from '../Store';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 import { Space, Input, Button, notification } from 'antd';
-import { signUp } from "./lib/user";
-import "./styles.css";
+import { signUp } from "../lib/user";
+import "../styles.css";
 
 export default function Signup({ onSuccess, onError }) {
   const UI = React.useContext(UIContext);

@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { PlusCircleTwoTone } from '@ant-design/icons';
 import 'antd/dist/antd.css';
-import "./styles.css";
+import "../styles.css";
 
 const propTypes = {
   node: PropTypes.object.isRequired,

@@ -1,5 +1,5 @@
 import React from "react";
-import { blank } from "./Examples";
+import { blank } from "./TopMenu/Examples";
 
 export let TreeContext = React.createContext();
 export let UIContext = React.createContext();

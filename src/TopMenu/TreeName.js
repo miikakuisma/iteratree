@@ -1,5 +1,5 @@
 import React from "react";
-import { TreeContext } from './Store';
+import { TreeContext } from '../Store';
 import { Input } from 'antd';
 
 export default function TreeName() {
@@ -18,10 +18,16 @@ export default function TreeName() {
     )
   }
 
+  const handleFocus = e => {
+    e.target.select();
+  };
+
   return (
     <div className="treeName">
       <Input
         size="small"
+        autoFocus
+        onFocus={handleFocus}
         placeholder="Name this flow"
         defaultValue={store.tree[0].root.name}
         onChange={(e) => {

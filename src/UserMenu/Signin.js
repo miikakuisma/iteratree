@@ -1,10 +1,10 @@
 
 import React, {useState } from "react";
-import { UIContext } from './Store';
+import { UIContext } from '../Store';
 import { Space, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { signIn } from "./lib/user";
-import "./styles.css";
+import { signIn } from "../lib/user";
+import "../styles.css";
 
 export default function Signin({ onSuccess, onError }) {
   const UI = React.useContext(UIContext);

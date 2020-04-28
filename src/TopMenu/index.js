@@ -1,11 +1,11 @@
 import React from "react";
-import { TreeContext, UIContext } from './Store';
+import { TreeContext, UIContext } from '../Store';
 import { Menu, Modal, Button, notification } from 'antd';
 import { BranchesOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { signOut, saveToDB, updateTreeInDB } from "./lib/user";
+import { signOut, saveToDB, updateTreeInDB } from "../lib/user";
 import { happy, feedback, setPlanning, week } from './Examples';
 import md5 from "md5";
-import "./styles.css";
+import "../styles.css";
 
 const { SubMenu } = Menu;
 

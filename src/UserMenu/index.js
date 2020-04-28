@@ -1,9 +1,9 @@
 import React from "react";
-import { UIContext } from './Store';
+import { UIContext } from '../Store';
 import { Modal, Tabs } from 'antd';
 import Signup from "./Signup";
 import Signin from "./Signin";
-import "./styles.css";
+import "../styles.css";
 
 const { TabPane } = Tabs;
 

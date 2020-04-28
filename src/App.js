@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { TreeContext, UIContext, initialAppState, initialUIState } from './Store';
 import { Layout } from 'antd';
-import TopMenu from "./TopMenu";
-import UserMenu from "./UserMenu";
-import Tree from "./Tree";
+import { getCurrentUser } from "./lib/user";
+import TopMenu from "./TopMenu/";
+import UserMenu from "./UserMenu/";
+import TreeName from "./TopMenu/TreeName";
+import Tree from "./Tree/";
 import Questionnaire from "./Questionnaire";
 import Shortcuts from "./Shortcuts";
-import TreeName from "./TreeName";
 import "./styles.css";
-import { getCurrentUser } from "./lib/user";
 
 const { Content } = Layout;
 
