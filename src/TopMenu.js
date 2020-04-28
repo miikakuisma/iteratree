@@ -2,7 +2,7 @@ import React from "react";
 import { TreeContext, UIContext } from './Store';
 import { Menu, Modal, Button, notification } from 'antd';
 import { BranchesOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { signOut, saveToDB } from "./lib/user";
+import { signOut, saveToDB, updateTreeInDB } from "./lib/user";
 import { happy, feedback, setPlanning, week } from './Examples';
 import md5 from "md5";
 import "./styles.css";
@@ -21,7 +21,7 @@ export default function TopMenu() {
       icon: <ExclamationCircleOutlined />,
       content: 'Everything will be lost forever',
       onOk() {
-        window.localStorage.clear();
+        window.localStorage.removeItem('tree');
         window.location.reload();
       },
       onCancel() {},
@@ -58,6 +58,19 @@ export default function TopMenu() {
     });
   }
 
+  function updateTree(tree) {
+    updateTreeInDB({
+      tree,
+      onSuccess: (response) => {
+        console.log("TREE UPDATED", response);
+      },
+      onError: (response) => {
+        notification.error({ message: "Cannot save", description: response })
+        console.log('ERROR', response)
+      }
+    })
+  }
+
   const avatarImage = UI.state.user ? <img className="avatar" src={`http://gravatar.com/avatar/${md5(UI.state.user.email)}`} /> : <img src="" />;
 
   return (
@@ -76,10 +89,17 @@ export default function TopMenu() {
           }}
         >New</Menu.Item>
         <Menu.Item
+          disabled={!UI.state.user || store.tree[0].root.id !== ""}
           onClick={() => {
             saveAs(tree);
           }}
-        >Save as...</Menu.Item>
+        >Save to Cloud</Menu.Item>
+        <Menu.Item
+          disabled={!UI.state.user || store.tree[0].root.id === ""}
+          onClick={() => {
+            updateTree(tree);
+          }}
+        >Update on Cloud</Menu.Item>
         <Menu.Item
           onClick={() => {
             UI.setState({ questionnaire: true });

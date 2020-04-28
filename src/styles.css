@@ -181,10 +181,10 @@ button.ant-btn[disabled] {
 }
 
 img.avatar  {
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
-  margin: 8px !important;
+  margin: 3px 6px;
 }
