@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TreeContext, UIContext, initialAppState, initialUIState } from './Store';
 import { Layout } from 'antd';
 import TopMenu from "./TopMenu";
@@ -28,6 +28,27 @@ export default function App() {
     window.localStorage.setItem("tree", JSON.stringify(tree));
   }
 
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const loginPage = urlParams.get("login");
+
+  const checkLoginState = () => {
+    window.FB.getLoginStatus((response) => {
+      console.log(response);
+      const { status, userID } = response;
+      if (status === "connected") {
+        updateUI({
+          loggedIn: true,
+          userID
+        });
+      }
+    });
+  }
+
+  useEffect(() => {
+    checkLoginState();
+  }, []);
+
   return (
     <TreeContext.Provider value={{ tree, onRefresh: refresh }}>
       <UIContext.Provider value={{ state: UI, setState: updateUI }}>
@@ -37,6 +58,9 @@ export default function App() {
             <Tree />
           </Content>
         </Layout>
+        {!UI.loggedIn && loginPage && <div className="login">
+          <div className="fb-login-button" data-size="medium" data-auto-logout-link="true" data-onlogin={checkLoginState()}></div>
+        </div>}
         {UI.questionnaire && <Questionnaire flow={tree} />}
         {UI.shortcuts && <Shortcuts />}
       </UIContext.Provider>

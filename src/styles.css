@@ -164,3 +164,10 @@ button.export {
 button.ant-btn[disabled] {
   display: none;
 }
+
+.login {
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  z-index: 9;
+}

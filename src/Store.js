@@ -7,5 +7,7 @@ export let UIContext = React.createContext();
 export const initialAppState = blank;
 export const initialUIState = {
   questionnaire: false,
-  shortcuts: false
+  shortcuts: false,
+  loggedIn: false,
+  userID: null,
 }
