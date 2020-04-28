@@ -42,12 +42,17 @@ export default function TopMenu() {
   }
 
   function saveAs(tree) {
+    console.log(tree)
     saveToDB({
       tree,
       onSuccess: (response) => {
-        console.log("NEW TREE", response)
+        console.log("NEW TREE", response);
+        console.log(store.tree[0])
+        store.tree[0].root.id = response.objectId;
+        store.onRefresh();
       },
       onError: (response) => {
+        notification.error({ message: "Cannot save", description: response })
         console.log('ERROR', response)
       }
     });

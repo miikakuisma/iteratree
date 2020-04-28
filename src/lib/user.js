@@ -78,7 +78,10 @@ export function resetPassword() {
 
 export function saveToDB({ tree, onSuccess, onError }) {
   const currentUser = Parse.User.current();
-
+  if (!currentUser) {
+    onError("You must be signed in first");
+    return false;
+  }
   const TreeClass = Parse.Object.extend('Tree');
   const newTree = new TreeClass();
 

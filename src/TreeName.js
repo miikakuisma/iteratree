@@ -10,6 +10,7 @@ export default function TreeName() {
     return (
       <div
         className="treeName"
+        title={store.tree[0].root.id}
         onClick={() => {
           setEditing(true);
         }}
