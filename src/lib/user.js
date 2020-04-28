@@ -38,7 +38,7 @@ export function signIn({ username, password, onSuccess, onError }) {
     });
   }).catch(function(error){
     console.log("Error: " + error.code + " " + error.message);
-    onError(error);
+    onError(error.message);
   });
 }
 
@@ -57,7 +57,6 @@ export function signUp({ username, password, email, onSuccess, onError }) {
       onSuccess({
         username: user.get("username"),
         email: user.get("email"),
-        payload: user
       });
   }).catch(function(error){
       console.log("Error: " + error.code + " " + error.message);

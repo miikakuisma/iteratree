@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { TreeContext, UIContext } from './Store';
 import { Menu, Modal, Button, notification } from 'antd';
 import { BranchesOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { signOut } from "./lib/user";
 import { happy, feedback, setPlanning, week } from './Examples';
+import md5 from "md5";
 import "./styles.css";
 
 const { SubMenu } = Menu;
@@ -12,6 +13,8 @@ export default function TopMenu() {
   const store = React.useContext(TreeContext);
   const UI = React.useContext(UIContext);
   const { tree } = store;
+
+  const [avatar, setAvatar] = useState(null);
 
   function reset() {
     const { confirm } = Modal;
@@ -39,6 +42,8 @@ export default function TopMenu() {
       onCancel() {},
     });
   }
+
+  const avatarImage = UI.state.user ? <img className="avatar" src={`http://gravatar.com/avatar/${md5(UI.state.user.email)}`} /> : <img src="" />;
 
   return (
     <Menu mode="horizontal">
@@ -101,9 +106,11 @@ export default function TopMenu() {
         >DJ Set Plan</Menu.Item>
       </SubMenu>
       <SubMenu
+        style={{ float: 'right' }}
+        className="usermenu"
         title={
           <span className="submenu-title-wrapper">
-            {UI.state.user ? UI.state.user.username : 'Sign-In or Sign-Up'}
+            {UI.state.user ? avatarImage : <span style={{ marginRight: '10px' }}>Account</span>}
           </span>
         }
       >
@@ -112,7 +119,7 @@ export default function TopMenu() {
           onClick={() => {
             UI.setState({ userModal: true });
           }}
-        >Sign In</Menu.Item>
+        >Sign-In / Sign-Up</Menu.Item>
         <Menu.Item
           disabled={!UI.state.loggedIn}
           onClick={() => {

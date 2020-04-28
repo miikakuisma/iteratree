@@ -14,6 +14,16 @@ const { Content } = Layout;
 export default function App() {
   document.addEventListener('contextmenu', e => e.preventDefault());
 
+  let storedTree;
+  try {
+    storedTree = JSON.parse(window.localStorage.getItem("tree"));
+  } catch (e) {
+    storedTree = null;
+  }
+
+  const [tree, updateTree] = useState(storedTree || initialAppState);
+  const [UI, updateUI] = useState(initialUIState);
+
   useEffect(() => {
     getCurrentUser({
       onSuccess: (response) => {
@@ -31,16 +41,6 @@ export default function App() {
       }
     });
   }, []);
-
-  let storedTree;
-  try {
-    storedTree = JSON.parse(window.localStorage.getItem("tree"));
-  } catch (e) {
-    storedTree = null;
-  }
-
-  const [tree, updateTree] = useState(storedTree || initialAppState);
-  const [UI, updateUI] = useState(initialUIState);
 
   function refresh(loadNewTree) {
     let newTree = JSON.stringify(loadNewTree) || JSON.stringify(tree);

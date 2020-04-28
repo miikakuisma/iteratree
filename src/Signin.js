@@ -1,19 +1,21 @@
 
-import React, { useRef } from "react";
+import React, {useState } from "react";
 import { UIContext } from './Store';
+import { Space, Input, Button } from 'antd';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { signIn } from "./lib/user";
 import "./styles.css";
 
 export default function Signin({ onSuccess, onError }) {
   const UI = React.useContext(UIContext);
 
-  const usernameRef = useRef();
-  const passwordRef = useRef();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSignIn = () => {
     signIn({
-      username: usernameRef.current.value,
-      password: passwordRef.current.value,
+      username: username,
+      password: password,
       onSuccess: (response) => {
         UI.setState({
           loggedIn: true,
@@ -31,16 +33,11 @@ export default function Signin({ onSuccess, onError }) {
 
   return (
     <div>
-      <h5>Sign In</h5>
-      <input
-        type="text"
-        ref={usernameRef}
-      />
-      <input
-        type="password"
-        ref={passwordRef}
-      />
-      <button onClick={handleSignIn}>Sign In</button>
+      <Space>
+        <Input size="large" placeholder="username" prefix={<UserOutlined />} defaultValue={username} onChange={(e) => { setUsername(e.target.value) }} />
+        <Input.Password size="large" placeholder="password" prefix={<LockOutlined />} defaultValue={password} onChange={(e) => { setPassword(e.target.value) }} />
+        <Button type="primary" onClick={handleSignIn}>Sign In</Button>
+      </Space>
     </div>
   );
 }

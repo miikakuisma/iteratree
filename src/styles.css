@@ -164,3 +164,16 @@ button.export {
 button.ant-btn[disabled] {
   display: none;
 }
+
+.usermenu .ant-menu-submenu-title {
+  padding: 0;
+}
+
+img.avatar  {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  margin: 8px !important;
+}
