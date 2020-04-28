@@ -6,6 +6,7 @@ import UserMenu from "./UserMenu";
 import Tree from "./Tree";
 import Questionnaire from "./Questionnaire";
 import Shortcuts from "./Shortcuts";
+import TreeName from "./TreeName";
 import "./styles.css";
 import { getCurrentUser } from "./lib/user";
 
@@ -53,6 +54,7 @@ export default function App() {
       <UIContext.Provider value={{ state: UI, setState: updateUI }}>
         <Layout>
           <TopMenu />
+          <TreeName />
           <Content className="App">
             <Tree />
           </Content>

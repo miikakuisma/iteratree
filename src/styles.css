@@ -9,6 +9,17 @@
   padding: 20px;
 }
 
+.treeName {
+  position: absolute;
+  left: 33%;
+  top: 0;
+  right: 33%;
+  height: 48px;
+  line-height: 46px;
+  text-align: center;
+  cursor: text;
+}
+
 button.reset {
   position: fixed;
   bottom: 20px;
