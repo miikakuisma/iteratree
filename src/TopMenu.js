@@ -2,6 +2,7 @@ import React from "react";
 import { TreeContext, UIContext } from './Store';
 import { Menu, Modal, Button, notification } from 'antd';
 import { BranchesOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { signOut } from "./lib/user";
 import { happy, feedback, setPlanning, week } from './Examples';
 import "./styles.css";
 
@@ -98,6 +99,26 @@ export default function TopMenu() {
             load(setPlanning);
           }}
         >DJ Set Plan</Menu.Item>
+      </SubMenu>
+      <SubMenu
+        title={
+          <span className="submenu-title-wrapper">
+            {UI.state.user ? UI.state.user.username : 'Sign-In or Sign-Up'}
+          </span>
+        }
+      >
+        <Menu.Item
+          disabled={UI.state.loggedIn}
+          onClick={() => {
+            UI.setState({ userModal: true });
+          }}
+        >Sign In</Menu.Item>
+        <Menu.Item
+          disabled={!UI.state.loggedIn}
+          onClick={() => {
+            signOut();
+          }}
+        >Sign Out</Menu.Item>
       </SubMenu>
       {UI.state.questionnaire && <Button
         type="primary"
