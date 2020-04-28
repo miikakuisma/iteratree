@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { TreeContext, UIContext } from './Store';
 import { Menu, Modal, Button, notification } from 'antd';
 import { BranchesOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { signOut } from "./lib/user";
+import { signOut, saveToDB } from "./lib/user";
 import { happy, feedback, setPlanning, week } from './Examples';
 import md5 from "md5";
 import "./styles.css";
@@ -13,8 +13,6 @@ export default function TopMenu() {
   const store = React.useContext(TreeContext);
   const UI = React.useContext(UIContext);
   const { tree } = store;
-
-  const [avatar, setAvatar] = useState(null);
 
   function reset() {
     const { confirm } = Modal;
@@ -43,6 +41,18 @@ export default function TopMenu() {
     });
   }
 
+  function saveAs(tree) {
+    saveToDB({
+      tree,
+      onSuccess: (response) => {
+        console.log("NEW TREE", response)
+      },
+      onError: (response) => {
+        console.log('ERROR', response)
+      }
+    });
+  }
+
   const avatarImage = UI.state.user ? <img className="avatar" src={`http://gravatar.com/avatar/${md5(UI.state.user.email)}`} /> : <img src="" />;
 
   return (
@@ -60,6 +70,11 @@ export default function TopMenu() {
             reset();
           }}
         >New</Menu.Item>
+        <Menu.Item
+          onClick={() => {
+            saveAs(tree);
+          }}
+        >Save as...</Menu.Item>
         <Menu.Item
           onClick={() => {
             UI.setState({ questionnaire: true });

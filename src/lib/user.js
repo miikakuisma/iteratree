@@ -75,3 +75,27 @@ export function resetPassword() {
   // }
 
 }
+
+export function saveToDB({ tree, onSuccess, onError }) {
+  const currentUser = Parse.User.current();
+
+  const TreeClass = Parse.Object.extend('Tree');
+  const newTree = new TreeClass();
+
+  newTree.set('name', tree[0].title);
+  newTree.set('tree', tree);
+  newTree.set('owner', currentUser.id);
+
+  newTree.save().then(
+    (result) => {
+      if (typeof document !== 'undefined') {
+        onSuccess(JSON.parse(JSON.stringify(result)));
+      }
+    },
+    (error) => {
+      if (typeof document !== 'undefined') {
+        onError(error);
+      }
+    }
+  );
+}
