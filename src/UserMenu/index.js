@@ -20,24 +20,10 @@ export default function UserMenu() {
     >
       <Tabs defaultActiveKey="1">
         <TabPane tab="Sign In" key="1">
-          <Signin
-            onSuccess={(response) => {
-              console.log("success", response);
-            }}
-            onError={(error) => {
-              console.log("error", error);
-            }}
-          />
+          <Signin />
         </TabPane>
         <TabPane tab="Create Account" key="2">
-          <Signup
-            onSuccess={(response) => {
-              console.log("success", response);
-            }}
-            onError={(error) => {
-              console.log("error", error);
-            }}
-          />
+          <Signup />
         </TabPane>
       </Tabs>
     </Modal>

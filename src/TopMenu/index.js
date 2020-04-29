@@ -1,7 +1,7 @@
 import React from "react";
 import { TreeContext, UIContext } from '../Store';
 import { Menu, Modal, Button, notification } from 'antd';
-import { BranchesOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { BranchesOutlined, ExclamationCircleOutlined, UserOutlined } from '@ant-design/icons';
 import { signOut, saveToDB, updateTreeInDB, getMyTrees, loadTree } from "../lib/parse";
 import { happy, feedback, setPlanning, week } from './Examples';
 import md5 from "md5";
@@ -117,14 +117,14 @@ export default function TopMenu() {
     });
   }, []);
 
-  const myTreeList = myTrees.map(item => <Menu.Item
-    key={item.id}
+  const myTreeList = myTrees.map((item, index) => <Menu.Item
+    key={index}
     onClick={() => {
       fetchTree(item.objectId);
     }}
   >{item.name}</Menu.Item>);
 
-  const avatarImage = UI.state.user ? <img className="avatar" src={`http://gravatar.com/avatar/${md5(UI.state.user.email)}`} /> : <img src="" />;
+  const avatarImage = UI.state.user ? <img alt="gravatar" className="avatar" src={`http://gravatar.com/avatar/${md5(UI.state.user.email)}`} /> : <UserOutlined className="avatar" /> ;
 
   return (
     <Menu mode="horizontal">
@@ -142,13 +142,13 @@ export default function TopMenu() {
           }}
         >New</Menu.Item>
         <Menu.Item
-          disabled={!UI.state.user || store.tree[0].root && store.tree[0].root.id !== ""}
+          disabled={!UI.state.user || (store.tree[0].root && store.tree[0].root.id !== "")}
           onClick={() => {
             saveAs(tree);
           }}
         >Save to Cloud</Menu.Item>
         <Menu.Item
-          disabled={!UI.state.user || store.tree[0].root && store.tree[0].root.id === ""}
+          disabled={!UI.state.user || (store.tree[0].root && store.tree[0].root.id === "")}
           onClick={() => {
             updateTree(tree);
           }}

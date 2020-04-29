@@ -17,7 +17,7 @@ export function getCurrentUser({ onSuccess, onError }) {
   query.get(currentUser.id).then((user) => {
     if (typeof document !== 'undefined') {
       const foundUser = JSON.stringify(user);
-      console.log(JSON.parse(foundUser))
+      // console.log(JSON.parse(foundUser))
       onSuccess(JSON.parse(foundUser));
     };
   }, (error) => {
@@ -28,8 +28,7 @@ export function getCurrentUser({ onSuccess, onError }) {
 }
 
 export function signIn({ username, password, onSuccess, onError }) {
-  var user = Parse.User
-  .logIn(username, password).then(function(user) {
+  Parse.User.logIn(username, password).then(function(user) {
     console.log('User logged in: ' + user.get("username") + ' and email: ' + user.get("email"));
     onSuccess({
       username: user.get("username"),
@@ -127,7 +126,6 @@ export function updateTreeInDB({ tree, onSuccess, onError }) {
 }
 
 export function getMyTrees({ onSuccess, onError }) {
-  let results = [];
   const currentUser = Parse.User.current();
   if (!currentUser) {
     onError("Log in first");
@@ -139,7 +137,7 @@ export function getMyTrees({ onSuccess, onError }) {
   query.equalTo("owner", currentUser.id);
   query.find().then((results) => {
     if (typeof document !== 'undefined') {
-      console.log(JSON.parse(JSON.stringify(results)))
+      // console.log(JSON.parse(JSON.stringify(results)))
       onSuccess(JSON.parse(JSON.stringify(results)));
     }
   }, (error) => {

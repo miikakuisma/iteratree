@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Drawer, Space, Button, Layout, Row, Col, Typography, List } from 'antd';
+import { Drawer, Space, Button, Layout } from 'antd';
 import { EditFilled, CopyOutlined, DiffOutlined, DeleteOutlined } from '@ant-design/icons';
 
 const propTypes = {
@@ -10,40 +10,8 @@ const propTypes = {
 };
 
 const { Content } = Layout;
-const { Text } = Typography;
 
 function Inspector({ selectedNode, clipboard, onAction }) {
-
-  const shortcuts = [
-    {
-      title: 'Up',
-      description: 'Select parent node'
-    },
-    {
-      title: 'Down',
-      description: 'Add new child node'
-    },
-    {
-      title: 'Left / Right',
-      description: 'Select next node from left or right'
-    },
-    {
-      title: 'Cmd + Left / Right',
-      description: 'Move selected node left or right'
-    },
-    {
-      title: 'Enter',
-      description: 'Rename node'
-    },
-    {
-      title: 'Backspace',
-      description: 'Delete node'
-    },
-    {
-      title: 'Tab',
-      description: 'Insert another child node under same parent'
-    },
-  ];
 
   return(
     <Drawer
@@ -55,32 +23,6 @@ function Inspector({ selectedNode, clipboard, onAction }) {
       visible={selectedNode !== null}
     >
       <Content>
-        {/* <Row gutter={8}>
-          <Col span={8}>
-
-          </Col>
-          <Col span={8}>
-            
-            
-          </Col>
-          <Col span={8}>
-            
-          </Col>
-        </Row> */}
-        <Text>Keyboard shortcuts</Text>
-        <List
-          // itemLayout="horizontal"
-          grid={{ gutter: 8, column: 6 }}
-          dataSource={shortcuts}
-          renderItem={item => (
-            <List.Item>
-              <List.Item.Meta
-                title={item.title}
-                description={item.description}
-              />
-            </List.Item>
-          )}
-        />
       </Content>
       <div className="actions">
         <Space>

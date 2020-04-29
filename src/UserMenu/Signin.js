@@ -6,7 +6,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { signIn } from "../lib/parse";
 import "../styles.css";
 
-export default function Signin({ onSuccess, onError }) {
+export default function Signin() {
   const UI = React.useContext(UIContext);
 
   const [username, setUsername] = useState('');
