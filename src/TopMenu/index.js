@@ -152,7 +152,7 @@ export default function TopMenu() {
     }}
   >{item.name}</Menu.Item>);
 
-  const avatarImage = UI.state.user ? <img alt="gravatar" className="avatar" src={`http://gravatar.com/avatar/${md5(UI.state.user.email)}`} /> : <UserOutlined className="avatar" /> ;
+  const avatarImage = UI.state.user ? <img alt="gravatar" className="avatar" src={`https://gravatar.com/avatar/${md5(UI.state.user.email)}`} /> : <UserOutlined className="avatar" /> ;
 
   return (
     <Menu mode="horizontal">
