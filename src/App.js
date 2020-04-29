@@ -54,13 +54,14 @@ export default function App() {
         });
       }
     });
+
     // Load Tree from given ?id= in the URL params
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const id = urlParams.get("id");
     if (id) {
       loadTree({
-        id: 'xLZZaUVqcF',
+        id,
         onSuccess: (response) => {
           // console.log(response)
           refresh(response[0].tree);

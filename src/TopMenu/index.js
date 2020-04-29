@@ -159,49 +159,59 @@ export default function TopMenu() {
       <SubMenu
         title={
           <span className="submenu-title-wrapper">
-            <BranchesOutlined />
+            <BranchesOutlined style={{
+              transform: 'rotate(180deg) scaleX(-1)'
+            }} />
             Iteratree
           </span>
         }
       >
-        <Menu.Item
-          onClick={() => {
-            reset();
-          }}
-        >New</Menu.Item>
-        <Menu.Item
-          onClick={() => {
-            saveAs(tree);
-          }}
-        >Save as New</Menu.Item>
-        <Menu.Item
-          disabled={!UI.state.user || (store.tree[0].root && store.tree[0].root.id === "")}
-          onClick={() => {
-            updateTree(tree);
-          }}
-        >Update on Cloud</Menu.Item>
-        <Menu.Item
-          disabled={!UI.state.user || (store.tree[0].root && store.tree[0].root.id === "")}
-          onClick={() => {
-            handleDeleteTree(tree[0].root.id);
-          }}
-        >Delete from Cloud</Menu.Item>
-        <Menu.Item
-          onClick={() => {
-            UI.setState({ ...UI.state, questionnaire: true });
-          }}
-        >Generate Questionnaire</Menu.Item>
-        <Menu.Item
-          onClick={() => {
-            // console.log(JSON.stringify(tree));
-            notification.success({ message: "Exported to JSON", description: "You can find JSON from the Console now" });
-          }}
-        >Export JSON</Menu.Item>
-        <Menu.Item
-          onClick={() => {
-            UI.setState({ ...UI.state, shortcuts: true });
-          }}
-        >Keyboard Shortcuts</Menu.Item>
+        <Menu.ItemGroup title="Project">
+          <Menu.Item
+            onClick={() => {
+              reset();
+            }}
+          >New</Menu.Item>
+          <Menu.Item
+            onClick={() => {
+              saveAs(tree);
+            }}
+          >Save as New</Menu.Item>
+          <Menu.Item
+            disabled={!UI.state.user || (store.tree[0].root && store.tree[0].root.id === "")}
+            onClick={() => {
+              updateTree(tree);
+            }}
+          >Update on Cloud</Menu.Item>
+          <Menu.Item
+            disabled={!UI.state.user || (store.tree[0].root && store.tree[0].root.id === "")}
+            onClick={() => {
+              handleDeleteTree(tree[0].root.id);
+            }}
+          >Delete from Cloud</Menu.Item>
+        </Menu.ItemGroup>
+
+        <Menu.ItemGroup title="Export">
+          <Menu.Item
+            onClick={() => {
+              UI.setState({ ...UI.state, questionnaire: true });
+            }}
+          >Generate Questionnaire</Menu.Item>
+          <Menu.Item
+            onClick={() => {
+              // console.log(JSON.stringify(tree));
+              notification.success({ message: "Exported to JSON", description: "You can find JSON from the Console now" });
+            }}
+          >Export JSON</Menu.Item>
+        </Menu.ItemGroup>
+
+        <Menu.ItemGroup title="Help">
+          <Menu.Item
+            onClick={() => {
+              UI.setState({ ...UI.state, shortcuts: true });
+            }}
+          >Keyboard Shortcuts</Menu.Item>
+        </Menu.ItemGroup>
       </SubMenu>
       <SubMenu
         title={
@@ -210,26 +220,31 @@ export default function TopMenu() {
           </span>
         }
       >
-        <Menu.Item
-          onClick={() => {
-            load(happy);
-          }}
-        >Are you happy?</Menu.Item>
-        <Menu.Item
-          onClick={() => {
-            load(week);
-          }}
-        >Weekly Routine</Menu.Item>
-        <Menu.Item
-          onClick={() => {
-            load(feedback);
-          }}
-        >Customer Feedback</Menu.Item>
-        <Menu.Item
-          onClick={() => {
-            load(setPlanning);
-          }}
-        >DJ Set Plan</Menu.Item>
+        <Menu.ItemGroup title="Questionnaires">
+          <Menu.Item
+            onClick={() => {
+              load(happy);
+            }}
+          >Are you happy?</Menu.Item>
+          <Menu.Item
+            onClick={() => {
+              load(feedback);
+            }}
+          >Customer Feedback</Menu.Item>
+        </Menu.ItemGroup>
+
+        <Menu.ItemGroup title="Other">
+          <Menu.Item
+            onClick={() => {
+              load(week);
+            }}
+          >Weekly Routine</Menu.Item>
+          <Menu.Item
+            onClick={() => {
+              load(setPlanning);
+            }}
+          >DJ Set Plan</Menu.Item>
+        </Menu.ItemGroup>
       </SubMenu>
       {myTreeList && myTreeList.length > 0 && <SubMenu
         title={
@@ -264,7 +279,7 @@ export default function TopMenu() {
       </SubMenu>
       {UI.state.questionnaire && <Button
         type="primary"
-        style={{ position: 'absolute', right: '7px', top: '7px' }}
+        style={{ position: 'absolute', right: '7px', top: '7px', zIndex: 999999 }}
         onClick={() => {
           UI.setState({ ...UI.state, questionnaire: false });
         }}
