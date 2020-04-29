@@ -1,7 +1,7 @@
 import React from "react";
 import { TreeContext, UIContext } from '../Store';
 import { Menu, Modal, Button, notification, message } from 'antd';
-import { BranchesOutlined, ExclamationCircleOutlined, UserOutlined } from '@ant-design/icons';
+import { BranchesOutlined, ExclamationCircleOutlined, UserOutlined, ClearOutlined, FileAddOutlined, ReloadOutlined, DeleteOutlined, QuestionCircleOutlined, ExportOutlined } from '@ant-design/icons';
 import { signOut, saveToDB, updateTreeInDB, loadTree, deleteTree, getMyTrees } from "../lib/parse";
 import { happy, feedback, setPlanning, week } from './Examples';
 import md5 from "md5";
@@ -146,7 +146,7 @@ export default function TopMenu() {
   const myTrees = UI.state.myTrees;
 
   const myTreeList = myTrees && myTrees.map((item, index) => <Menu.Item
-    key={index}
+    key={`setting:${index}`}
     onClick={() => {
       fetchTree(item.objectId);
     }}
@@ -168,49 +168,56 @@ export default function TopMenu() {
       >
         <Menu.ItemGroup title="Project">
           <Menu.Item
+            key="setting:1"
             onClick={() => {
               reset();
             }}
-          >New</Menu.Item>
+          ><ClearOutlined />New</Menu.Item>
           <Menu.Item
+            key="setting:2"
             onClick={() => {
               saveAs(tree);
             }}
-          >Save as New</Menu.Item>
+          ><FileAddOutlined />Save as New</Menu.Item>
           <Menu.Item
+            key="setting:3"
             disabled={!UI.state.user || (store.tree[0].root && store.tree[0].root.id === "")}
             onClick={() => {
               updateTree(tree);
             }}
-          >Update on Cloud</Menu.Item>
+          ><ReloadOutlined />Update on Cloud</Menu.Item>
           <Menu.Item
+            key="setting:4"
             disabled={!UI.state.user || (store.tree[0].root && store.tree[0].root.id === "")}
             onClick={() => {
               handleDeleteTree(tree[0].root.id);
             }}
-          >Delete from Cloud</Menu.Item>
+          ><DeleteOutlined />Delete from Cloud</Menu.Item>
         </Menu.ItemGroup>
 
         <Menu.ItemGroup title="Export">
           <Menu.Item
+            key="setting:5"
             onClick={() => {
               UI.setState({ ...UI.state, questionnaire: true });
             }}
-          >Generate Questionnaire</Menu.Item>
+          ><BranchesOutlined />Generate Questionnaire</Menu.Item>
           <Menu.Item
+            key="setting:6"
             onClick={() => {
               // console.log(JSON.stringify(tree));
               notification.success({ message: "Exported to JSON", description: "You can find JSON from the Console now" });
             }}
-          >Export JSON</Menu.Item>
+          ><ExportOutlined />Export JSON</Menu.Item>
         </Menu.ItemGroup>
 
         <Menu.ItemGroup title="Help">
           <Menu.Item
+            key="setting:7"
             onClick={() => {
               UI.setState({ ...UI.state, shortcuts: true });
             }}
-          >Keyboard Shortcuts</Menu.Item>
+          ><QuestionCircleOutlined />Keyboard Shortcuts</Menu.Item>
         </Menu.ItemGroup>
       </SubMenu>
       <SubMenu
@@ -222,6 +229,7 @@ export default function TopMenu() {
       >
         <Menu.ItemGroup title="Questionnaires">
           <Menu.Item
+            key="setting:1"
             onClick={() => {
               load(happy);
             }}
@@ -235,11 +243,13 @@ export default function TopMenu() {
 
         <Menu.ItemGroup title="Other">
           <Menu.Item
+            key="setting:2"
             onClick={() => {
               load(week);
             }}
           >Weekly Routine</Menu.Item>
           <Menu.Item
+            key="setting:3"
             onClick={() => {
               load(setPlanning);
             }}
@@ -265,12 +275,14 @@ export default function TopMenu() {
         }
       >
         <Menu.Item
+          key="setting:1"
           disabled={UI.state.loggedIn}
           onClick={() => {
             UI.setState({ ...UI.state, userModal: true });
           }}
         >Sign-In / Sign-Up</Menu.Item>
         <Menu.Item
+          key="setting:2"
           disabled={!UI.state.loggedIn}
           onClick={() => {
             signOut();
