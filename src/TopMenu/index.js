@@ -2,12 +2,13 @@ import React from "react";
 import { TreeContext, UIContext } from '../Store';
 import { Menu, Modal, Button, notification } from 'antd';
 import { BranchesOutlined, ExclamationCircleOutlined, UserOutlined } from '@ant-design/icons';
-import { signOut, saveToDB, updateTreeInDB, getMyTrees, loadTree } from "../lib/parse";
+import { signOut, saveToDB, updateTreeInDB, getMyTrees, loadTree, deleteTree } from "../lib/parse";
 import { happy, feedback, setPlanning, week } from './Examples';
 import md5 from "md5";
 import "../styles.css";
 
 const { SubMenu } = Menu;
+const { confirm } = Modal;
 
 export default function TopMenu() {
   const store = React.useContext(TreeContext);
@@ -15,7 +16,6 @@ export default function TopMenu() {
   const { tree } = store;
 
   function reset() {
-    const { confirm } = Modal;
     confirm({
       title: 'Do you want to start over?',
       icon: <ExclamationCircleOutlined />,
@@ -29,7 +29,6 @@ export default function TopMenu() {
   }
 
   function load(tree) {
-    const { confirm } = Modal;
     confirm({
       title: 'Unsaved changes will be lost',
       icon: <ExclamationCircleOutlined />,
@@ -81,8 +80,30 @@ export default function TopMenu() {
     })
   }
 
+  function handleDeleteTree(id) {
+    confirm({
+      title: 'Delete this tree?',
+      icon: <ExclamationCircleOutlined />,
+      content: 'There is no way to undo',
+      onOk() {
+        deleteTree({
+          id,
+          onSuccess: (response) => {
+            notification.success({ message: response });
+            window.localStorage.removeItem('tree');
+            window.location.reload();
+          },
+          onError: (response) => {
+            notification.error({ message: "Cannot delete", description: response });
+            console.log('ERROR', response)
+          }
+        })
+      },
+      onCancel() {},
+    });
+  }
+
   function fetchTree(id) {
-    const { confirm } = Modal;
     confirm({
       title: 'Unsaved changes will be lost',
       icon: <ExclamationCircleOutlined />,
@@ -153,6 +174,12 @@ export default function TopMenu() {
             updateTree(tree);
           }}
         >Update on Cloud</Menu.Item>
+        <Menu.Item
+          disabled={!UI.state.user || (store.tree[0].root && store.tree[0].root.id === "")}
+          onClick={() => {
+            handleDeleteTree(tree[0].root.id);
+          }}
+        >Delete from Cloud</Menu.Item>
         <Menu.Item
           onClick={() => {
             UI.setState({ questionnaire: true });

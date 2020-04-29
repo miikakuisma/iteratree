@@ -163,3 +163,16 @@ export function loadTree({ id, onSuccess, onError }) {
     }
   });
 }
+
+export function deleteTree({ id, onSuccess, onError }) {
+  const TreeClass = Parse.Object.extend('Tree');
+  const query = new Parse.Query(TreeClass);
+  query.get(id).then((object) => {
+    object.destroy().then((response) => {
+      console.log(response)
+      onSuccess(`Tree ${id} was deleted`);
+    }, () => {
+      onError("Couldn't delete that Tree");
+    });
+  });
+}

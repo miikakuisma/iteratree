@@ -32,10 +32,15 @@ export default function TreeName() {
         autoFocus
         onFocus={handleFocus}
         placeholder="Name this flow"
-        defaultValue={store.tree[0].root.name}
+        defaultValue={name}
         onChange={(e) => {
           store.tree[0].root.name = e.target.value;
           store.onRefresh();
+        }}
+        onKeyPress={(e) => {
+          if (e.key === 'Enter') {
+            setEditing(false);
+          }
         }}
         onBlur={() => {
           setEditing(false);
