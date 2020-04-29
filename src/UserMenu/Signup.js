@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
-import { Space, Input, Button, notification } from 'antd';
+import { Space, Input, Button, notification, message } from 'antd';
 import { signUp } from "../lib/parse";
 import "../styles.css";
 
@@ -19,19 +19,23 @@ export default function Signup() {
   }
 
   const handleSignUp = () => {
+    message.loading('Creating account..');
     signUp({
       username,
       password,
       email,
-      onSuccess: (response) => {
-        console.log(response)
+      onSuccess: () => {
+        // console.log(response)
         window.location.reload();
+        message.destroy();
+        notification.success({ message: 'Welcome!' })
       },
       onError: (error) => {
         notification.error({
           message: 'Error while creating account',
           description: error.toString(),
         });
+        message.destroy();
       }
     });
   }

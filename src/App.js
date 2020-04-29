@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { TreeContext, UIContext, initialAppState, initialUIState } from './Store';
-import { Layout } from 'antd';
-import { getCurrentUser, loadTree } from "./lib/parse";
+import { Layout, notification } from 'antd';
+import { getCurrentUser, getMyTrees, loadTree } from "./lib/parse";
 import TopMenu from "./TopMenu/";
 import UserMenu from "./UserMenu/";
 import TreeName from "./TopMenu/TreeName";
@@ -31,14 +31,24 @@ export default function App() {
     // Fetch user data
     getCurrentUser({
       onSuccess: (response) => {
-        // console.log("RESPONSE", response)
-        updateUI({
-          loggedIn: true,
-          user: response
+        // Get user's saved trees
+        getMyTrees({
+          onSuccess: (response2) => {
+            updateUI({
+              ...UI,
+              loggedIn: true,
+              user: response,
+              myTrees: response2
+            });
+          },
+          onError: () => {
+            // couldn't get the trees (maybe there was none)
+          }
         });
       },
       onError: () => {
         updateUI({
+          ...UI,
           loggedIn: false,
           user: null
         });
@@ -52,11 +62,12 @@ export default function App() {
       loadTree({
         id: 'xLZZaUVqcF',
         onSuccess: (response) => {
-          console.log(response)
+          // console.log(response)
           refresh(response[0].tree);
         },
-        onError: (error) => {
-          console.error(error);
+        onError: () => {
+          // console.error(error);
+          notification.error({ message: "Couldn't load Tree", description: "Maybe it was wrong ID...?" })
         }
       });
     }

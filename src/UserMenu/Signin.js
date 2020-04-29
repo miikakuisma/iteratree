@@ -1,9 +1,8 @@
-
 import React, {useState } from "react";
 import { UIContext } from '../Store';
-import { Space, Input, Button } from 'antd';
+import { Space, Input, Button, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { signIn } from "../lib/parse";
+import { signIn, getMyTrees } from "../lib/parse";
 import "../styles.css";
 
 export default function Signin() {
@@ -13,17 +12,31 @@ export default function Signin() {
   const [password, setPassword] = useState('');
 
   const handleSignIn = () => {
+    message.loading('Signing in..');
     signIn({
       username: username,
       password: password,
       onSuccess: (response) => {
-        UI.setState({
-          loggedIn: true,
-          user: response
+        getMyTrees({
+          onSuccess: (response2) => {
+            UI.setState({
+              ...UI.state, 
+              loggedIn: true,
+              user: response,
+              userModal: false,
+              myTrees: response2
+            });
+            message.destroy();
+          },
+          onError: () => {
+            message.destroy();
+            // couldn't get the trees (maybe there was none)
+          }
         });
       },
       onError: () => {
         UI.setState({
+          ...UI.state, 
           loggedIn: false,
           user: null
         });
@@ -34,8 +47,8 @@ export default function Signin() {
   return (
     <div>
       <Space>
-        <Input size="large" placeholder="username" prefix={<UserOutlined />} defaultValue={username} onChange={(e) => { setUsername(e.target.value) }} />
-        <Input.Password size="large" placeholder="password" prefix={<LockOutlined />} defaultValue={password} onChange={(e) => { setPassword(e.target.value) }} />
+        <Input size="large" placeholder="username" prefix={<UserOutlined />} defaultValue={username} onChange={(e) => { setUsername(e.target.value) }} autoFocus />
+        <Input.Password size="large" placeholder="password" prefix={<LockOutlined />} defaultValue={password} onChange={(e) => { setPassword(e.target.value) }} onPressEnter={handleSignIn} />
         <Button type="primary" onClick={handleSignIn}>Sign In</Button>
       </Space>
     </div>

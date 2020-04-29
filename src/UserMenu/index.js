@@ -16,7 +16,7 @@ export default function UserMenu() {
       visible={true}
       closable={true}
       okButtonProps={{ disabled: true }}
-      onCancel={() => { UI.setState({ userModal: false }) }}
+      onCancel={() => { UI.setState({ ...UI.state, userModal: false }) }}
     >
       <Tabs defaultActiveKey="1">
         <TabPane tab="Sign In" key="1">

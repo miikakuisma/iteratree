@@ -1,4 +1,3 @@
-
 // eslint-disable-next-line no-undef
 const Parse = require("parse");
 Parse.serverURL = "https://parseapi.back4app.com";
@@ -30,14 +29,14 @@ export function getCurrentUser({ onSuccess, onError }) {
 
 export function signIn({ username, password, onSuccess, onError }) {
   Parse.User.logIn(username, password).then(function(user) {
-    console.log('User logged in: ' + user.get("username") + ' and email: ' + user.get("email"));
+    // console.log('User logged in: ' + user.get("username") + ' and email: ' + user.get("email"));
     onSuccess({
       username: user.get("username"),
       email: user.get("email"),
       payload: user
     });
   }).catch(function(error){
-    console.log("Error: " + error.code + " " + error.message);
+    // console.log("Error: " + error.code + " " + error.message);
     onError(error.message);
   });
 }
@@ -53,13 +52,13 @@ export function signUp({ username, password, email, onSuccess, onError }) {
   user.set("password", password);
   user.set("email", email);
   user.signUp().then(function(user) {
-      console.log('User created successful with name: ' + user.get("username") + ' and email: ' + user.get("email"));
+      // console.log('User created successful with name: ' + user.get("username") + ' and email: ' + user.get("email"));
       onSuccess({
         username: user.get("username"),
         email: user.get("email"),
       });
   }).catch(function(error){
-      console.log("Error: " + error.code + " " + error.message);
+      // console.log("Error: " + error.code + " " + error.message);
       onError(error);
   });
 }
@@ -154,7 +153,7 @@ export function loadTree({ id, onSuccess, onError }) {
   query.equalTo("objectId", id);
   query.find().then((results) => {
     if (typeof document !== 'undefined') {
-      console.log(JSON.parse(JSON.stringify(results)))
+      // console.log(JSON.parse(JSON.stringify(results)))
       onSuccess(JSON.parse(JSON.stringify(results)));
     }
   }, (error) => {
@@ -168,8 +167,8 @@ export function deleteTree({ id, onSuccess, onError }) {
   const TreeClass = Parse.Object.extend('Tree');
   const query = new Parse.Query(TreeClass);
   query.get(id).then((object) => {
-    object.destroy().then((response) => {
-      console.log(response)
+    object.destroy().then(() => {
+      // console.log(response)
       onSuccess(`Tree ${id} was deleted`);
     }, () => {
       onError("Couldn't delete that Tree");

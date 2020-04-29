@@ -1,8 +1,8 @@
 import React from "react";
 import { TreeContext, UIContext } from '../Store';
-import { Menu, Modal, Button, notification } from 'antd';
+import { Menu, Modal, Button, notification, message } from 'antd';
 import { BranchesOutlined, ExclamationCircleOutlined, UserOutlined } from '@ant-design/icons';
-import { signOut, saveToDB, updateTreeInDB, getMyTrees, loadTree, deleteTree } from "../lib/parse";
+import { signOut, saveToDB, updateTreeInDB, loadTree, deleteTree, getMyTrees } from "../lib/parse";
 import { happy, feedback, setPlanning, week } from './Examples';
 import md5 from "md5";
 import "../styles.css";
@@ -28,6 +28,21 @@ export default function TopMenu() {
     });
   }
 
+  function refreshMenu() {
+    // refresh menu list
+    getMyTrees({
+      onSuccess: (response2) => {
+        UI.setState({
+          ...UI,
+          myTrees: response2
+        });
+      },
+      onError: () => {
+        // couldn't get the trees (maybe there was none)
+      }
+    });    
+  }
+
   function load(tree) {
     confirm({
       title: 'Unsaved changes will be lost',
@@ -41,41 +56,38 @@ export default function TopMenu() {
   }
 
   function saveAs(tree) {
+    message.loading('Saving in progress..');
     saveToDB({
       tree,
       onSuccess: (response) => {
-        console.log("NEW TREE", response);
-        console.log(store.tree[0])
+        // console.log("NEW TREE", response);
+        // console.log(store.tree[0])
         store.tree[0].root.id = response.objectId;
         store.onRefresh();
         notification.success({ message: "Saved to Cloud" });
-        // refresh menu list
-        getMyTrees({
-          onSuccess: (response) => {
-            setMyTrees(response);
-          },
-          onError: (error) => {
-            console.error(error);
-          }
-        });
+        refreshMenu();
+        // Let's update the saved Tree so that the ID that just got generated during saving gets saved to the data
+        updateTree(store.tree);
+        message.destroy();
       },
       onError: (response) => {
         notification.error({ message: "Cannot save", description: response });
-        console.log('ERROR', response)
+        message.destroy();
+        // console.log('ERROR', response)
       }
     });
   }
 
   function updateTree(tree) {
+    message.loading('Saving in progress..');
     updateTreeInDB({
       tree,
-      onSuccess: (response) => {
-        console.log("TREE UPDATED", response);
-        notification.success({ message: "Updated" });
+      onSuccess: () => {
+        message.destroy();
       },
       onError: (response) => {
         notification.error({ message: "Cannot save", description: response });
-        console.log('ERROR', response)
+        message.destroy();
       }
     })
   }
@@ -86,16 +98,19 @@ export default function TopMenu() {
       icon: <ExclamationCircleOutlined />,
       content: 'There is no way to undo',
       onOk() {
+        message.loading('Deleting tree..');
         deleteTree({
           id,
           onSuccess: (response) => {
             notification.success({ message: response });
             window.localStorage.removeItem('tree');
             window.location.reload();
+            message.destroy();
           },
           onError: (response) => {
             notification.error({ message: "Cannot delete", description: response });
-            console.log('ERROR', response)
+            message.destroy();
+            // console.log('ERROR', response);
           }
         })
       },
@@ -109,15 +124,18 @@ export default function TopMenu() {
       icon: <ExclamationCircleOutlined />,
       content: 'Are you sure you want to open that?',
       onOk() {
+        message.loading('Loading tree..');
         loadTree({
           id,
           onSuccess: (response) => {
-            console.log(response)
+            // console.log(response);
             store.onRefresh(response[0].tree);
+            message.destroy();
           },
           onError: (error) => {
-            console.error(error);
+            // console.error(error);
             notification.error({ message: "Cannot load", description: error })
+            message.destroy();
           }
         });
       },
@@ -125,20 +143,9 @@ export default function TopMenu() {
     });
   }
 
-  const [myTrees, setMyTrees] = React.useState([]);
+  const myTrees = UI.state.myTrees;
 
-  React.useEffect(() => {
-    getMyTrees({
-      onSuccess: (response) => {
-        setMyTrees(response);
-      },
-      onError: (error) => {
-        console.error(error);
-      }
-    });
-  }, []);
-
-  const myTreeList = myTrees.map((item, index) => <Menu.Item
+  const myTreeList = myTrees && myTrees.map((item, index) => <Menu.Item
     key={index}
     onClick={() => {
       fetchTree(item.objectId);
@@ -163,11 +170,10 @@ export default function TopMenu() {
           }}
         >New</Menu.Item>
         <Menu.Item
-          disabled={!UI.state.user || (store.tree[0].root && store.tree[0].root.id !== "")}
           onClick={() => {
             saveAs(tree);
           }}
-        >Save to Cloud</Menu.Item>
+        >Save as New</Menu.Item>
         <Menu.Item
           disabled={!UI.state.user || (store.tree[0].root && store.tree[0].root.id === "")}
           onClick={() => {
@@ -182,18 +188,18 @@ export default function TopMenu() {
         >Delete from Cloud</Menu.Item>
         <Menu.Item
           onClick={() => {
-            UI.setState({ questionnaire: true });
+            UI.setState({ ...UI.state, questionnaire: true });
           }}
         >Generate Questionnaire</Menu.Item>
         <Menu.Item
           onClick={() => {
-            console.log(JSON.stringify(tree));
+            // console.log(JSON.stringify(tree));
             notification.success({ message: "Exported to JSON", description: "You can find JSON from the Console now" });
           }}
         >Export JSON</Menu.Item>
         <Menu.Item
           onClick={() => {
-            UI.setState({ shortcuts: true });
+            UI.setState({ ...UI.state, shortcuts: true });
           }}
         >Keyboard Shortcuts</Menu.Item>
       </SubMenu>
@@ -225,7 +231,7 @@ export default function TopMenu() {
           }}
         >DJ Set Plan</Menu.Item>
       </SubMenu>
-      {myTreeList.length > 0 && <SubMenu
+      {myTreeList && myTreeList.length > 0 && <SubMenu
         title={
           <span className="submenu-title-wrapper">
             My Trees
@@ -246,7 +252,7 @@ export default function TopMenu() {
         <Menu.Item
           disabled={UI.state.loggedIn}
           onClick={() => {
-            UI.setState({ userModal: true });
+            UI.setState({ ...UI.state, userModal: true });
           }}
         >Sign-In / Sign-Up</Menu.Item>
         <Menu.Item
@@ -260,7 +266,7 @@ export default function TopMenu() {
         type="primary"
         style={{ position: 'absolute', right: '7px', top: '7px' }}
         onClick={() => {
-          UI.setState({ questionnaire: false });
+          UI.setState({ ...UI.state, questionnaire: false });
         }}
       >EXIT</Button>}
     </Menu>

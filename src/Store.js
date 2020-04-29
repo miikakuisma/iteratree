@@ -10,5 +10,6 @@ export const initialUIState = {
   shortcuts: false,
   userModal: false,
   loggedIn: false,
-  user: null
+  user: null,
+  myTrees: []
 }
