@@ -9,6 +9,17 @@
   padding: 20px;
 }
 
+.treeName {
+  position: absolute;
+  left: 33%;
+  top: 0;
+  right: 33%;
+  height: 48px;
+  line-height: 46px;
+  text-align: center;
+  cursor: text;
+}
+
 button.reset {
   position: fixed;
   bottom: 20px;
@@ -165,9 +176,15 @@ button.ant-btn[disabled] {
   display: none;
 }
 
-.login {
-  position: absolute;
-  top: 12px;
-  right: 10px;
-  z-index: 9;
+.usermenu .ant-menu-submenu-title {
+  padding: 0;
+}
+
+img.avatar  {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  margin: 3px 6px;
 }

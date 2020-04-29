@@ -1,5 +1,5 @@
 import React from "react";
-import { blank } from "./Examples";
+import { blank } from "./TopMenu/Examples";
 
 export let TreeContext = React.createContext();
 export let UIContext = React.createContext();
@@ -8,6 +8,7 @@ export const initialAppState = blank;
 export const initialUIState = {
   questionnaire: false,
   shortcuts: false,
+  userModal: false,
   loggedIn: false,
-  userID: null,
+  user: null
 }

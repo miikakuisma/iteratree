@@ -1,12 +1,12 @@
 import React, { useState, Fragment } from "react";
-import { TreeContext } from './Store';
+import { TreeContext } from '../Store';
 import { message, Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-import { arrayMove } from "./helpers";
-import 'antd/dist/antd.css';
-import "./styles.css";
+import { arrayMove } from "../lib/helpers";
 import Node from "./Node";
 import Inspector from "./Inspector";
+import 'antd/dist/antd.css';
+import "../styles.css";
 
 const traverse = require("traverse");
 
