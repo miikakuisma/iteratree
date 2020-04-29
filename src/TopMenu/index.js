@@ -2,7 +2,7 @@ import React from "react";
 import { TreeContext, UIContext } from '../Store';
 import { Menu, Modal, Button, notification } from 'antd';
 import { BranchesOutlined, ExclamationCircleOutlined, UserOutlined } from '@ant-design/icons';
-import { signOut, saveToDB, updateTreeInDB, getMyTrees, loadTree } from "../lib/parse";
+import { signOut, saveToDB, updateTreeInDB, getMyTrees, loadTree } from "../lib/parse";
 import { happy, feedback, setPlanning, week } from './Examples';
 import md5 from "md5";
 import "../styles.css";

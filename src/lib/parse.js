@@ -1,4 +1,5 @@
 
+// eslint-disable-next-line no-undef
 const Parse = require("parse");
 Parse.serverURL = "https://parseapi.back4app.com";
 Parse.initialize(
@@ -6,7 +7,7 @@ Parse.initialize(
   "RDqcVOJSDAWGOiyjsxoWT3c7uVf6nCsXDp4VMQwp",
 );
 
-export function getCurrentUser({ onSuccess, onError }) {
+export function getCurrentUser({ onSuccess, onError }) {
   const User = new Parse.User();
   const query = new Parse.Query(User);
   const currentUser = Parse.User.current();
@@ -19,7 +20,7 @@ export function getCurrentUser({ onSuccess, onError }) {
       const foundUser = JSON.stringify(user);
       // console.log(JSON.parse(foundUser))
       onSuccess(JSON.parse(foundUser));
-    };
+    }
   }, (error) => {
     if (typeof document !== 'undefined') {
       onError(error);

@@ -15,7 +15,7 @@ function Inspector({ selectedNode, clipboard, onAction }) {
 
   return(
     <Drawer
-      title={selectedNode.title || 'Untitled'}
+      title={selectedNode.title || 'Untitled'}
       placement='bottom'
       closable={false}
       height={55}

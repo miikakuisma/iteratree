@@ -43,7 +43,7 @@ export default function Signup() {
         <Input size="large" placeholder="e-mail" prefix={<MailOutlined />} defaultValue={email} onChange={(e) => { setEmail(e.target.value) }} />
         <Input.Password size="large" placeholder="password" prefix={<LockOutlined />} defaultValue={password} onChange={(e) => { setPassword(e.target.value) }} />
         <Input.Password size="large" placeholder="password" prefix={<LockOutlined />} defaultValue={password2} onChange={(e) => { setPassword2(e.target.value) }} />
-        <Button type="primary" disabled={isAllOk()} onClick={handleSignUp}>Submit</Button>
+        <Button type="primary" disabled={isAllOk()} onClick={handleSignUp}>Submit</Button>
       </Space>
     </div>
   );

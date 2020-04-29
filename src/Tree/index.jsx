@@ -8,6 +8,7 @@ import Inspector from "./Inspector";
 import 'antd/dist/antd.css';
 import "../styles.css";
 
+// eslint-disable-next-line no-undef
 const traverse = require("traverse");
 
 function Tree() {
@@ -32,7 +33,7 @@ function Tree() {
     traverse(tree).forEach(function(node) {
       if (typeof node === "object" && node.selected) {
         callback(node, this.parent);
-      };
+      }
     });
   }
 
@@ -54,7 +55,7 @@ function Tree() {
     onRefresh();
   }
 
-  function unselectAll(node) {
+  function unselectAll() {
     traverse(tree).forEach(function(x) {
       if (typeof x === 'object') {
         x.selected = false;
@@ -71,20 +72,20 @@ function Tree() {
     switch (e.key) {
       // COPY
       case "c":
-        if (e.metaKey || e.ctrlKey) {
+        if (e.metaKey || e.ctrlKey) {
           getSelectedNode((node) => copyNode(node));
         }
         break;
       // PASTE
       case "v":
-        if (e.metaKey || e.ctrlKey) {
+        if (e.metaKey || e.ctrlKey) {
           getSelectedNode((node) => pasteNode(node));
         }
         break;
       // MOVE and SELECT
       case "ArrowLeft":
         if (isEditing === null) {
-          if (e.metaKey || e.ctrlKey) {
+          if (e.metaKey || e.ctrlKey) {
             e.preventDefault();
             getSelectedNode((node, parent) => moveNode({ direction: 'left', node, parent }));
           } else {
@@ -94,7 +95,7 @@ function Tree() {
         break;
       case "ArrowRight":
         if (isEditing === null) {
-          if (e.metaKey || e.ctrlKey) {
+          if (e.metaKey || e.ctrlKey) {
             e.preventDefault();
             getSelectedNode((node, parent) => moveNode({ direction: 'right', node, parent }));
           } else {

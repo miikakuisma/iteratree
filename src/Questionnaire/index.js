@@ -1,7 +1,12 @@
 import React from 'react'
+import PropTypes from "prop-types";
 import Question from './Question'
 import Switcher from './Switcher'
 import './Questionnaire.css'
+
+const propTypes = {
+  flow: PropTypes.array
+};
 
 class Questionnaire extends React.Component {
   constructor(props) {
@@ -67,7 +72,7 @@ class Questionnaire extends React.Component {
           <button
             style={{ width: '100%' }}
             onClick={() => {
-              this.setState({ switcherRunning: true })
+              this.setState({ switcherRunning: true })
               setTimeout(() => {
                 this.setState({
                   switcherRunning: false
@@ -85,7 +90,7 @@ class Questionnaire extends React.Component {
   }
   
   render() {
-    const { node } = this.state
+    const { node } = this.state
     return (
       <div className="Questionnaire">
         {this.getBoxContent(node)}
@@ -94,4 +99,5 @@ class Questionnaire extends React.Component {
   }
 }
 
+Questionnaire.propTypes = propTypes;
 export default Questionnaire;
