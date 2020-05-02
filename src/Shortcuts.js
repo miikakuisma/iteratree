@@ -21,16 +21,16 @@ export default function Shortcuts() {
       description: 'Add new node under same parent'
     },
     {
+      title: 'Enter',
+      description: 'Rename node'
+    },
+    {
       title: 'Left / Right',
       description: 'Select next node from left or right'
     },
     {
       title: 'Cmd + Left / Right',
       description: 'Move selected node left or right'
-    },
-    {
-      title: 'Enter',
-      description: 'Rename node'
     },
     {
       title: 'Backspace',

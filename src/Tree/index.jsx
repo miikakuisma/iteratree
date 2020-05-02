@@ -1,5 +1,5 @@
 import React, { useState, Fragment } from "react";
-import { TreeContext } from '../Store';
+import { TreeContext, UIContext } from '../Store';
 import { message, Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { arrayMove } from "../lib/helpers";
@@ -13,6 +13,7 @@ const traverse = require("traverse");
 
 function Tree() {
   const store = React.useContext(TreeContext);
+  const UI = React.useContext(UIContext);
   const { tree } = store;
   const { onRefresh } = store;
 
@@ -66,7 +67,7 @@ function Tree() {
   }
 
   window.onkeydown = e => {
-    if (isAskingToConfirm) {
+    if (isAskingToConfirm || UI.state.userModal) {
       return
     }
     switch (e.key) {
@@ -105,12 +106,14 @@ function Tree() {
         break;
       // ADD NODES
       case "ArrowDown":
+        // add new child
         if (isEditing === null) {
           getSelectedNode((node) => addNode(node));
         }
         break;
       case "Tab":
         if (isEditing === null) {
+          // add new under same parent
           e.preventDefault();
           getSelectedNode((node, parent) => addNode(parent.parent.node, true));
         }

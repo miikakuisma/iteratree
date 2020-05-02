@@ -3,6 +3,7 @@ import { UIContext } from '../Store';
 import { Modal, Tabs } from 'antd';
 import Signup from "./Signup";
 import Signin from "./Signin";
+import Reset from "./Reset";
 import "../styles.css";
 
 const { TabPane } = Tabs;
@@ -24,6 +25,9 @@ export default function UserMenu() {
         </TabPane>
         <TabPane tab="Create Account" key="2">
           <Signup />
+        </TabPane>
+        <TabPane tab="Forgot password?" key="3">
+          <Reset />
         </TabPane>
       </Tabs>
     </Modal>

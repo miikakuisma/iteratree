@@ -12,6 +12,7 @@ const propTypes = {
   isSelected: PropTypes.bool,
   onRemoveNode: PropTypes.func.isRequired,
   onUpdateNode: PropTypes.func.isRequired,
+  onSelectNode: PropTypes.func,
   onStartEditing: PropTypes.func,
   onCancelEditing: PropTypes.func,
   onAddNode: PropTypes.func.isRequired,
@@ -37,7 +38,7 @@ class Node extends React.Component {
   }
 
   handleKeyDown(e) {
-    const { node, isEditing, onStartEditing, isPreviewingRemove, onRemoveNode } = this.props;
+    const { node, isEditing, onStartEditing, isPreviewingRemove, onRemoveNode } = this.props;
     if (e.key === "Enter" && node.selected && !isEditing && !isPreviewingRemove) {
       this.setState({
         isHovering: false,
