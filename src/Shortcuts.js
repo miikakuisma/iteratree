@@ -17,6 +17,10 @@ export default function Shortcuts() {
       description: 'Add new child node'
     },
     {
+      title: 'Tab',
+      description: 'Add new node under same parent'
+    },
+    {
       title: 'Left / Right',
       description: 'Select next node from left or right'
     },

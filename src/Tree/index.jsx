@@ -109,7 +109,13 @@ function Tree() {
           getSelectedNode((node) => addNode(node));
         }
         break;
-      // SELECT PARENT
+      case "Tab":
+        if (isEditing === null) {
+          e.preventDefault();
+          getSelectedNode((node, parent) => addNode(parent.parent.node, true));
+        }
+        break;
+        // SELECT PARENT
       case "ArrowUp":
         getSelectedNode((node, parent) => selectParentNode(parent));
         break;
@@ -118,11 +124,15 @@ function Tree() {
     }
   };
 
-  function addNode(node) {
+  function addNode(node, select) {
+    if (select) {
+      unselectAll();
+    }
     if (node.options) {
       node.options.push({
         id: Date.now(),
         title: "New",
+        selected: select || false
       });
       onRefresh();
     } else {
@@ -131,7 +141,7 @@ function Tree() {
         {
           id: Date.now(),
           title: "New",
-          selected: true
+          selected: select || false
         }
       ];
       onRefresh();
