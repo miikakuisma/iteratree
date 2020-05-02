@@ -250,31 +250,46 @@ function Tree() {
       if (node.id === 0) {
         return;
       }
-      setAskingConfirm(true);
-      confirm({
-        title: 'Are you sure you want to delete these node(s)?',
-        icon: <ExclamationCircleOutlined />,
-        content: 'All children will be removed also.',
-        maskClosable: true,
-        onOk() {
-          setAskingConfirm(false);
-          setDeleting(true);
-          traverse(tree).forEach(function(x) {
-            if (x === node) {
-              this.remove();
-              this.node.options = [];
-            }
-          });
-          onRefresh();
-          setDeleting(false);
-          setPreviewDeleteNode(null);
-          setSelectedNode(null);
-        },
-        onCancel() {
-          setAskingConfirm(false);
-          setPreviewDeleteNode(null);
-        },
-      });
+      if (node.options && node.options.length > 1) {
+        // If deleting more than one nodes, ask for confirmation
+        setAskingConfirm(true);
+        confirm({
+          title: 'Are you sure you want to delete these node(s)?',
+          icon: <ExclamationCircleOutlined />,
+          content: 'All children will be removed also.',
+          maskClosable: true,
+          onOk() {
+            setAskingConfirm(false);
+            setDeleting(true);
+            traverse(tree).forEach(function(x) {
+              if (x === node) {
+                this.remove();
+                this.node.options = [];
+              }
+            });
+            onRefresh();
+            setDeleting(false);
+            setPreviewDeleteNode(null);
+            setSelectedNode(null);
+          },
+          onCancel() {
+            setAskingConfirm(false);
+            setPreviewDeleteNode(null);
+          },
+        });
+      } else {
+        // If deleting just one node, don't ask for confirm
+        setDeleting(true);
+        traverse(tree).forEach(function(x) {
+          if (x === node) {
+            this.remove();
+            this.node.options = [];
+          }
+        });
+        onRefresh();
+        setDeleting(false);
+        setSelectedNode(null);
+      }
     }
   }
 
