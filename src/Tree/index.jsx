@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useContext, useState, useEffect, Fragment } from "react";
 import { TreeContext, UIContext } from '../Store';
 import { message, Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
@@ -12,19 +12,19 @@ import "../styles.css";
 const traverse = require("traverse");
 
 function Tree() {
-  const store = React.useContext(TreeContext);
-  const UI = React.useContext(UIContext);
+  const store = useContext(TreeContext);
+  const UI = useContext(UIContext);
   const { tree } = store;
   const { onRefresh } = store;
 
-  const [clipboard, setClipboard] = React.useState(null);
+  const [clipboard, setClipboard] = useState(null);
   const [selectedNode, setSelectedNode] = useState(null);
   const [isEditing, setEditing] = useState(null);
   const [previewDeleteNode, setPreviewDeleteNode] = useState(null);
   const [isAskingToConfirm, setAskingConfirm] = useState(false);
   const [isDeleting, setDeleting] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     getSelectedNode((node) => {
       setSelectedNode(node)
     })

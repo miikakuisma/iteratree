@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { TreeContext } from '../Store';
 import { Input } from 'antd';
 
 export default function TreeName() {
-  const store = React.useContext(TreeContext);
-  const [editing, setEditing] = React.useState(false);
+  const store = useContext(TreeContext);
+  const [editing, setEditing] = useState(false);
 
   const id = store.tree[0].root ? store.tree[0].root.id : 0;
   const name = store.tree[0].root ? store.tree[0].root.name : 'Untitled';

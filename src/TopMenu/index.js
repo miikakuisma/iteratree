@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { TreeContext, UIContext } from '../Store';
 import { Menu, Modal, Button, notification, message } from 'antd';
 import { BranchesOutlined, ExclamationCircleOutlined, UserOutlined, ClearOutlined, FileAddOutlined, ReloadOutlined, DeleteOutlined, QuestionCircleOutlined, ExportOutlined } from '@ant-design/icons';
@@ -11,8 +11,8 @@ const { SubMenu } = Menu;
 const { confirm } = Modal;
 
 export default function TopMenu() {
-  const store = React.useContext(TreeContext);
-  const UI = React.useContext(UIContext);
+  const store = useContext(TreeContext);
+  const UI = useContext(UIContext);
   const { tree } = store;
 
   function reset() {
@@ -155,7 +155,7 @@ export default function TopMenu() {
   const avatarImage = UI.state.user ? <img alt="gravatar" className="avatar" src={`https://gravatar.com/avatar/${md5(UI.state.user.email)}`} /> : <UserOutlined className="avatar" /> ;
 
   return (
-    <Menu mode="horizontal">
+    <Menu mode="horizontal" selectable={false}>
       <SubMenu
         title={
           <span className="submenu-title-wrapper">
@@ -205,7 +205,7 @@ export default function TopMenu() {
           <Menu.Item
             key="setting:6"
             onClick={() => {
-              // console.log(JSON.stringify(tree));
+              console.log(JSON.stringify(tree));
               notification.success({ message: "Exported to JSON", description: "You can find JSON from the Console now" });
             }}
           ><ExportOutlined />Export JSON</Menu.Item>

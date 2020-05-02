@@ -87,9 +87,9 @@ export default function App() {
         <Layout>
           <TopMenu />
           <TreeName />
-          <Content className="App">
+          {!UI.questionnaire && <Content className="App">
             <Tree />
-          </Content>
+          </Content>}
         </Layout>
         {UI.questionnaire && <Questionnaire flow={tree} />}
         {UI.shortcuts && <Shortcuts />}

@@ -1,13 +1,10 @@
-import React, {useState } from "react";
-import { UIContext } from '../Store';
+import React, { useState } from "react";
 import { Space, Input, Button, message, notification } from 'antd';
 import { MailOutlined } from '@ant-design/icons';
 import { resetPassword } from "../lib/parse";
 import "../styles.css";
 
 export default function Reset() {
-  const UI = React.useContext(UIContext);
-
   const [email, setEmail] = useState('');
 
   const handleReset = () => {

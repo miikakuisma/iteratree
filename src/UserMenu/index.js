@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { UIContext } from '../Store';
 import { Modal, Tabs } from 'antd';
 import Signup from "./Signup";
@@ -9,8 +9,7 @@ import "../styles.css";
 const { TabPane } = Tabs;
 
 export default function UserMenu() {
-  const UI = React.useContext(UIContext);
-
+  const UI = useContext(UIContext);
   return (
     <Modal
       title="User"
