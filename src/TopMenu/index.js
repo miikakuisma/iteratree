@@ -10,7 +10,7 @@ import "../styles.css";
 const { SubMenu } = Menu;
 const { confirm } = Modal;
 
-export default function TopMenu() {
+export default function TopMenu({ onEnterPreview, onExitPreview }) {
   const store = useContext(TreeContext);
   const UI = useContext(UIContext);
   const { tree } = store;
@@ -199,6 +199,7 @@ export default function TopMenu() {
           <Menu.Item
             key="setting:5"
             onClick={() => {
+              onEnterPreview();
               UI.setState({ ...UI.state, questionnaire: true });
             }}
           ><BranchesOutlined />Generate Questionnaire</Menu.Item>
@@ -294,6 +295,7 @@ export default function TopMenu() {
         style={{ position: 'absolute', right: '7px', top: '7px', zIndex: 999999 }}
         onClick={() => {
           UI.setState({ ...UI.state, questionnaire: false });
+          onExitPreview();
         }}
       >EXIT</Button>}
     </Menu>

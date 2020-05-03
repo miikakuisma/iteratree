@@ -25,6 +25,7 @@ export default function App() {
 
   const [tree, updateTree] = useState(storedTree || initialAppState);
   const [UI, updateUI] = useState(initialUIState);
+  const [mode, setMode] = useState('loading');
 
   // On launch
   useEffect(() => {
@@ -53,24 +54,32 @@ export default function App() {
           user: null
         });
       }
-    });
+    }, []);
 
     // Load Tree from given ?id= in the URL params
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const id = urlParams.get("id");
+    const questionnaire = urlParams.get("questionnaire");
     if (id) {
       loadTree({
         id,
         onSuccess: (response) => {
           // console.log(response)
           refresh(response[0].tree);
+          if (questionnaire) {
+            setMode("questionnaire");
+          } else {
+            setMode("editor");
+          }
         },
         onError: () => {
           // console.error(error);
           notification.error({ message: "Couldn't load Tree", description: "Maybe it was wrong ID...?" })
         }
       });
+    } else {
+      setMode("editor");
     }
   }, []);
 
@@ -85,13 +94,13 @@ export default function App() {
     <TreeContext.Provider value={{ tree, onRefresh: refresh }}>
       <UIContext.Provider value={{ state: UI, setState: updateUI }}>
         <Layout>
-          <TopMenu />
+          <TopMenu onEnterPreview={() => setMode("questionnaire")} onExitPreview={() => setMode("editor")} />
           <TreeName />
-          {!UI.questionnaire && <Content className="App">
+          {mode === "editor" &&<Content className="App">
             <Tree />
           </Content>}
         </Layout>
-        {UI.questionnaire && <Questionnaire flow={tree} />}
+        {mode === "questionnaire" && <Questionnaire flow={tree} />}
         {UI.shortcuts && <Shortcuts />}
         {UI.userModal && <UserMenu />}
       </UIContext.Provider>
