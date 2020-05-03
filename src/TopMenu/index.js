@@ -75,6 +75,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
         // Let's update the saved Tree so that the ID that just got generated during saving gets saved to the data
         updateTree(store.tree);
         message.destroy();
+        window.location.reload();
       },
       onError: (response) => {
         notification.error({ message: "Cannot save", description: response });
@@ -158,6 +159,8 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
     }}
   >{item.name}</Menu.Item>);
 
+  const treeId = store.tree[0].root.id;
+
   const avatarImage = UI.state.user ? <img alt="gravatar" className="avatar" src={`https://gravatar.com/avatar/${md5(UI.state.user.email)}`} /> : <UserOutlined className="avatar" /> ;
 
   return (
@@ -187,14 +190,14 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
           ><FileAddOutlined />Save as New</Menu.Item>
           <Menu.Item
             key="setting:3"
-            disabled={!UI.state.user || (store.tree[0].root && store.tree[0].root.id === "")}
+            disabled={!UI.state.user || !treeId || treeId === ""}
             onClick={() => {
               updateTree(tree);
             }}
           ><ReloadOutlined />Update on Cloud</Menu.Item>
           <Menu.Item
             key="setting:4"
-            disabled={!UI.state.user || (store.tree[0].root && store.tree[0].root.id === "")}
+            disabled={!UI.state.user || !treeId || treeId === ""}
             onClick={() => {
               handleDeleteTree(tree[0].root.id);
             }}
