@@ -55,7 +55,7 @@ export default function App() {
           user: null
         });
       }
-    }, []);
+    });
 
     // Load Tree from given ?id= in the URL params
     const queryString = window.location.search;
