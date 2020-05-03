@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import { Zoomer } from './lib'
 import './Questionnaire.css'
 
+const propTypes = {
+  isVisible: PropTypes.bool.isRequired
+}
+
 class Switcher extends React.Component {
   
-  static propTypes = {
-    isVisible: PropTypes.bool.isRequired
-  }
-
   render() {
     const { isVisible } = this.props
     return (
@@ -18,4 +18,5 @@ class Switcher extends React.Component {
   }
 }
 
+Switcher.propTypes = propTypes;
 export default Switcher;
