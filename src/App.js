@@ -8,6 +8,7 @@ import TreeName from "./TopMenu/TreeName";
 import Tree from "./Tree/";
 import Questionnaire from "./Questionnaire";
 import Shortcuts from "./Shortcuts";
+import ShowCode from "./ShowCode";
 import "./styles.css";
 
 const { Content } = Layout;
@@ -103,6 +104,7 @@ export default function App() {
         {mode === "questionnaire" && <Questionnaire flow={tree} />}
         {UI.shortcuts && <Shortcuts />}
         {UI.userModal && <UserMenu />}
+        {UI.codeModal && <ShowCode />}
       </UIContext.Provider>
     </TreeContext.Provider>
   );

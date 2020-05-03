@@ -1,16 +1,22 @@
 import React, { useContext } from "react";
+import PropTypes from "prop-types";
 import { TreeContext, UIContext } from '../Store';
 import { Menu, Modal, Button, notification, message } from 'antd';
-import { BranchesOutlined, ExclamationCircleOutlined, UserOutlined, ClearOutlined, FileAddOutlined, ReloadOutlined, DeleteOutlined, QuestionCircleOutlined, ExportOutlined } from '@ant-design/icons';
+import { BranchesOutlined, ExclamationCircleOutlined, UserOutlined, ClearOutlined, FileAddOutlined, ReloadOutlined, DeleteOutlined, QuestionCircleOutlined, ExportOutlined, QrcodeOutlined } from '@ant-design/icons';
 import { signOut, saveToDB, updateTreeInDB, loadTree, deleteTree, getMyTrees } from "../lib/parse";
 import { happy, feedback, setPlanning, week } from './Examples';
 import md5 from "md5";
 import "../styles.css";
 
+const propTypes = {
+  onEnterPreview: PropTypes.func,
+  onExitPreview: PropTypes.func,
+};
+
 const { SubMenu } = Menu;
 const { confirm } = Modal;
 
-export default function TopMenu({ onEnterPreview, onExitPreview }) {
+function TopMenu({ onEnterPreview, onExitPreview }) {
   const store = useContext(TreeContext);
   const UI = useContext(UIContext);
   const { tree } = store;
@@ -202,19 +208,27 @@ export default function TopMenu({ onEnterPreview, onExitPreview }) {
               onEnterPreview();
               UI.setState({ ...UI.state, questionnaire: true });
             }}
-          ><BranchesOutlined />Generate Questionnaire</Menu.Item>
+          ><BranchesOutlined />View as Questionnaire</Menu.Item>
           <Menu.Item
             key="setting:6"
             onClick={() => {
+              // eslint-disable-next-line no-console
               console.log(JSON.stringify(tree));
               notification.success({ message: "Exported to JSON", description: "You can find JSON from the Console now" });
             }}
           ><ExportOutlined />Export JSON</Menu.Item>
+          <Menu.Item
+            key="setting:7"
+            disabled={!UI.state.user || (store.tree[0].root && store.tree[0].root.id === "")}
+            onClick={() => {
+              UI.setState({ ...UI.state, codeModal: true });
+            }}
+          ><QrcodeOutlined />Get QR-Code</Menu.Item>
         </Menu.ItemGroup>
 
         <Menu.ItemGroup title="Help">
           <Menu.Item
-            key="setting:7"
+            key="setting:8"
             onClick={() => {
               UI.setState({ ...UI.state, shortcuts: true });
             }}
@@ -301,3 +315,6 @@ export default function TopMenu({ onEnterPreview, onExitPreview }) {
     </Menu>
   );
 }
+
+TopMenu.propTypes = propTypes;
+export default TopMenu;

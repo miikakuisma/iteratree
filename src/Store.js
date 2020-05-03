@@ -9,6 +9,7 @@ export const initialUIState = {
   questionnaire: false,
   shortcuts: false,
   userModal: false,
+  codeModal: false,
   loggedIn: false,
   user: null,
   myTrees: []
