@@ -82,7 +82,7 @@ export default function App() {
     } else {
       setMode("editor");
     }
-  });
+  }, []);
 
   // Generic Tree refreshing function that forces re-rendering
   function refresh(loadNewTree) {
