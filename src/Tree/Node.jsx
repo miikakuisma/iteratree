@@ -10,6 +10,7 @@ const propTypes = {
   isEditing: PropTypes.bool,
   isPreviewingRemove: PropTypes.bool,
   isSelected: PropTypes.bool,
+  keyboardListenerDisabled: PropTypes.bool,
   onRemoveNode: PropTypes.func.isRequired,
   onUpdateNode: PropTypes.func.isRequired,
   onSelectNode: PropTypes.func,
@@ -38,6 +39,9 @@ class Node extends React.Component {
   }
 
   handleKeyDown(e) {
+    if (this.props.keyboardListenerDisabled) {
+      return
+    }
     const { node, isEditing, onStartEditing, isPreviewingRemove, onRemoveNode } = this.props;
     if (e.key === "Enter" && node.selected && !isEditing && !isPreviewingRemove) {
       this.setState({
@@ -104,6 +108,9 @@ class Node extends React.Component {
     };
 
     const handleKeyUp = e => {
+      if (this.props.keyboardListenerDisabled) {
+        return;
+      }
       if (!this.state.isPressingEnter) {
         if (e.key === "Enter") {
           this.saveTitle();
