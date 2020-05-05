@@ -21,7 +21,6 @@ function BigButton({ label, nodeId, disabled, onPressed }) {
   const handleClick = () => {
     traverse(store.tree[0]).forEach(function(node) {
       if (typeof node === "object" && node.id === nodeId) {
-        // console.log("FOUND", node);
         node.clicks = 1;
         store.onRefresh();
       }

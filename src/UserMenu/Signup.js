@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 import { Space, Input, Button, notification, message } from 'antd';
 import { signUp } from "../lib/parse";
+import { logger } from "./helpers";
 import "../styles.css";
 
 export default function Signup() {
@@ -25,7 +26,6 @@ export default function Signup() {
       password,
       email,
       onSuccess: () => {
-        // console.log(response)
         window.location.reload();
         message.destroy();
         notification.success({ message: 'Welcome!' })

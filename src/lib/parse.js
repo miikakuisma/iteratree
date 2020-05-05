@@ -1,3 +1,5 @@
+import { logger } from "./helpers";
+
 // eslint-disable-next-line no-undef
 const Parse = require("parse");
 Parse.serverURL = "https://parseapi.back4app.com";
@@ -7,6 +9,7 @@ Parse.initialize(
 );
 
 export function getCurrentUser({ onSuccess, onError }) {
+  logger('API Request (getCurrentUser)');
   const User = new Parse.User();
   const query = new Parse.Query(User);
   const currentUser = Parse.User.current();
@@ -17,7 +20,7 @@ export function getCurrentUser({ onSuccess, onError }) {
   query.get(currentUser.id).then((user) => {
     if (typeof document !== 'undefined') {
       const foundUser = JSON.stringify(user);
-      // console.log(JSON.parse(foundUser))
+      // logger(JSON.parse(foundUser))
       onSuccess(JSON.parse(foundUser));
     }
   }, (error) => {
@@ -28,15 +31,16 @@ export function getCurrentUser({ onSuccess, onError }) {
 }
 
 export function signIn({ username, password, onSuccess, onError }) {
+  logger('API Request (signIn)');
   Parse.User.logIn(username, password).then(function(user) {
-    // console.log('User logged in: ' + user.get("username") + ' and email: ' + user.get("email"));
+    // logger('User logged in: ' + user.get("username") + ' and email: ' + user.get("email"));
     onSuccess({
       username: user.get("username"),
       email: user.get("email"),
       payload: user
     });
   }).catch(function(error){
-    // console.log("Error: " + error.code + " " + error.message);
+    // logger("Error: " + error.code + " " + error.message);
     onError(error.message);
   });
 }
@@ -47,23 +51,25 @@ export function signOut() {
 }
 
 export function signUp({ username, password, email, onSuccess, onError }) {
+  logger('API Request (signUp)');
   var user = new Parse.User();
   user.set("username", username);
   user.set("password", password);
   user.set("email", email);
   user.signUp().then(function(user) {
-      // console.log('User created successful with name: ' + user.get("username") + ' and email: ' + user.get("email"));
+      // logger('User created successful with name: ' + user.get("username") + ' and email: ' + user.get("email"));
       onSuccess({
         username: user.get("username"),
         email: user.get("email"),
       });
   }).catch(function(error){
-      // console.log("Error: " + error.code + " " + error.message);
+      // logger("Error: " + error.code + " " + error.message);
       onError(error);
   });
 }
 
 export function resetPassword({ email, onSuccess, onError  }) {
+  logger('API Request (resetPassword)');
   Parse.User.requestPasswordReset(email).then(function() {
     onSuccess("Password reset request was sent successfully");
   }).catch(function(error) {
@@ -72,6 +78,7 @@ export function resetPassword({ email, onSuccess, onError  }) {
 }
 
 export function saveToDB({ tree, onSuccess, onError }) {
+  logger('API Request (save)');
   const currentUser = Parse.User.current();
   if (!currentUser) {
     onError("You must be signed in first");
@@ -101,6 +108,7 @@ export function saveToDB({ tree, onSuccess, onError }) {
 }
 
 export function updateTreeInDB({ tree, onSuccess, onError }) {
+  logger('API Request (update)');
   const TreeClass = Parse.Object.extend('Tree');
   const query = new Parse.Query(TreeClass);
 
@@ -127,13 +135,13 @@ export function getMyTrees({ onSuccess, onError }) {
     onError("Log in first");
     return false;
   }
-
+  logger('API Request (get)');
   const TreeClass = Parse.Object.extend('Tree');
   const query = new Parse.Query(TreeClass);
   query.equalTo("owner", currentUser.id);
   query.find().then((results) => {
     if (typeof document !== 'undefined') {
-      // console.log(JSON.parse(JSON.stringify(results)))
+      // logger(JSON.parse(JSON.stringify(results)))
       onSuccess(JSON.parse(JSON.stringify(results)));
     }
   }, (error) => {
@@ -144,12 +152,13 @@ export function getMyTrees({ onSuccess, onError }) {
 }
 
 export function loadTree({ id, onSuccess, onError }) {
+  logger('API Request (load)');
   const TreeClass = Parse.Object.extend('Tree');
   const query = new Parse.Query(TreeClass);
   query.equalTo("objectId", id);
   query.find().then((results) => {
     if (typeof document !== 'undefined') {
-      // console.log(JSON.parse(JSON.stringify(results)))
+      // logger(JSON.parse(JSON.stringify(results)))
       onSuccess(JSON.parse(JSON.stringify(results)));
     }
   }, (error) => {
@@ -160,11 +169,12 @@ export function loadTree({ id, onSuccess, onError }) {
 }
 
 export function deleteTree({ id, onSuccess, onError }) {
+  logger('API Request (delete)');
   const TreeClass = Parse.Object.extend('Tree');
   const query = new Parse.Query(TreeClass);
   query.get(id).then((object) => {
     object.destroy().then(() => {
-      // console.log(response)
+      // logger(response)
       onSuccess(`Tree ${id} was deleted`);
     }, () => {
       onError("Couldn't delete that Tree");

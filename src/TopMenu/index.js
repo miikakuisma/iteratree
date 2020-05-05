@@ -4,6 +4,7 @@ import { TreeContext, UIContext } from '../Store';
 import { Menu, Modal, Button, notification, message } from 'antd';
 import { BranchesOutlined, ExclamationCircleOutlined, UserOutlined, ClearOutlined, FileAddOutlined, ReloadOutlined, DeleteOutlined, QuestionCircleOutlined, ExportOutlined, QrcodeOutlined } from '@ant-design/icons';
 import { signOut, saveToDB, updateTreeInDB, loadTree, deleteTree, getMyTrees } from "../lib/parse";
+import { logger } from "./helpers";
 import { happy, feedback, setPlanning, week } from './Examples';
 import md5 from "md5";
 import "../styles.css";
@@ -66,8 +67,8 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
     saveToDB({
       tree,
       onSuccess: (response) => {
-        // console.log("NEW TREE", response);
-        // console.log(store.tree[0])
+        // logger("NEW TREE", response);
+        // logger(store.tree[0])
         store.tree[0].root.id = response.objectId;
         store.onRefresh();
         notification.success({ message: "Saved to Cloud" });
@@ -80,7 +81,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
       onError: (response) => {
         notification.error({ message: "Cannot save", description: response });
         message.destroy();
-        // console.log('ERROR', response)
+        // logger('ERROR', response)
       }
     });
   }
@@ -117,7 +118,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
           onError: (response) => {
             notification.error({ message: "Cannot delete", description: response });
             message.destroy();
-            // console.log('ERROR', response);
+            // logger('ERROR', response);
           }
         })
       },
@@ -135,7 +136,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
         loadTree({
           id,
           onSuccess: (response) => {
-            // console.log(response);
+            // logger(response);
             store.onRefresh(response[0].tree);
             message.destroy();
           },
@@ -216,7 +217,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
             key="setting:6"
             onClick={() => {
               // eslint-disable-next-line no-console
-              console.log(JSON.stringify(tree));
+              logger(JSON.stringify(tree));
               notification.success({ message: "Exported to JSON", description: "You can find JSON from the Console now" });
             }}
           ><ExportOutlined />Export JSON</Menu.Item>

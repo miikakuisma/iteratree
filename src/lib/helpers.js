@@ -1,3 +1,11 @@
+import process from "process";
+
+export function logger(msg) {
+  if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+    // eslint-disable-next-line no-console
+    console.log(msg);
+  }
+}
 
 export function arrayMove(arr, old_index, new_index) {
   if (new_index >= arr.length) {
