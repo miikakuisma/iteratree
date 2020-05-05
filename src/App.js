@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { TreeContext, UIContext, initialAppState, initialUIState } from './Store';
 import { Layout, notification } from 'antd';
 import { getCurrentUser, getMyTrees, loadTree } from "./lib/parse";
-import { logger } from "./helpers";
+import { logger } from "./lib/helpers";
 import TopMenu from "./TopMenu/";
 import UserMenu from "./UserMenu/";
 import TreeName from "./TopMenu/TreeName";
@@ -75,7 +75,7 @@ export default function App() {
             setMode("editor");
           }
         },
-        onError: () => {
+        onError: (error) => {
           logger(error);
           notification.error({ message: "Couldn't load Tree", description: "Maybe it was wrong ID...?" })
         }

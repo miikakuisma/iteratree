@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 import { Space, Input, Button, notification, message } from 'antd';
 import { signUp } from "../lib/parse";
-import { logger } from "./helpers";
 import "../styles.css";
 
 export default function Signup() {
