@@ -313,17 +313,17 @@ function Tree() {
         }}
         onRemoveNode={() => {
           if (!isAskingToConfirm) {
-            deleteNode(node);
+            deleteNode(selectedNode);
           }
         }}
         onCopyNode={() => {
           if (!isAskingToConfirm && !isEditing) {
-            copyNode(node);
+            copyNode(selectedNode);
           }
         }}
         onPasteNode={() => {
           if (!isAskingToConfirm && !isEditing) {
-            pasteNode(node);
+            pasteNode(selectedNode);
           }
         }}
         onUpdateNode={(key, value) => {
@@ -334,7 +334,7 @@ function Tree() {
         }}
         onStartEditing={() => {
           if (!isAskingToConfirm) {
-            setEditing(node.id);
+            setEditing(selectedNode.id);
           }
         }}
         onCancelEditing={() => {
