@@ -330,7 +330,6 @@ function Tree() {
           node[key] = value;
           onRefresh();
           setEditing(null);
-          // unselectAll();
         }}
         onStartEditing={() => {
           if (!isAskingToConfirm) {
@@ -342,7 +341,7 @@ function Tree() {
         }}
         onAddNode={() => {
           if (!isAskingToConfirm) {
-            addNode(node);
+            addNode(selectedNode);
           }
         }}
       />
