@@ -253,7 +253,7 @@ function Tree() {
       if (node.id === 0) {
         return;
       }
-      if (node.options && node.options.length > 1) {
+      if (node.options) {
         // If deleting more than one nodes, ask for confirmation
         setAskingConfirm(true);
         confirm({

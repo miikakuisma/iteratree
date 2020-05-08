@@ -43,12 +43,17 @@ class Node extends React.Component {
       return
     }
     const { node, isEditing, onStartEditing, isPreviewingRemove, onRemoveNode } = this.props;
-    if (e.key === "Enter" && node.selected && !isEditing && !isPreviewingRemove) {
-      this.setState({
-        isHovering: false,
-        isPressingEnter: true,
-      });
-      onStartEditing();
+    if (e.key === "Enter" && node.selected && !isPreviewingRemove) {
+      if (!isEditing) {
+        this.setState({
+          isHovering: false,
+          isPressingEnter: true,
+        });
+        onStartEditing();  
+      }
+      if (isEditing) {
+        this.saveTitle();
+      }
     }
     if (e.key === "Backspace" && node.selected && !isEditing) {
       onRemoveNode();
@@ -112,9 +117,6 @@ class Node extends React.Component {
         return;
       }
       if (!this.state.isPressingEnter) {
-        if (e.key === "Enter") {
-          this.saveTitle();
-        }
         if (e.key === "Escape") {
           onCancelEditing();
         }
