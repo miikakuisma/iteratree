@@ -70,6 +70,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
         // logger("NEW TREE", response);
         // logger(store.tree[0])
         store.tree[0].root.id = response.objectId;
+        store.tree[0].root.author = UI.state.user.objectId;
         store.onRefresh();
         notification.success({ message: "Saved to Cloud" });
         refreshMenu();
