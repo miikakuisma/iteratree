@@ -31,6 +31,7 @@ export default function App() {
 
   // On launch
   useEffect(() => {
+    updateUI({ ...UI, loading: true });
     // Fetch user data
     getCurrentUser({
       onSuccess: (response) => {
@@ -39,6 +40,7 @@ export default function App() {
           onSuccess: (response2) => {
             updateUI({
               ...UI,
+              loading: false,
               loggedIn: true,
               user: response,
               myTrees: response2

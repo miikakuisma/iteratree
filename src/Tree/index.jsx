@@ -131,7 +131,7 @@ function Tree() {
     if (select) {
       unselectAll();
     }
-    if (node.options) {
+    if (node.options && node.options.length > 0) {
       node.options.push({
         id: Date.now(),
         title: "New",
@@ -318,12 +318,12 @@ function Tree() {
         }}
         onCopyNode={() => {
           if (!isAskingToConfirm && !isEditing) {
-            copyNode(selectedNode);
+            copyNode(node);
           }
         }}
         onPasteNode={() => {
           if (!isAskingToConfirm && !isEditing) {
-            pasteNode(selectedNode);
+            pasteNode(node);
           }
         }}
         onUpdateNode={(key, value) => {
@@ -333,7 +333,7 @@ function Tree() {
         }}
         onStartEditing={() => {
           if (!isAskingToConfirm) {
-            setEditing(selectedNode.id);
+            setEditing(node.id);
           }
         }}
         onCancelEditing={() => {
@@ -341,7 +341,7 @@ function Tree() {
         }}
         onAddNode={() => {
           if (!isAskingToConfirm) {
-            addNode(selectedNode);
+            addNode(node);
           }
         }}
       />
@@ -361,6 +361,7 @@ function Tree() {
         break;
       case "delete":
         deleteNode(selectedNode);
+        unselectAll();
         break;
       default:
         break;

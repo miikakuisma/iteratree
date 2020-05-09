@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { TreeContext, UIContext } from '../Store';
 import { Menu, Modal, Button, notification, message } from 'antd';
-import { BranchesOutlined, ExclamationCircleOutlined, UserOutlined, ClearOutlined, FileAddOutlined, ReloadOutlined, DeleteOutlined, QuestionCircleOutlined, ExportOutlined, QrcodeOutlined } from '@ant-design/icons';
+import { BranchesOutlined, ExclamationCircleOutlined, UserOutlined, ClearOutlined, FileAddOutlined, ReloadOutlined, DeleteOutlined, QuestionCircleOutlined, ExportOutlined, QrcodeOutlined, LoadingOutlined } from '@ant-design/icons';
 import { signOut, saveToDB, updateTreeInDB, loadTree, deleteTree, getMyTrees } from "../lib/parse";
 import { logger } from "../lib/helpers";
 import { happy, feedback, setPlanning, week } from './Examples';
@@ -151,7 +151,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
     });
   }
 
-  const myTrees = UI.state.myTrees;
+  const { myTrees, loading } = UI.state;
 
   const myTreeList = myTrees && myTrees.map((item, index) => <Menu.Item
     key={`setting:${index}`}
@@ -289,7 +289,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
         className="usermenu"
         title={
           <span className="submenu-title-wrapper">
-            {UI.state.user ? avatarImage : <span style={{ marginRight: '10px' }}>Account</span>}
+            {UI.state.user ? avatarImage : (loading ? <LoadingOutlined width={30} height={30} className="avatar" /> : <span style={{ marginRight: '10px' }}>Account</span>)}
           </span>
         }
       >
