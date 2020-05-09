@@ -79,8 +79,10 @@ function Tree() {
         break;
       // PASTE
       case "v":
-        if (e.metaKey || e.ctrlKey) {
-          getSelectedNode((node) => pasteNode(node));
+        if (isEditing === null) {
+          if (e.metaKey || e.ctrlKey) {
+            getSelectedNode((node) => pasteNode(node));
+          }
         }
         break;
       // MOVE and SELECT
@@ -235,12 +237,11 @@ function Tree() {
   // }
 
   function deleteNode(node) {
+    const { confirm } = Modal;
     if (node.id === 0) {
       message.error(`Cannot delete root node`);
       return
     }
-    setPreviewDeleteNode(node.id);
-    const { confirm } = Modal;
     if (isDeleting) {
       traverse(tree).forEach(function(x) {
         if (x === node) {
@@ -253,6 +254,7 @@ function Tree() {
       if (node.id === 0) {
         return;
       }
+      setPreviewDeleteNode(node.id);
       if (node.options) {
         // If deleting more than one nodes, ask for confirmation
         setAskingConfirm(true);
