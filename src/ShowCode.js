@@ -22,6 +22,7 @@ export default function ShowCode() {
         link.download = `Questionnaire - ${store.tree[0].root.name}.jpg`;
         link.href = dataUrl;
         link.click();
+        UI.setState({ codeModal: false });
     });
   }
 
@@ -35,7 +36,6 @@ export default function ShowCode() {
       okText='Download'
       onOk={() => {
         handleDownload();
-        UI.setState({ codeModal: false });
       }}
       onCancel={() => {
         UI.setState({ codeModal: false });
