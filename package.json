@@ -6,6 +6,7 @@
   "main": "src/index.js",
   "dependencies": {
     "antd": "^4.1.2",
+    "dom-to-image": "^2.6.0",
     "md5": "^2.2.1",
     "parse": "^2.13.0",
     "react": "16.12.0",

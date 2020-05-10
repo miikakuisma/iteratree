@@ -43,13 +43,13 @@ function Tree() {
       if (typeof x === 'object') {
         if (x === node) {
           if (x.selected) {
-            x.selected = false;
+            delete x.selected
             setSelectedNode(null);
           } else {
             x.selected = true;
           }
         } else {
-          x.selected = false;
+          delete x.selected
         }  
       }
     });
@@ -59,7 +59,7 @@ function Tree() {
   function unselectAll() {
     traverse(tree).forEach(function(x) {
       if (typeof x === 'object') {
-        x.selected = false;
+        delete x.selected
       }
     });
     setSelectedNode(null);
