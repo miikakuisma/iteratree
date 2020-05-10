@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { TreeContext, UIContext } from '../Store';
 import { Menu, Modal, Button, notification, message } from 'antd';
-import { BranchesOutlined, ExclamationCircleOutlined, UserOutlined, ClearOutlined, FileAddOutlined, ReloadOutlined, DeleteOutlined, QuestionCircleOutlined, ExportOutlined, QrcodeOutlined, LoadingOutlined } from '@ant-design/icons';
+import { BranchesOutlined, ExclamationCircleOutlined, UserOutlined, ClearOutlined, FileAddOutlined, ReloadOutlined, DeleteOutlined, QuestionCircleOutlined, ExportOutlined, QrcodeOutlined, LoadingOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { signOut, saveToDB, updateTreeInDB, loadTree, deleteTree, getMyTrees } from "../lib/parse";
 import { logger } from "../lib/helpers";
 import { happy, feedback, setPlanning, week } from './Examples';
@@ -189,33 +189,26 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
             onClick={() => {
               saveAs(tree);
             }}
-          ><FileAddOutlined />Save as New</Menu.Item>
+          ><FileAddOutlined />Save as</Menu.Item>
           <Menu.Item
             key="setting:3"
             disabled={!UI.state.user || !treeId || treeId === ""}
             onClick={() => {
               updateTree(tree);
             }}
-          ><ReloadOutlined />Update on Cloud</Menu.Item>
+          ><ReloadOutlined />Save</Menu.Item>
           <Menu.Item
             key="setting:4"
             disabled={!UI.state.user || !treeId || treeId === ""}
             onClick={() => {
               handleDeleteTree(tree[0].root.id);
             }}
-          ><DeleteOutlined />Delete from Cloud</Menu.Item>
+          ><DeleteOutlined />Delete</Menu.Item>
         </Menu.ItemGroup>
 
         <Menu.ItemGroup title="Export">
           <Menu.Item
             key="setting:5"
-            onClick={() => {
-              onEnterPreview();
-              UI.setState({ ...UI.state, questionnaire: true });
-            }}
-          ><BranchesOutlined />View as Questionnaire</Menu.Item>
-          <Menu.Item
-            key="setting:6"
             onClick={() => {
               // eslint-disable-next-line no-console
               logger(JSON.stringify(tree));
@@ -223,8 +216,30 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
             }}
           ><ExportOutlined />Export JSON</Menu.Item>
           <Menu.Item
+            key="setting:6"
+            disabled={!UI.state.user || (treeId === "")}
+            onClick={() => {
+              navigator.clipboard.writeText(`https://iteratree.com/?id=${treeId}`);
+              notification.success({
+                duration: 0,
+                message: "Share Link Copied!",
+                description: `https://iteratree.com/?id=${treeId}`
+              });              
+            }}
+          ><ShareAltOutlined />Share</Menu.Item>
+        </Menu.ItemGroup>
+
+        <Menu.ItemGroup title="Questionnaire">
+          <Menu.Item
             key="setting:7"
-            disabled={!UI.state.user || (store.tree[0].root && store.tree[0].root.id === "")}
+            onClick={() => {
+              onEnterPreview();
+              UI.setState({ ...UI.state, questionnaire: true });
+            }}
+          ><BranchesOutlined />Preview</Menu.Item>
+          <Menu.Item
+            key="setting:8"
+            disabled={!UI.state.user || (treeId === "")}
             onClick={() => {
               UI.setState({ ...UI.state, codeModal: true });
             }}
@@ -233,7 +248,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
 
         <Menu.ItemGroup title="Help">
           <Menu.Item
-            key="setting:8"
+            key="setting:9"
             onClick={() => {
               UI.setState({ ...UI.state, shortcuts: true });
             }}
