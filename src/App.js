@@ -70,7 +70,7 @@ export default function App() {
         id,
         onSuccess: (response) => {
           logger(response)
-          refresh(response[0].tree);
+          refreshTree(response[0].tree);
           if (questionnaire) {
             setMode("questionnaire");
           } else {
@@ -88,15 +88,22 @@ export default function App() {
   }, []);
 
   // Generic Tree refreshing function that forces re-rendering
-  function refresh(loadNewTree) {
+  function refreshTree(loadNewTree) {
     let newTree = JSON.stringify(loadNewTree) || JSON.stringify(tree);
     updateTree(JSON.parse(newTree));
     window.localStorage.setItem("tree", JSON.stringify(tree));
   }
 
+  function refreshUI(newState) {
+    updateUI({
+      ...UI,
+      ...newState      
+    });
+  }
+
   return (
-    <TreeContext.Provider value={{ tree, onRefresh: refresh }}>
-      <UIContext.Provider value={{ state: UI, setState: updateUI }}>
+    <TreeContext.Provider value={{ tree, onRefresh: refreshTree }}>
+      <UIContext.Provider value={{ state: UI, setState: refreshUI }}>
         <Layout>
           <TopMenu onEnterPreview={() => setMode("questionnaire")} onExitPreview={() => setMode("editor")} />
           <TreeName />

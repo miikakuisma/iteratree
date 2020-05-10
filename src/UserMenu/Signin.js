@@ -20,7 +20,6 @@ export default function Signin() {
         getMyTrees({
           onSuccess: (response2) => {
             UI.setState({
-              ...UI.state, 
               loggedIn: true,
               user: response,
               userModal: false,
@@ -36,7 +35,6 @@ export default function Signin() {
       },
       onError: () => {
         UI.setState({
-          ...UI.state, 
           loggedIn: false,
           user: null
         });

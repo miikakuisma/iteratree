@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { TreeContext, UIContext } from '../Store';
 import { Menu, Modal, Button, notification, message } from 'antd';
-import { BranchesOutlined, ExclamationCircleOutlined, UserOutlined, ClearOutlined, FileAddOutlined, ReloadOutlined, DeleteOutlined, QuestionCircleOutlined, ExportOutlined, QrcodeOutlined, LoadingOutlined, ShareAltOutlined } from '@ant-design/icons';
+import { BranchesOutlined, ExclamationCircleOutlined, UserOutlined, ClearOutlined, FileAddOutlined, DeleteOutlined, QuestionCircleOutlined, ExportOutlined, QrcodeOutlined, LoadingOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { signOut, saveToDB, updateTreeInDB, loadTree, deleteTree, getMyTrees } from "../lib/parse";
 import { logger } from "../lib/helpers";
 import { happy, feedback, setPlanning, week } from './Examples';
@@ -21,8 +21,22 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
   const store = useContext(TreeContext);
   const UI = useContext(UIContext);
   const { tree } = store;
+  const { user, loggedIn, myTrees, loading } = UI.state;
+
+  const userLoggedIn = user && loggedIn;
+  const avatarImage = UI.state.user ? <img alt="gravatar" className="avatar" src={`https://gravatar.com/avatar/${md5(UI.state.user.email)}`} /> : <UserOutlined className="avatar" /> ;
+
+  const treeId = store.tree[0].root.id;
+
+  const myTreeList = myTrees && myTrees.map((item, index) => <Menu.Item
+    key={`setting:${index}`}
+    onClick={() => {
+      fetchTree(item.objectId);
+    }}
+  >{item.name}</Menu.Item>);
 
   function reset() {
+    UI.setState({ modalOpen: true });
     confirm({
       title: 'Do you want to start over?',
       icon: <ExclamationCircleOutlined />,
@@ -31,7 +45,9 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
         window.localStorage.removeItem('tree');
         window.location.reload();
       },
-      onCancel() {},
+      onCancel() {
+        UI.setState({ modalOpen: false });
+      },
     });
   }
 
@@ -40,7 +56,6 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
     getMyTrees({
       onSuccess: (response2) => {
         UI.setState({
-          ...UI,
           myTrees: response2
         });
       },
@@ -51,14 +66,18 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
   }
 
   function load(tree) {
+    UI.setState({ modalOpen: true });
     confirm({
       title: 'Unsaved changes will be lost',
       icon: <ExclamationCircleOutlined />,
-      content: 'Are you sure you want to open this tutorial?',
+      content: 'Are you sure you want to open this project?',
       onOk() {
+        UI.setState({ modalOpen: false });
         store.onRefresh(tree);
       },
-      onCancel() {},
+      onCancel() {
+        UI.setState({ modalOpen: false });
+      },
     });
   }
 
@@ -102,11 +121,13 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
   }
 
   function handleDeleteTree(id) {
+    UI.setState({ modalOpen: true });
     confirm({
       title: 'Delete this tree?',
       icon: <ExclamationCircleOutlined />,
       content: 'There is no way to undo',
       onOk() {
+        UI.setState({ modalOpen: false });
         message.loading('Deleting tree..');
         deleteTree({
           id,
@@ -123,16 +144,20 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
           }
         })
       },
-      onCancel() {},
+      onCancel() {
+        UI.setState({ modalOpen: false });
+      },
     });
   }
 
   function fetchTree(id) {
+    UI.setState({ modalOpen: true });
     confirm({
       title: 'Unsaved changes will be lost',
       icon: <ExclamationCircleOutlined />,
       content: 'Are you sure you want to open that?',
       onOk() {
+        UI.setState({ modalOpen: false });
         message.loading('Loading tree..');
         loadTree({
           id,
@@ -148,22 +173,11 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
           }
         });
       },
-      onCancel() {},
+      onCancel() {
+        UI.setState({ modalOpen: false });
+      },
     });
   }
-
-  const { myTrees, loading } = UI.state;
-
-  const myTreeList = myTrees && myTrees.map((item, index) => <Menu.Item
-    key={`setting:${index}`}
-    onClick={() => {
-      fetchTree(item.objectId);
-    }}
-  >{item.name}</Menu.Item>);
-
-  const treeId = store.tree[0].root.id;
-
-  const avatarImage = UI.state.user ? <img alt="gravatar" className="avatar" src={`https://gravatar.com/avatar/${md5(UI.state.user.email)}`} /> : <UserOutlined className="avatar" /> ;
 
   return (
     <Menu mode="horizontal" selectable={false}>
@@ -185,21 +199,18 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
             }}
           ><ClearOutlined />New</Menu.Item>
           <Menu.Item
-            key="setting:2"
-            onClick={() => {
-              saveAs(tree);
-            }}
-          ><FileAddOutlined />Save as</Menu.Item>
-          <Menu.Item
             key="setting:3"
-            disabled={!UI.state.user || !treeId || treeId === ""}
             onClick={() => {
-              updateTree(tree);
+              if (!userLoggedIn || !treeId || treeId === "") {
+                saveAs(tree);
+              } else {
+                updateTree(tree);
+              }
             }}
-          ><ReloadOutlined />Save</Menu.Item>
+          ><FileAddOutlined />Save</Menu.Item>
           <Menu.Item
             key="setting:4"
-            disabled={!UI.state.user || !treeId || treeId === ""}
+            disabled={!userLoggedIn || !treeId || treeId === ""}
             onClick={() => {
               handleDeleteTree(tree[0].root.id);
             }}
@@ -217,7 +228,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
           ><ExportOutlined />Export JSON</Menu.Item>
           <Menu.Item
             key="setting:6"
-            disabled={!UI.state.user || (treeId === "")}
+            disabled={!userLoggedIn || (treeId === "")}
             onClick={() => {
               navigator.clipboard.writeText(`https://iteratree.com/?id=${treeId}`);
               notification.success({
@@ -234,14 +245,14 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
             key="setting:7"
             onClick={() => {
               onEnterPreview();
-              UI.setState({ ...UI.state, questionnaire: true });
+              UI.setState({ questionnaire: true });
             }}
           ><BranchesOutlined />Preview</Menu.Item>
           <Menu.Item
             key="setting:8"
-            disabled={!UI.state.user || (treeId === "")}
+            disabled={!userLoggedIn || (treeId === "")}
             onClick={() => {
-              UI.setState({ ...UI.state, codeModal: true });
+              UI.setState({ codeModal: true });
             }}
           ><QrcodeOutlined />Get QR-Code</Menu.Item>
         </Menu.ItemGroup>
@@ -250,7 +261,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
           <Menu.Item
             key="setting:9"
             onClick={() => {
-              UI.setState({ ...UI.state, shortcuts: true });
+              UI.setState({ shortcuts: true });
             }}
           ><QuestionCircleOutlined />Keyboard Shortcuts</Menu.Item>
         </Menu.ItemGroup>
@@ -313,7 +324,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
           key="setting:1"
           disabled={UI.state.loggedIn}
           onClick={() => {
-            UI.setState({ ...UI.state, userModal: true });
+            UI.setState({ userModal: true });
           }}
         >Sign-In / Sign-Up</Menu.Item>
         <Menu.Item
@@ -328,7 +339,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
         type="primary"
         style={{ position: 'absolute', right: '7px', top: '7px', zIndex: 999999 }}
         onClick={() => {
-          UI.setState({ ...UI.state, questionnaire: false });
+          UI.setState({ questionnaire: false });
           onExitPreview();
         }}
       >EXIT</Button>}

@@ -44,7 +44,7 @@ export default function Shortcuts() {
       visible={true}
       closable={false}
       cancelButtonProps={{ disabled: true }}
-      onOk={() => { UI.setState({ ...UI.state, shortcuts: false }) }}
+      onOk={() => { UI.setState({ shortcuts: false }) }}
     >
       <List
         // itemLayout="horizontal"

@@ -306,7 +306,7 @@ function Tree() {
         node={node}
         subNodes={subNodes}
         pasteEnabled={clipboard !== null}
-        keyboardListenerDisabled={isAskingToConfirm || UI.state.userModal}
+        keyboardListenerDisabled={isAskingToConfirm || UI.state.modalOpen}
         isEditing={isEditing === node.id}
         isPreviewingRemove={previewDeleteNode === node.id}
         isSelected={node.selected}

@@ -9,6 +9,7 @@ export const initialUIState = {
   loading: false,
   questionnaire: false,
   shortcuts: false,
+  modalOpen: false,
   userModal: false,
   codeModal: false,
   loggedIn: false,

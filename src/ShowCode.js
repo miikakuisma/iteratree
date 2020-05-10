@@ -35,7 +35,10 @@ export default function ShowCode() {
       okText='Download'
       onOk={() => {
         handleDownload();
-        UI.setState({ ...UI.state, codeModal: false })
+        UI.setState({ codeModal: false });
+      }}
+      onCancel={() => {
+        UI.setState({ codeModal: false });
       }}
     >
       <div id="qr-code" onClick={handleDownload}>
