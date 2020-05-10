@@ -87,7 +87,6 @@ export default function App() {
     }
   }, []);
 
-  // Generic Tree refreshing function that forces re-rendering
   function refreshTree(loadNewTree) {
     let newTree = JSON.stringify(loadNewTree) || JSON.stringify(tree);
     updateTree(JSON.parse(newTree));
