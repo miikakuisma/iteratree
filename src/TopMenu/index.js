@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, Fragment } from "react";
 import PropTypes from "prop-types";
 import { TreeContext, UIContext } from '../Store';
 import { Menu, Modal, Button, notification, message } from 'antd';
@@ -335,14 +335,37 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
           }}
         >Sign Out</Menu.Item>
       </SubMenu>
-      {UI.state.questionnaire && <Button
-        type="primary"
-        style={{ position: 'absolute', right: '7px', top: '7px', zIndex: 999999 }}
-        onClick={() => {
-          UI.setState({ questionnaire: false });
-          onExitPreview();
-        }}
-      >EXIT</Button>}
+      {UI.state.questionnaire ?
+        <Fragment>
+          <Button
+            style={{ position: 'absolute', right: '8px', top: '8px', zIndex: 999999 }}
+            onClick={() => {
+              UI.setState({ questionnaire: false });
+              onExitPreview();
+            }}
+          >EXIT</Button>
+          <Button
+            type="primary"
+            style={{ position: 'absolute', right: '8px', top: '8px', zIndex: 999999 }}
+            onClick={() => {
+              UI.setState({
+                questionnaire: false,
+                codeModal: true
+              });
+              onExitPreview();
+            }}
+          >PUBLISH</Button>
+        </Fragment>
+        :
+        <Button
+          type="primary"
+          style={{ position: 'absolute', right: '45px', top: '8px', zIndex: 999999 }}
+          onClick={() => {
+            onEnterPreview();
+            UI.setState({ questionnaire: true });
+          }}
+        >PREVIEW</Button>
+      }
     </Menu>
   );
 }
