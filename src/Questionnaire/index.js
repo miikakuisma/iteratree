@@ -5,7 +5,10 @@ import Switcher from './Switcher'
 import './Questionnaire.css'
 
 const propTypes = {
-  flow: PropTypes.array,
+  flow: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object
+  ]),
   preview: PropTypes.bool,
   onAnswer: PropTypes.func,
 };
