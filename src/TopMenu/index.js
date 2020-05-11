@@ -347,6 +347,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
           <Button
             type="primary"
             style={{ position: 'absolute', right: '8px', top: '8px', zIndex: 999999 }}
+            disabled={!UI.state.loggedIn}
             onClick={() => {
               UI.setState({
                 questionnaire: false,
@@ -356,15 +357,15 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
             }}
           >PUBLISH</Button>
         </Fragment>
-        :
-        <Button
-          type="primary"
-          style={{ position: 'absolute', right: '45px', top: '8px', zIndex: 999999 }}
-          onClick={() => {
-            onEnterPreview();
-            UI.setState({ questionnaire: true });
-          }}
-        >PREVIEW</Button>
+        : null
+        // <Button
+        //   type="primary"
+        //   style={{ position: 'absolute', right: '45px', top: '8px', zIndex: 999999 }}
+        //   onClick={() => {
+        //     onEnterPreview();
+        //     UI.setState({ questionnaire: true });
+        //   }}
+        // >PREVIEW</Button>
       }
     </Menu>
   );
