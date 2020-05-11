@@ -387,16 +387,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
           >PUBLISH</Button>
         </Fragment>
         :
-        <Button
-          type="primary"
-          disabled={!userLoggedIn || (treeId === "")}
-          style={{ position: 'absolute', right: '45px', top: '8px', zIndex: 999999 }}
-          onClick={() => {
-            // onEnterPreview();
-            // UI.setState({ questionnaire: true });
-            UI.setState({ codeModal: true });
-          }}
-        >Publish</Button>
+        null
       }
     </Menu>
   );

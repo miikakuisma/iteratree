@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect, Fragment } from "react";
 import { TreeContext, UIContext } from '../Store';
-import { message, Modal } from 'antd';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { message, Modal, Button, Typography } from 'antd';
+import { ExclamationCircleOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { Sidebar } from './animations';
 import { arrayMove } from "../lib/helpers";
 import Node from "./Node";
 import Inspector from "./Inspector";
@@ -12,11 +13,15 @@ import "../styles.css";
 // eslint-disable-next-line no-undef
 const traverse = require("traverse");
 
+const { Text } = Typography;
+
 function Tree() {
   const store = useContext(TreeContext);
   const UI = useContext(UIContext);
-  const { tree } = store;
-  const { onRefresh } = store;
+  const { tree, onRefresh } = store;
+  const { sidebarOpen, userModal, modalOpen, user, loggedIn } = UI.state;
+  const userLoggedIn = user && loggedIn;
+  const treeId = tree[0].root.id;
 
   const [clipboard, setClipboard] = useState(null);
   const [selectedNode, setSelectedNode] = useState(null);
@@ -68,7 +73,7 @@ function Tree() {
   }
 
   window.onkeydown = e => {
-    if (isAskingToConfirm || UI.state.userModal) {
+    if (isAskingToConfirm || userModal) {
       return
     }
     switch (e.key) {
@@ -319,7 +324,7 @@ function Tree() {
         node={node}
         subNodes={subNodes}
         pasteEnabled={clipboard !== null}
-        keyboardListenerDisabled={isAskingToConfirm || UI.state.modalOpen}
+        keyboardListenerDisabled={isAskingToConfirm || modalOpen}
         isEditing={isEditing === node.id}
         isPreviewingRemove={previewDeleteNode === node.id}
         isSelected={node.selected}
@@ -389,6 +394,9 @@ function Tree() {
             unselectAll();
           }
         }}
+        style={{
+          marginRight: sidebarOpen ? '375px' : 0
+        }}
       >{nodeTree}</div>
       {selectedNode &&
         <Inspector
@@ -397,7 +405,31 @@ function Tree() {
           onAction={handleInspectorAction}
         />
       }
-      <Questionnaire flow={selectedNode || []} preview={true} onAnswer={(next) => selectNode(next)} />
+      <Sidebar className="sidebar" pose={sidebarOpen ? 'visible' : 'hidden'}>
+        <div className="toggle">
+          {sidebarOpen && <Fragment>
+            <Text style={{ color: 'white' }}>Questionnaire Preview</Text>
+            <Button
+              type="primary"
+              size="small"
+              disabled={!userLoggedIn || (treeId === "")}
+              onClick={() => {
+                // onEnterPreview();
+                // UI.setState({ questionnaire: true });
+                UI.setState({ codeModal: true });
+              }}
+            >Publish</Button>
+          </Fragment>}
+          <div className="opener" onClick={() => UI.setState({ sidebarOpen: !sidebarOpen })}>
+            {sidebarOpen ?
+              <RightOutlined style={{ fontSize: 14, color: 'white', padding: '7px 4px' }} />
+              :
+              <LeftOutlined style={{ fontSize: 14, color: 'white', padding: '7px 4px' }}
+            />}
+          </div>
+        </div>
+        <Questionnaire flow={selectedNode || []} preview={true} onAnswer={(next) => selectNode(next)} />
+      </Sidebar>
     </Fragment>
   );
 }

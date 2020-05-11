@@ -80,7 +80,11 @@ class Questionnaire extends React.Component {
       />)
     } else {
       
-      return (<div>
+      return (<div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%'
+      }}>
         <Question
           title={node.title}
           isVisible={boxVisible}
@@ -94,9 +98,12 @@ class Questionnaire extends React.Component {
             }
           }}
         />
-        <div className={preview ? "buttons preview" : "buttons"}>
+        <div className="buttons">
           {node.title && <button
             onClick={() => {
+              if (preview) {
+                return;
+              }
               this.setState({ switcherRunning: true })
               setTimeout(() => {
                 this.setState({
@@ -109,7 +116,7 @@ class Questionnaire extends React.Component {
             }}
           >Start Over</button>}
         </div>
-        <Switcher isVisible={switcherRunning} />        
+        {!preview && <Switcher isVisible={switcherRunning} />}
       </div>)
     }    
   }

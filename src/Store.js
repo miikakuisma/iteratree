@@ -8,6 +8,7 @@ export const initialAppState = happy;
 export const initialUIState = {
   loading: false,
   questionnaire: false,
+  sidebarOpen: true,
   shortcuts: false,
   modalOpen: false,
   userModal: false,

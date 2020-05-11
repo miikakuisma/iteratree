@@ -15,30 +15,9 @@ const propTypes = {
 }
 
 class Question extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      buttonsHeight: null
-    }
-  }
-
-  componentDidUpdate() {
-    const calculateHeight = () => {
-      const element = document.querySelector('.buttons.preview');
-      return `calc(100% - ${element && element.offsetHeight}px)`;
-    }
-
-    const newButtonsHeight = calculateHeight();
-
-    if (newButtonsHeight !== this.state.buttonsHeight) {
-      this.setState({
-        buttonsHeight: calculateHeight()
-      });
-    }
-  }
   
   render() {
-    const { isVisible, isPreviewing, node, onClickNode } = this.props
+    const { isVisible, node, onClickNode } = this.props
 
     const buttons = node.options && node.options.map((option, index) => <BigButton
       key={index}
@@ -50,12 +29,13 @@ class Question extends React.Component {
     />);
 
     return (
-      <div>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%'
+      }}>
         <div
           className="boxContainer"
-          style={{
-            height: this.state.buttonsHeight
-          }}
         >
           {node.title && <QuestionBox
             className="box"
@@ -66,7 +46,7 @@ class Question extends React.Component {
           </QuestionBox>}
         </div>
         <div
-          className={isPreviewing ? "buttons preview" : "buttons"}
+          className="buttons"
           style={{
             flexDirection: node.options && node.options.length > 2 ? 'column' : 'row'
           }}

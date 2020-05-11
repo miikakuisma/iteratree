@@ -42,7 +42,6 @@ button.export {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-right: 375px;
 }
 
 .firstNode {
@@ -211,3 +210,33 @@ input {
 button.ant-btn[disabled] {
   display: inline;
 }
+
+.sidebar {
+  position: fixed;
+  top: 48px;
+  left: unset;
+  width: 375px;
+  right: 0px;
+  bottom: 55px;
+}
+
+.sidebar .toggle {
+  position: absolute;
+  z-index: 99;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+}
+
+.sidebar .opener {
+  position: absolute;
+  left: -20px;
+  top: calc(50vh - 100px);
+  cursor: pointer;
+  background: black;
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+}
+
