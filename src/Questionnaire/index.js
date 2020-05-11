@@ -45,14 +45,18 @@ class Questionnaire extends React.Component {
       boxVisible: false,
     })
     const nextNode = eval(node)
-    setTimeout(() => {
+    if (this.props.preview) {
+      this.props.onAnswer(nextNode);
       this.setState({
-        node: nextNode,
         boxVisible: true,
       })
-    }, 500)
-    if (this.props.preview) {
-      this.props.onAnswer(node);
+    } else {
+      setTimeout(() => {
+        this.setState({
+          node: nextNode,
+          boxVisible: true,
+        })
+      }, 500)
     }
   }
 

@@ -7,7 +7,10 @@ import './Questionnaire.css'
 const propTypes = {
   isVisible: PropTypes.bool.isRequired,
   isPreviewing: PropTypes.bool,
-  node: PropTypes.object.isRequired,
+  node: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object
+  ]),
   onClickNode: PropTypes.func.isRequired,
 }
 

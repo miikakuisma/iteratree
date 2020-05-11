@@ -165,8 +165,9 @@ class Node extends React.Component {
             > <div className="badgeContainer">
                 <Badge
                   count={node.clicks}
+                  overflowCount={100}
                   onClick={() => message.info("This is how many times users have chose this as an answer")}
-                  style={{ backgroundColor: '#52c41a' }}
+                  style={{ backgroundColor: `hsla(${node.clicks}, 77%, 44%, 1)` }}
                 />
               </div>
               {node.title || 'Untitled'}
