@@ -1,10 +1,10 @@
 import React from "react";
-import { tutorial } from "./TopMenu/Examples";
+import { happy } from "./TopMenu/Examples";
 
 export let TreeContext = React.createContext();
 export let UIContext = React.createContext();
 
-export const initialAppState = tutorial;
+export const initialAppState = happy;
 export const initialUIState = {
   loading: false,
   questionnaire: false,

@@ -4,7 +4,7 @@ import { TreeContext, UIContext } from '../Store';
 import { Menu, Modal, Button, notification, message } from 'antd';
 import { BranchesOutlined, ExclamationCircleOutlined, UserOutlined, ClearOutlined, FileAddOutlined, DeleteOutlined, QuestionCircleOutlined, ExportOutlined, QrcodeOutlined, LoadingOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { signOut, saveToDB, updateTreeInDB, loadTree, deleteTree, getMyTrees } from "../lib/parse";
-import { tutorial, happy, feedback, week } from './Examples';
+import { blank, tutorial, happy, feedback, week } from './Examples';
 import md5 from "md5";
 import "../styles.css";
 
@@ -44,8 +44,9 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
       icon: <ExclamationCircleOutlined />,
       content: 'Unsaved changes will be lost',
       onOk() {
-        window.localStorage.removeItem('tree');
-        window.location.reload();
+        load(blank)
+        // window.localStorage.removeItem('tree');
+        // window.location.reload();
       },
       onCancel() {
         UI.setState({ modalOpen: false });
@@ -385,15 +386,17 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
             }}
           >PUBLISH</Button>
         </Fragment>
-        : null
-        // <Button
-        //   type="primary"
-        //   style={{ position: 'absolute', right: '45px', top: '8px', zIndex: 999999 }}
-        //   onClick={() => {
-        //     onEnterPreview();
-        //     UI.setState({ questionnaire: true });
-        //   }}
-        // >PREVIEW</Button>
+        :
+        <Button
+          type="primary"
+          disabled={!userLoggedIn || (treeId === "")}
+          style={{ position: 'absolute', right: '45px', top: '8px', zIndex: 999999 }}
+          onClick={() => {
+            // onEnterPreview();
+            // UI.setState({ questionnaire: true });
+            UI.setState({ codeModal: true });
+          }}
+        >Publish</Button>
       }
     </Menu>
   );

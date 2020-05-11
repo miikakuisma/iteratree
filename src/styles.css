@@ -207,3 +207,7 @@ input {
 .ant-notification-notice-with-icon .ant-notification-notice-description {
   user-select: text;
 }
+
+button.ant-btn[disabled] {
+  display: inline;
+}
