@@ -26,6 +26,22 @@ export default function TreeName() {
     e.target.select();
   };
 
+  const handleSaveTitle = (e) => {
+    setEditing(false);
+    renameTree({
+      treeId: id,
+      newName: e.target.value,
+      onSuccess: () => {
+        message.success("Renamed");
+        store.onRefresh();
+      },
+      onError: () => {
+        message.error("Couldn't rename")
+        store.onRefresh();
+      }
+    })
+  }
+
   return (
     <div className="treeName">
       <Input
@@ -40,22 +56,10 @@ export default function TreeName() {
         }}
         onKeyPress={(e) => {
           if (e.key === 'Enter') {
-            setEditing(false);
+            handleSaveTitle(e);
           }
         }}
-        onBlur={(e) => {
-          setEditing(false);
-          renameTree({
-            treeId: id,
-            newName: e.target.value,
-            onSuccess: () => {
-              message.success("Renamed")
-            },
-            onError: () => {
-              message.error("Couldn't rename")
-            }
-          })
-        }}
+        onBlur={handleSaveTitle}
         style={{ textAlign: 'center' }}
       />
     </div>
