@@ -85,7 +85,6 @@ export function saveToDB({ tree, onSuccess, onError }) {
     return false;
   }
 
-  // Let's do this
   const TreeClass = Parse.Object.extend('Tree');
   const newTree = new TreeClass();
 
@@ -107,17 +106,33 @@ export function saveToDB({ tree, onSuccess, onError }) {
   );
 }
 
+export function renameTree({ treeId, newName, onSuccess, onError }) {
+  logger('API Request (update)');
+  const TreeClass = Parse.Object.extend('Tree');
+  const query = new Parse.Query(TreeClass);
+
+  query.get(treeId).then((object) => {
+    object.set('name', newName);
+    object.save().then((response) => {
+      if (typeof document !== 'undefined') {
+        onSuccess(JSON.parse(JSON.stringify(response)));
+      }
+    }, (error) => {
+      if (typeof document !== 'undefined') {
+        onError(error);
+      }
+    });
+  });
+}
+
 export function updateTreeInDB({ tree, onSuccess, onError }) {
   logger('API Request (update)');
   const TreeClass = Parse.Object.extend('Tree');
   const query = new Parse.Query(TreeClass);
 
-  // here you put the objectId that you want to update
   query.get(tree[0].root.id).then((object) => {
     object.set('tree', tree);
     object.save().then((response) => {
-      // You can use the "get" method to get the value of an attribute
-      // Ex: response.get("<ATTRIBUTE_NAME>")
       if (typeof document !== 'undefined') {
         onSuccess(JSON.parse(JSON.stringify(response)));
       }

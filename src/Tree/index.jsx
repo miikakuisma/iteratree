@@ -125,6 +125,13 @@ function Tree() {
       case "ArrowUp":
         getSelectedNode((node, parent) => selectParentNode(parent));
         break;
+      case "Backspace":
+        if (isEditing === null && !isAskingToConfirm) {
+          getSelectedNode((node) => deleteNode(node));
+        }
+        break;
+      case "Enter":
+        break;
       default:
         break;
     }
@@ -313,11 +320,6 @@ function Tree() {
         isSelected={node.selected}
         onSelectNode={() => {
           selectNode(node);
-        }}
-        onRemoveNode={() => {
-          if (!isAskingToConfirm) {
-            deleteNode(selectedNode);
-          }
         }}
         onCopyNode={() => {
           if (!isAskingToConfirm && !isEditing) {

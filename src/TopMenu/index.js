@@ -4,10 +4,11 @@ import { TreeContext, UIContext } from '../Store';
 import { Menu, Modal, Button, notification, message } from 'antd';
 import { BranchesOutlined, ExclamationCircleOutlined, UserOutlined, ClearOutlined, FileAddOutlined, DeleteOutlined, QuestionCircleOutlined, ExportOutlined, QrcodeOutlined, LoadingOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { signOut, saveToDB, updateTreeInDB, loadTree, deleteTree, getMyTrees } from "../lib/parse";
-import { logger } from "../lib/helpers";
 import { happy, feedback, setPlanning, week } from './Examples';
 import md5 from "md5";
 import "../styles.css";
+
+const traverse = require("traverse");
 
 const propTypes = {
   onEnterPreview: PropTypes.func,
@@ -179,6 +180,21 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
     });
   }
 
+  function resetCounts() {
+    confirm({
+      title: 'All user feedback will be lost',
+      icon: <ExclamationCircleOutlined />,
+      content: 'Are you sure you want to do that?',
+      onOk() {
+        traverse(tree).forEach(function(x) {
+          if (typeof x === 'object') {
+            delete x.clicks
+          }
+        });
+      },
+    });
+  }
+
   return (
     <Menu mode="horizontal" selectable={false}>
       <SubMenu
@@ -199,7 +215,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
             }}
           ><ClearOutlined />New</Menu.Item>
           <Menu.Item
-            key="setting:3"
+            key="setting:2"
             onClick={() => {
               if (!userLoggedIn || !treeId || treeId === "") {
                 saveAs(tree);
@@ -209,7 +225,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
             }}
           ><FileAddOutlined />Save</Menu.Item>
           <Menu.Item
-            key="setting:4"
+            key="setting:3"
             disabled={!userLoggedIn || !treeId || treeId === ""}
             onClick={() => {
               handleDeleteTree(tree[0].root.id);
@@ -219,15 +235,15 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
 
         <Menu.ItemGroup title="Export">
           <Menu.Item
-            key="setting:5"
+            key="setting:4"
             onClick={() => {
               // eslint-disable-next-line no-console
-              logger(JSON.stringify(tree));
+              console.log(JSON.stringify(tree));
               notification.success({ message: "Exported to JSON", description: "You can find JSON from the Console now" });
             }}
           ><ExportOutlined />Export JSON</Menu.Item>
           <Menu.Item
-            key="setting:6"
+            key="setting:5"
             disabled={!userLoggedIn || (treeId === "")}
             onClick={() => {
               navigator.clipboard.writeText(`https://iteratree.com/?id=${treeId}`);
@@ -242,19 +258,27 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
 
         <Menu.ItemGroup title="Questionnaire">
           <Menu.Item
-            key="setting:7"
+            key="setting:6"
             onClick={() => {
               onEnterPreview();
               UI.setState({ questionnaire: true });
             }}
           ><BranchesOutlined />Preview</Menu.Item>
           <Menu.Item
-            key="setting:8"
+            key="setting:7"
             disabled={!userLoggedIn || (treeId === "")}
             onClick={() => {
               UI.setState({ codeModal: true });
             }}
           ><QrcodeOutlined />Get QR-Code</Menu.Item>
+          <Menu.Item
+            key="setting:8"
+            disabled={!userLoggedIn || (treeId === "")}
+            onClick={() => {
+              resetCounts(tree);
+              store.onRefresh();
+            }}
+          ><QrcodeOutlined />Reset click counts</Menu.Item>
         </Menu.ItemGroup>
 
         <Menu.ItemGroup title="Help">

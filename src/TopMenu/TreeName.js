@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { TreeContext } from '../Store';
-import { Input } from 'antd';
+import { Input, message } from 'antd';
+import { renameTree } from '../lib/parse';
 
 export default function TreeName() {
   const store = useContext(TreeContext);
@@ -42,8 +43,18 @@ export default function TreeName() {
             setEditing(false);
           }
         }}
-        onBlur={() => {
+        onBlur={(e) => {
           setEditing(false);
+          renameTree({
+            treeId: id,
+            newName: e.target.value,
+            onSuccess: () => {
+              message.success("Renamed")
+            },
+            onError: () => {
+              message.error("Couldn't rename")
+            }
+          })
         }}
         style={{ textAlign: 'center' }}
       />

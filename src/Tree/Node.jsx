@@ -12,7 +12,6 @@ const propTypes = {
   isPreviewingRemove: PropTypes.bool,
   isSelected: PropTypes.bool,
   keyboardListenerDisabled: PropTypes.bool,
-  onRemoveNode: PropTypes.func.isRequired,
   onUpdateNode: PropTypes.func.isRequired,
   onSelectNode: PropTypes.func,
   onStartEditing: PropTypes.func,
@@ -43,7 +42,7 @@ class Node extends React.Component {
     if (this.props.keyboardListenerDisabled) {
       return
     }
-    const { node, isEditing, onStartEditing, isPreviewingRemove, onRemoveNode } = this.props;
+    const { node, isEditing, onStartEditing, isPreviewingRemove } = this.props;
     if (e.key === "Enter" && node.selected && !isPreviewingRemove) {
       if (!isEditing) {
         this.setState({
@@ -55,9 +54,6 @@ class Node extends React.Component {
       if (isEditing) {
         this.saveTitle();
       }
-    }
-    if (e.key === "Backspace" && node.selected && !isEditing) {
-      onRemoveNode();
     }
   }
 
