@@ -5,24 +5,35 @@ import Switcher from './Switcher'
 import './Questionnaire.css'
 
 const propTypes = {
-  flow: PropTypes.array
+  flow: PropTypes.array,
+  preview: PropTypes.bool,
 };
 
 class Questionnaire extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      node: props.flow[0],
+      node: this.getInitialNode(),
       boxVisible: false,
       deviceVisible: false,
       switcherRunning: false,
     }
   }
 
+  getInitialNode() {
+    return this.props.preview ? this.props.flow : this.props.flow[0];
+  }
+
   componentDidMount() {
     this.setState({
       boxVisible: true,
     })
+  }
+
+  componentDidUpdate() {
+    if (this.props.preview && this.state.node.id !== this.props.flow.id) {
+      this.setState({ node: this.props.flow });
+    }
   }
 
   handleClick(node) {
@@ -40,10 +51,13 @@ class Questionnaire extends React.Component {
 
   getBoxContent(node) {
     const { boxVisible, switcherRunning } = this.state
+    const { preview } = this.props;
+
     if (node.options) {
       return (<Question
         title={node.title}
         isVisible={boxVisible}
+        isPreviewing={preview}
         node={node}
         onClickNode={(answer) => {
           if (answer && answer.options && answer.options.length === 1) {
@@ -59,6 +73,7 @@ class Questionnaire extends React.Component {
         <Question
           title={node.title}
           isVisible={boxVisible}
+          isPreviewing={preview}
           node={node}
           onClickNode={(answer) => {
             if (answer.options.length === 1) {
@@ -68,9 +83,8 @@ class Questionnaire extends React.Component {
             }
           }}
         />
-        <div className="buttons">
+        <div className={preview ? "buttons preview" : "buttons"}>
           <button
-            style={{ width: '100%' }}
             onClick={() => {
               this.setState({ switcherRunning: true })
               setTimeout(() => {
@@ -79,7 +93,7 @@ class Questionnaire extends React.Component {
                 })
               }, 1000)
               setTimeout(() => {
-                this.setState({ node: this.props.flow[0] })
+                this.setState({ node: this.getInitialNode() })
               }, 1111)
             }}
           >Start Over</button>
@@ -92,7 +106,7 @@ class Questionnaire extends React.Component {
   render() {
     const { node } = this.state
     return (
-      <div className="Questionnaire">
+      <div className={this.props.preview ? "Questionnaire preview" : "Questionnaire"}>
         {this.getBoxContent(node)}
       </div>
     )

@@ -42,6 +42,7 @@ button.export {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-right: 375px;
 }
 
 .firstNode {
@@ -89,6 +90,12 @@ button.export {
 .node.selected:before {
   color: #1890ff;
   border: 2px solid #1890ff;
+}
+
+.node .badgeContainer {
+  position: absolute;
+  right: -4px;
+  top: -12px;
 }
 
 .node span.title {

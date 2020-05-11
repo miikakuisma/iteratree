@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Drawer, Space, Button, Layout } from 'antd';
+import { Drawer, Space, Button } from 'antd';
 import { EditFilled, CopyOutlined, DiffOutlined, DeleteOutlined } from '@ant-design/icons';
 
 const propTypes = {
@@ -8,8 +8,6 @@ const propTypes = {
   clipboard: PropTypes.object,
   onAction: PropTypes.func,
 };
-
-const { Content } = Layout;
 
 function Inspector({ selectedNode, clipboard, onAction }) {
 
@@ -22,8 +20,7 @@ function Inspector({ selectedNode, clipboard, onAction }) {
       mask={false}
       visible={selectedNode !== null}
     >
-      <Content>
-      </Content>
+      
       <div className="actions">
         <Space>
           <Button

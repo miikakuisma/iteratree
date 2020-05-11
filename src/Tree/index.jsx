@@ -5,6 +5,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { arrayMove } from "../lib/helpers";
 import Node from "./Node";
 import Inspector from "./Inspector";
+import Questionnaire from "../Questionnaire";
 import 'antd/dist/antd.css';
 import "../styles.css";
 
@@ -383,11 +384,14 @@ function Tree() {
         }}
       >{nodeTree}</div>
       {selectedNode &&
-        <Inspector
-          selectedNode={selectedNode}
-          clipboard={clipboard}
-          onAction={handleInspectorAction}
-        />
+        <Fragment>
+          <Inspector
+            selectedNode={selectedNode}
+            clipboard={clipboard}
+            onAction={handleInspectorAction}
+          />
+          <Questionnaire flow={selectedNode} preview={true} />
+        </Fragment>
       }
     </Fragment>
   );

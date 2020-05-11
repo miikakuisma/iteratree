@@ -14,12 +14,30 @@
   z-index: 99999;
 }
 
+.Questionnaire.preview {
+  top: 54px;
+  left: unset;
+  width: 375px;
+  right: 6px;
+  bottom: 64px;
+}
+
+.Questionnaire.preview:before {
+  content: "PREVIEW";
+  position: absolute;
+  top: 5px;
+  color: #999;
+  left: 0;
+  right: 0;
+  z-index: 9;
+  font-size: 12px;
+}
+
 .Questionnaire .boxContainer {
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
-  bottom: 125px;
   overflow: overlay;
   display: flex;
   align-items: center;
@@ -28,11 +46,12 @@
   flex-flow: wrap;
   background-size: cover;
   background-blend-mode: overlay;
-  background-color: #eee;
+  background-color: #111;
 }
 
 .Questionnaire .box {
   color: #00234C;
+  width: 100%;
   margin: 30px;
   padding: 30px;
   background: white;
@@ -84,8 +103,11 @@
   bottom: 0;
   padding: 20px;
   z-index: 9;
-  background: white;
-  border-top: 1px dotted #bfbfbf;
+  background: #111;
+}
+
+.Questionnaire .buttons.preview {
+  position: absolute;
 }
 
 .Questionnaire button {

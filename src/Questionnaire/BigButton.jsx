@@ -6,7 +6,7 @@ import './Questionnaire.css'
 
 const propTypes = {
   label: PropTypes.string,
-  nodeId: PropTypes.string,
+  nodeId: PropTypes.number,
   disabled: PropTypes.bool,
   onPressed: PropTypes.func
 };
@@ -19,13 +19,17 @@ function BigButton({ label, nodeId, disabled, onPressed }) {
   const [buttonDown, setButtonDown] = useState(false);
 
   const handleClick = () => {
+    // Count answers
     traverse(store.tree[0]).forEach(function(node) {
       if (typeof node === "object" && node.id === nodeId) {
-        node.clicks = 1;
+        if (node.clicks) {
+          node.clicks++;
+        } else {
+          node.clicks = 1;
+        }
         store.onRefresh();
       }
     });
-
     onPressed();
   }
 

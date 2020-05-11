@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
+import { Badge, message } from 'antd';
 import { PlusCircleTwoTone } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import "../styles.css";
@@ -136,7 +137,7 @@ class Node extends React.Component {
         <div
           className={node.selected ? "node selected" : "node"}
           style={{
-            background: node.selected ? (isPreviewingRemove ? 'red' : '#1890ff') : (node.clicks ? 'rgb(76, 175, 80)' : '#ffffff'),
+            background: node.selected ? (isPreviewingRemove ? 'red' : '#1890ff') : '#ffffff',
             border: node.selected ? (isPreviewingRemove ? '2px solid red' : '2px solid #1890ff') : '2px solid #bfbfbf',
             opacity: isPreviewingRemove ? 0.3 : 1,
           }}
@@ -165,7 +166,13 @@ class Node extends React.Component {
               style={{
                 color: node.selected ? '#fff' : '#111',
               }}
-            >
+            > <div className="badgeContainer">
+                <Badge
+                  count={node.clicks}
+                  onClick={() => message.info("This is how many times users have chose this as an answer")}
+                  style={{ backgroundColor: '#52c41a' }}
+                />
+              </div>
               {node.title || 'Untitled'}
             </span>
           )}
