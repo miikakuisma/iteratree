@@ -111,7 +111,12 @@ function Tree() {
       case "ArrowDown":
         // add new child
         if (isEditing === null) {
-          getSelectedNode((node) => addNode(node));
+          if (selectedNode && selectedNode.options) {
+            const middle = Math.floor(selectedNode.options.length / 2);
+            selectNode(selectedNode.options[middle]);
+          } else {
+            getSelectedNode((node) => addNode(node, true));
+          }
         }
         break;
       case "Tab":
