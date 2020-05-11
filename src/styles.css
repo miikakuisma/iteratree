@@ -42,7 +42,6 @@ button.export {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-right: 375px;
 }
 
 .firstNode {

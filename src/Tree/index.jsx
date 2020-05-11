@@ -382,6 +382,9 @@ function Tree() {
             unselectAll();
           }
         }}
+        style={{
+          marginRight: selectedNode ? '375px' : 'unset'
+        }}
       >{nodeTree}</div>
       {selectedNode &&
         <Fragment>
@@ -390,7 +393,7 @@ function Tree() {
             clipboard={clipboard}
             onAction={handleInspectorAction}
           />
-          <Questionnaire flow={selectedNode} preview={true} />
+          <Questionnaire flow={selectedNode} preview={true} onAnswer={(next) => selectNode(next)} />
         </Fragment>
       }
     </Fragment>

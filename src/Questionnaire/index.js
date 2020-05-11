@@ -7,6 +7,7 @@ import './Questionnaire.css'
 const propTypes = {
   flow: PropTypes.array,
   preview: PropTypes.bool,
+  onAnswer: PropTypes.func,
 };
 
 class Questionnaire extends React.Component {
@@ -47,6 +48,9 @@ class Questionnaire extends React.Component {
         boxVisible: true,
       })
     }, 500)
+    if (this.props.preview) {
+      this.props.onAnswer(node);
+    }
   }
 
   getBoxContent(node) {
