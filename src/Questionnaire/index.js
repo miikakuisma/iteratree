@@ -91,7 +91,7 @@ class Questionnaire extends React.Component {
           }}
         />
         <div className={preview ? "buttons preview" : "buttons"}>
-          <button
+          {node.title && <button
             onClick={() => {
               this.setState({ switcherRunning: true })
               setTimeout(() => {
@@ -103,7 +103,7 @@ class Questionnaire extends React.Component {
                 this.setState({ node: this.getInitialNode() })
               }, 1111)
             }}
-          >Start Over</button>
+          >Start Over</button>}
         </div>
         <Switcher isVisible={switcherRunning} />        
       </div>)

@@ -54,13 +54,13 @@ class Question extends React.Component {
             height: this.state.buttonsHeight
           }}
         >
-          <QuestionBox
+          {node.title && <QuestionBox
             className="box"
             pose={isVisible ? 'visible' : 'hidden'}
           >
             <span className="title">&nbsp;</span>
             <p className="question">{node.title}</p>
-          </QuestionBox>
+          </QuestionBox>}
         </div>
         <div
           className={isPreviewing ? "buttons preview" : "buttons"}
