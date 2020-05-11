@@ -338,7 +338,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
       {UI.state.questionnaire ?
         <Fragment>
           <Button
-            style={{ position: 'absolute', right: '8px', top: '8px', zIndex: 999999 }}
+            style={{ position: 'absolute', right: '106px', top: '8px', zIndex: 999999 }}
             onClick={() => {
               UI.setState({ questionnaire: false });
               onExitPreview();
