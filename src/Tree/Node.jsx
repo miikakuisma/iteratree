@@ -167,7 +167,7 @@ class Node extends React.Component {
                   count={node.clicks}
                   overflowCount={100}
                   onClick={() => message.info("This is how many times users have chose this as an answer")}
-                  style={{ backgroundColor: `hsla(${node.clicks}, 77%, 44%, 1)` }}
+                  style={{ backgroundColor: `hsla(${(360/100) * node.clicks}, 77%, 44%, 1)` }}
                 />
               </div>
               {node.title || 'Untitled'}

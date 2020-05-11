@@ -4,10 +4,11 @@ import { TreeContext, UIContext } from '../Store';
 import { Menu, Modal, Button, notification, message } from 'antd';
 import { BranchesOutlined, ExclamationCircleOutlined, UserOutlined, ClearOutlined, FileAddOutlined, DeleteOutlined, QuestionCircleOutlined, ExportOutlined, QrcodeOutlined, LoadingOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { signOut, saveToDB, updateTreeInDB, loadTree, deleteTree, getMyTrees } from "../lib/parse";
-import { happy, feedback, setPlanning, week } from './Examples';
+import { happy, feedback, week } from './Examples';
 import md5 from "md5";
 import "../styles.css";
 
+// eslint-disable-next-line no-undef
 const traverse = require("traverse");
 
 const propTypes = {
@@ -188,9 +189,12 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
       onOk() {
         traverse(tree).forEach(function(x) {
           if (typeof x === 'object') {
-            delete x.clicks
+            if(x.clicks) {
+              delete x.clicks
+            }
           }
         });
+        store.onRefresh();
       },
     });
   }
@@ -318,12 +322,6 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
               load(week);
             }}
           >Weekly Routine</Menu.Item>
-          <Menu.Item
-            key="setting:3"
-            onClick={() => {
-              load(setPlanning);
-            }}
-          >DJ Set Plan</Menu.Item>
         </Menu.ItemGroup>
       </SubMenu>
       {myTreeList && myTreeList.length > 0 && <SubMenu

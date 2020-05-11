@@ -20,6 +20,8 @@
   width: 375px;
   right: 6px;
   bottom: 64px;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .Questionnaire.preview:before {
