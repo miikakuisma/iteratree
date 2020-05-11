@@ -203,3 +203,7 @@ input {
   -webkit-user-select: auto;
   -webkit-user-select: text;
 }
+
+.ant-notification-notice-with-icon .ant-notification-notice-description {
+  user-select: text;
+}

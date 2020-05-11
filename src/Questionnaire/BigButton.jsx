@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 import PropTypes from "prop-types";
 import { TreeContext } from '../Store';
 import { Button } from './lib'
+import { updateTreeInDB } from "../lib/parse";
 import './Questionnaire.css'
 
 const propTypes = {
@@ -30,7 +31,15 @@ function BigButton({ label, nodeId, disabled, onPressed }) {
         store.onRefresh();
       }
     });
-    onPressed();
+    updateTreeInDB({
+      tree: store.tree,
+      onSuccess: () => {
+        onPressed();
+      },
+      onError: () => {
+        onPressed();
+      }
+    })
   }
 
   return (
