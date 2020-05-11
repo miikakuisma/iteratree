@@ -4,7 +4,7 @@ import { TreeContext, UIContext } from '../Store';
 import { Menu, Modal, Button, notification, message } from 'antd';
 import { BranchesOutlined, ExclamationCircleOutlined, UserOutlined, ClearOutlined, FileAddOutlined, DeleteOutlined, QuestionCircleOutlined, ExportOutlined, QrcodeOutlined, LoadingOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { signOut, saveToDB, updateTreeInDB, loadTree, deleteTree, getMyTrees } from "../lib/parse";
-import { happy, feedback, week } from './Examples';
+import { tutorial, happy, feedback, week } from './Examples';
 import md5 from "md5";
 import "../styles.css";
 
@@ -305,6 +305,12 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
           <Menu.Item
             key="setting:1"
             onClick={() => {
+              load(tutorial);
+            }}
+          >Tutorial</Menu.Item>
+          <Menu.Item
+            key="setting:2"
+            onClick={() => {
               load(happy);
             }}
           >Are you happy?</Menu.Item>
@@ -317,7 +323,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
 
         <Menu.ItemGroup title="Other">
           <Menu.Item
-            key="setting:2"
+            key="setting:4"
             onClick={() => {
               load(week);
             }}
