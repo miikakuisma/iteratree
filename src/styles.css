@@ -104,8 +104,9 @@ button.export {
 .node input.title {
   display: flex;
   width: 100%;
-  min-width: 50px;
   height: 100%;
+  min-width: 50px;
+  min-height: 42px;
   justify-content: center;
   text-align: center;
   background: #efefef;
