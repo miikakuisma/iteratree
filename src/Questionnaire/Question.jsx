@@ -18,7 +18,7 @@ class Question extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      buttonsHeight: '100%'
+      buttonsHeight: null
     }
   }
 
