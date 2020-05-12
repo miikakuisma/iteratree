@@ -143,7 +143,7 @@ class Node extends React.Component {
         <div
           className={node.selected ? "node selected" : "node"}
           style={{
-            background: node.selected ? (isPreviewingRemove ? 'red' : '#1890ff') : '#ffffff',
+            background: node.selected ? (isPreviewingRemove ? 'red' : (node.color || '#1890ff')) : (node.color || '#ffffff'),
             border: node.selected ? (isPreviewingRemove ? '2px solid red' : '2px solid #1890ff') : '2px solid #bfbfbf',
             opacity: isPreviewingRemove ? 0.3 : 1,
           }}

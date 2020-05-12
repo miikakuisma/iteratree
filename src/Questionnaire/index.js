@@ -124,7 +124,9 @@ class Questionnaire extends React.Component {
   render() {
     const { node } = this.state
     return (
-      <div className={this.props.preview ? "Questionnaire preview" : "Questionnaire"}>
+      <div
+        className={this.props.preview ? "Questionnaire preview" : "Questionnaire"}
+      >
         {this.getBoxContent(node)}
       </div>
     )

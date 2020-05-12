@@ -364,7 +364,7 @@ function Tree() {
     );
   };
 
-  const handleInspectorAction = action => {
+  const handleInspectorAction = (action, param) => {
     switch (action) {
       case "edit":
         setEditing(selectedNode.id);
@@ -378,6 +378,14 @@ function Tree() {
       case "delete":
         deleteNode(selectedNode);
         unselectAll();
+        break;
+      case "changeColor":
+        if (param === 'none') {
+          delete selectedNode.color
+        } else {
+          selectedNode.color = param;
+        }
+        onRefresh();
         break;
       default:
         break;
