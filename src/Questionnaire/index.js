@@ -38,6 +38,9 @@ class Questionnaire extends React.Component {
     if (this.props.preview && this.state.node.id !== this.props.flow.id) {
       this.setState({ node: this.props.flow });
     }
+    if (this.props.preview && this.props.flow !== this.state.node) {
+      this.setState({ node: this.props.flow });
+    }
   }
 
   handleClick(node) {

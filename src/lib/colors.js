@@ -5,32 +5,32 @@ export const palette = [
   {
     name: 'magenta',
     color: '#ffffff',
-    background: '#f759ab'
+    background: '#9e1068'
   },
   {
     name: 'purple',
     color: '#ffffff',
-    background: '#722ed1'
+    background: '#391085'
   },
   {
     name: 'geekblue',
     color: '#ffffff',
-    background: '#597ef7'
+    background: '#10239e'
   },
   {
     name: 'blue',
     color: '#ffffff',
-    background: '#40a9ff'
+    background: '#0050b3'
   },
   {
     name: 'cyan',
     color: '#ffffff',
-    background: '#36cfc9'
+    background: '#006d75'
   },
   {
     name: 'green',
     color: '#ffffff',
-    background: '#73d13d'
+    background: '#237804'
   },
   {
     name: 'lime',

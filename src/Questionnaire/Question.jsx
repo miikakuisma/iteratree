@@ -27,7 +27,9 @@ class Question extends React.Component {
         onClickNode(option);
       }}
       style={{
-        width: node.options.length == 2 && '47%'
+        width: node.options.length == 2 && '47%',
+        color: node.background || '#111',
+        background: 'white'
       }}
     />);
 
