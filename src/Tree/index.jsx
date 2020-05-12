@@ -414,7 +414,7 @@ function Tree() {
           }
         }}
         style={{
-          marginRight: sidebarOpen ? '375px' : 0
+          width: sidebarOpen ? 'calc(100% - 358px)' : '100%'
         }}
       >{nodeTree}</div>
       {selectedNode &&

@@ -185,7 +185,7 @@ class Node extends React.Component {
                 />
               </div>
               {isHovering && <div className="collapseControl" onClick={handleCollapse}>
-                {isCollapsed ? <PlusSquareOutlined style={{ color: isSelected ? '#fff' : '#000' }} /> : <MinusSquareOutlined style={{ color: '#ccc' }} />}
+                {isCollapsed ? <PlusSquareOutlined style={{ color: isSelected ? '#fff' : '#000' }} /> : <MinusSquareOutlined style={{ color: '#999' }} />}
               </div>}
               {!isCollapsed ? (node.title || 'Untitled') : null }
             </span>

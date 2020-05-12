@@ -41,7 +41,10 @@ button.export {
 .nodeTree {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  height: calc(100% - 13px);
+  overflow: overlay;
+  margin-top: -20px;
+  padding-top: 20px;
 }
 
 .firstNode {
