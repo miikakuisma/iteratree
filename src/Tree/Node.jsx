@@ -176,7 +176,7 @@ class Node extends React.Component {
                 <Badge
                   count={node.clicks}
                   overflowCount={100}
-                  onClick={() => message.info("This is how many times users have chose this as an answer")}
+                  onClick={() => message.info("This is how many times users clicked on this answer")}
                   style={{ backgroundColor: `hsla(${(360/100) * node.clicks}, 77%, 44%, 1)` }}
                 />
               </div>
