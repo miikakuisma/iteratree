@@ -429,7 +429,7 @@ function Tree() {
             />}
           </div>
         </div>
-        <Questionnaire flow={selectedNode || []} preview={true} onAnswer={(next) => selectNode(next)} />
+        <Questionnaire flow={selectedNode || tree[0]} preview={true} onAnswer={(next) => selectNode(next)} />
       </Sidebar>
     </Fragment>
   );
