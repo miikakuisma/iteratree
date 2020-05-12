@@ -1,42 +1,50 @@
 export const palette = [
   {
     name: 'none',
-    color: 'none'
   },
   {
     name: 'magenta',
-    color: '#f759ab'
+    color: '#ffffff',
+    background: '#f759ab'
   },
   {
     name: 'purple',
-    color: '#722ed1'
+    color: '#ffffff',
+    background: '#722ed1'
   },
   {
     name: 'geekblue',
-    color: '#597ef7'
+    color: '#ffffff',
+    background: '#597ef7'
   },
   {
     name: 'blue',
-    color: '#40a9ff'
+    color: '#ffffff',
+    background: '#40a9ff'
   },
   {
     name: 'cyan',
-    color: '#36cfc9'
+    color: '#ffffff',
+    background: '#36cfc9'
   },
   {
     name: 'green',
-    color: '#73d13d'
+    color: '#ffffff',
+    background: '#73d13d'
   },
   {
     name: 'lime',
-    color: '#bae637'
+    color: '#ffffff',
+    background: '#5b8c00'
   },
   {
     name: 'yellow',
-    color: '#ffec3d'
+    color: '#ffffff',
+    background: '#ad8b00'
   },
   {
     name: 'gold',
-    color: '#ffc53d'
+    color: '#ffffff',
+    background: '#ad6800'
   },
 ]

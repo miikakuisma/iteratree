@@ -26,6 +26,9 @@ class Question extends React.Component {
       onPressed={() => {
         onClickNode(option);
       }}
+      style={{
+        width: node.options.length == 2 && '47%'
+      }}
     />);
 
     return (

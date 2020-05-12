@@ -382,8 +382,10 @@ function Tree() {
       case "changeColor":
         if (param === 'none') {
           delete selectedNode.color
+          delete selectedNode.background
         } else {
-          selectedNode.color = param;
+          selectedNode.color = param.color;
+          selectedNode.background = param.background;
         }
         onRefresh();
         break;
@@ -437,7 +439,7 @@ function Tree() {
             />}
           </div>
         </div>
-        <Questionnaire flow={selectedNode || []} preview={true} onAnswer={(next) => selectNode(next)} />
+        <Questionnaire flow={selectedNode || tree[0]} preview={true} onAnswer={(next) => selectNode(next)} />
       </Sidebar>
     </Fragment>
   );

@@ -12,18 +12,18 @@ const propTypes = {
 
 function Inspector({ selectedNode, clipboard, onAction }) {
 
-  const handleSelectColor = (color) => {
-    onAction("changeColor", color);
+  const handleSelectColor = (item) => {
+    onAction("changeColor", item);
   }
 
   const colorItems = palette.map((item, index) =>
     <Menu.Item key={index} onClick={() => {
-      handleSelectColor(item.color);
+      handleSelectColor(item);
     }}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <div
           style={{
-            backgroundColor: item.color,
+            backgroundColor: item.background,
             width: '16px',
             height: '16px',
             float: 'left',

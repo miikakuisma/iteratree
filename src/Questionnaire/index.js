@@ -126,6 +126,9 @@ class Questionnaire extends React.Component {
     return (
       <div
         className={this.props.preview ? "Questionnaire preview" : "Questionnaire"}
+        style={{
+          background: node.background || '#111111'
+        }}
       >
         {this.getBoxContent(node)}
       </div>
