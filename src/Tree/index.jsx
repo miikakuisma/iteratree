@@ -328,6 +328,7 @@ function Tree() {
         isEditing={isEditing === node.id}
         isPreviewingRemove={previewDeleteNode === node.id}
         isSelected={node.selected}
+        isCollapsed={node.collapsed}
         onSelectNode={() => {
           selectNode(node);
         }}

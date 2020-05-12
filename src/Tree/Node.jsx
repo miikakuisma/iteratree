@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Badge, message } from 'antd';
-import { PlusCircleTwoTone } from '@ant-design/icons';
+import { PlusCircleTwoTone, MinusSquareOutlined, PlusSquareOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import "../styles.css";
 
@@ -11,6 +11,7 @@ const propTypes = {
   isEditing: PropTypes.bool,
   isPreviewingRemove: PropTypes.bool,
   isSelected: PropTypes.bool,
+  isCollapsed: PropTypes.bool,
   keyboardListenerDisabled: PropTypes.bool,
   onUpdateNode: PropTypes.func.isRequired,
   onSelectNode: PropTypes.func,
@@ -26,7 +27,6 @@ class Node extends React.Component {
       isHovering: false,
       isClicking: false,
       isPressingEnter: false,
-      selected: false
     };
   }
 
@@ -70,6 +70,7 @@ class Node extends React.Component {
       isEditing,
       isPreviewingRemove,
       isSelected,
+      isCollapsed,
       onAddNode,
       onStartEditing,
       onCancelEditing,
@@ -77,7 +78,10 @@ class Node extends React.Component {
     } = this.props;
     const { isHovering, isClicking } = this.state;
 
-    const handleClickTitle = () => {
+    const handleClickTitle = (e) => {
+      if (!e.target.classList.contains("title")) {
+        return;
+      }
       if (isClicking) {
         // Double Click event
         clearTimeout(this.doubleClickTimer);
@@ -86,12 +90,14 @@ class Node extends React.Component {
           isHovering: false
         });
         onSelectNode();
-        onStartEditing();
+        if (!isCollapsed) {
+          onStartEditing();
+        }
       } else {
         this.setState({ isClicking: true });
         this.doubleClickTimer = setTimeout(() => {
           // Single click event
-          if (isSelected) {
+          if (isSelected && !isCollapsed) {
             onStartEditing();
           } else {
             onSelectNode();
@@ -127,6 +133,10 @@ class Node extends React.Component {
     const handleAdd = () => {
       onAddNode();
     };
+
+    const handleCollapse = () => {
+      this.props.onUpdateNode("collapsed", !isCollapsed);
+    }
 
     return (
       <div className="nodeContainer">
@@ -170,14 +180,17 @@ class Node extends React.Component {
                   style={{ backgroundColor: `hsla(${(360/100) * node.clicks}, 77%, 44%, 1)` }}
                 />
               </div>
-              {node.title || 'Untitled'}
+              {isHovering && <div className="collapseControl" onClick={handleCollapse}>
+                {isCollapsed ? <PlusSquareOutlined style={{ color: isSelected ? '#fff' : '#000' }} /> : <MinusSquareOutlined style={{ color: '#ccc' }} />}
+              </div>}
+              {!isCollapsed ? (node.title || 'Untitled') : null }
             </span>
           )}
           {isHovering && (
             <Fragment>
-              <div onClick={handleAdd} className="button add">
+              {!isCollapsed && <div onClick={handleAdd} className="button add">
                 <PlusCircleTwoTone />
-              </div>
+              </div>}
             </Fragment>
           )}
         </div>
@@ -188,7 +201,7 @@ class Node extends React.Component {
             background: isPreviewingRemove && 'red'
           }}
         >
-          {subNodes}
+          {!isCollapsed && subNodes}
         </div>
       </div>
     );
