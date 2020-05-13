@@ -417,13 +417,11 @@ function Tree() {
           width: sidebarOpen ? 'calc(100% - 358px)' : '100%'
         }}
       >{nodeTree}</div>
-      {selectedNode &&
-        <Inspector
-          selectedNode={selectedNode}
-          clipboard={clipboard}
-          onAction={handleInspectorAction}
-        />
-      }
+      <Inspector
+        selectedNode={selectedNode}
+        clipboard={clipboard}
+        onAction={handleInspectorAction}
+      />
       <Sidebar className="sidebar" pose={sidebarOpen ? 'visible' : 'hidden'}>
         <div className="toggle">
           {sidebarOpen && <Fragment>

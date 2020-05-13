@@ -43,17 +43,16 @@ function Inspector({ selectedNode, clipboard, onAction }) {
 
   return(
     <Drawer
-      title={selectedNode.title || 'Untitled'}
+      title={selectedNode && selectedNode.title || ''}
       placement='bottom'
       closable={false}
       height={55}
       mask={false}
-      visible={selectedNode !== null}
+      visible={true}
     >
-      
       <div className="actions">
         <Space>
-          <Dropdown overlay={menu} placement="topCenter">
+          <Dropdown disabled={!selectedNode} overlay={menu} placement="topCenter">
             <Button
               icon={<BgColorsOutlined />}
               onClick={() => {
@@ -64,19 +63,21 @@ function Inspector({ selectedNode, clipboard, onAction }) {
           <Button
             type="primary"
             icon={<EditFilled />}
+            disabled={!selectedNode}
             onClick={() => {
               onAction("edit");
             }}
           >Edit</Button>
           <Button
             icon={<CopyOutlined />}
+            disabled={!selectedNode}
             onClick={() => {
               onAction("copy");
             }}
           >Copy</Button>
           <Button
             icon={<DiffOutlined />}
-            disabled={clipboard === null}
+            disabled={clipboard === null || !selectedNode}
             onClick={() => {
               onAction("paste");
             }}
@@ -86,7 +87,7 @@ function Inspector({ selectedNode, clipboard, onAction }) {
             onClick={() => {
               onAction("delete");
             }}
-            disabled={selectedNode.id === 0}
+            disabled={selectedNode && selectedNode.id === 0 || !selectedNode}
             danger
           >Delete</Button>
         </Space>
