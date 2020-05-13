@@ -28,6 +28,7 @@ function Inspector({ selectedNode, clipboard, onAction }) {
             height: '16px',
             float: 'left',
             marginRight: '5px',
+            border: item.color && '1px solid #ccc'
           }}
         />
         {item.name}

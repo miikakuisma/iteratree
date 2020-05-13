@@ -144,7 +144,7 @@ class Node extends React.Component {
           className={node.selected ? "node selected" : "node"}
           style={{
             background: node.selected ? (isPreviewingRemove ? 'red' : node.background || '#111') : '#ffffff',
-            borderTop: node.selected ? (isPreviewingRemove ? '4px solid red' : `4px solid ${node.background || '#111'}`) : `4px solid ${node.background || '#ccc'}`,
+            borderTop: node.selected ? (isPreviewingRemove ? '4px solid red' : `4px solid ${(node.background === 'white' ? '#111' : node.background) || '#111'}`) : `4px solid ${node.background || '#ccc'}`,
             opacity: isPreviewingRemove ? 0.3 : 1,
           }}
           onMouseEnter={() => {
