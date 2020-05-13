@@ -13,6 +13,7 @@
   bottom: 0;
   z-index: 9;
   background: #111;
+  overflow-y: auto;
 }
 
 .Questionnaire.preview {
