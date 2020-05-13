@@ -7,7 +7,7 @@ export const palette = [
   {
     name: 'white',
     color: '#111',
-    background: '#fff'
+    background: 'white'
   },
   {
     name: 'magenta',

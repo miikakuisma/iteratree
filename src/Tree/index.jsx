@@ -440,13 +440,26 @@ function Tree() {
           <div
             className="opener"
             onClick={() => UI.setState({ sidebarOpen: !sidebarOpen })}
-            style={{ backgroundColor: (selectedNode && selectedNode.background) || '#111' }}
+            style={{
+              backgroundColor: (selectedNode && selectedNode.background) || '#111'
+            }}
           >
             {sidebarOpen ?
-              <RightOutlined style={{ fontSize: 14, color: 'white', padding: '7px 4px' }} />
+              <RightOutlined
+                style={{
+                  fontSize: 14,
+                  color: (selectedNode && selectedNode.color) || '#fff',
+                  padding: '7px 4px'
+                }}
+              />
               :
-              <LeftOutlined style={{ fontSize: 14, color: 'white', padding: '7px 4px' }}
-            />}
+              <LeftOutlined
+                style={{
+                  fontSize: 14,
+                  color: (selectedNode && selectedNode.color) || '#fff',
+                  padding: '7px 4px'
+                }}
+              />}
           </div>
         </div>
         <Questionnaire flow={selectedNode || tree[0]} preview={true} onAnswer={(next) => selectNode(next)} />

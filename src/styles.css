@@ -91,8 +91,8 @@ button.export {
 }
 
 .node.selected:before {
-  color: #1890ff;
-  border: 2px solid #1890ff;
+  color: black;
+  border: 2px solid black;
 }
 
 .node .badgeContainer {
