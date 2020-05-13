@@ -59,6 +59,10 @@ button.export {
 .nodeContainer {
   position: relative;
   width: -webkit-fill-available;
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
 }
 
 .node {
