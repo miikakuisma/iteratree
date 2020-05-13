@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, Fragment } from "react";
 import { TreeContext, UIContext } from '../Store';
 import { message, Modal, Button, Typography } from 'antd';
-import { ExclamationCircleOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined, LeftSquareFilled, RightSquareFilled } from '@ant-design/icons';
 import { Sidebar } from './animations';
 import { arrayMove } from "../lib/helpers";
 import Node from "./Node";
@@ -174,7 +174,7 @@ function Tree() {
   function updateNodeColor(node, item) {
     traverse(tree).forEach(function(x) {
       if (typeof x === 'object' && x === node) {
-        if (item.name === 'none') {
+        if (!item.color) {
           delete x.color;
           delete x.background;
         } else {
@@ -440,23 +440,21 @@ function Tree() {
           <div
             className="opener"
             onClick={() => UI.setState({ sidebarOpen: !sidebarOpen })}
-            style={{
-              backgroundColor: (selectedNode && selectedNode.background) || '#111'
-            }}
           >
             {sidebarOpen ?
-              <RightOutlined
+              <RightSquareFilled
                 style={{
-                  fontSize: 14,
-                  color: (selectedNode && selectedNode.color) || '#fff',
-                  padding: '7px 4px'
+                  fontSize: 24,
+                  color: '#eee',
+                  padding: '7px 4px',
+                  transform: 'translateX(25px)'
                 }}
               />
               :
-              <LeftOutlined
+              <LeftSquareFilled
                 style={{
-                  fontSize: 14,
-                  color: (selectedNode && selectedNode.color) || '#fff',
+                  fontSize: 24,
+                  color: '#111',
                   padding: '7px 4px'
                 }}
               />}

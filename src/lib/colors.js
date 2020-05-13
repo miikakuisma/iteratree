@@ -1,8 +1,6 @@
 export const palette = [
   {
-    name: 'black',
-    color: '#fff',
-    background: '#111'
+    name: 'default',
   },
   {
     name: 'white',
