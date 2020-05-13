@@ -143,7 +143,7 @@ class Node extends React.Component {
         <div
           className={node.selected ? "node selected" : "node"}
           style={{
-            background: node.selected ? (isPreviewingRemove ? 'red' : node.background || '#ffffff') : '#ffffff',
+            background: node.selected ? (isPreviewingRemove ? 'red' : node.background || '#111') : '#ffffff',
             borderTop: node.selected ? (isPreviewingRemove ? '4px solid red' : `4px solid ${node.background || '#111'}`) : `4px solid ${node.background || '#ccc'}`,
             opacity: isPreviewingRemove ? 0.3 : 1,
           }}
@@ -174,7 +174,7 @@ class Node extends React.Component {
               className="title"
               onClick={handleClickTitle}
               style={{
-                color: node.selected ? node.color || '#111' : '#111',
+                color: node.selected ? node.color || '#fff' : '#111',
               }}
             > <div className="badgeContainer">
                 <Badge
