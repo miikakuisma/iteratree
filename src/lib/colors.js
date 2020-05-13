@@ -1,6 +1,13 @@
 export const palette = [
   {
-    name: 'none',
+    name: 'black',
+    color: '#fff',
+    background: '#111'
+  },
+  {
+    name: 'white',
+    color: '#111',
+    background: '#fff'
   },
   {
     name: 'magenta',
