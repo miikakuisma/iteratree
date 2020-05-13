@@ -414,7 +414,7 @@ function Tree() {
           }
         }}
         style={{
-          width: sidebarOpen ? 'calc(100% - 358px)' : '100%'
+          width: sidebarOpen ? 'calc(100vw - 395px)' : 'calc(100% - 20px)'
         }}
       >{nodeTree}</div>
       <Inspector
