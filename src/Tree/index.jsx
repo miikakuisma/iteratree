@@ -444,7 +444,7 @@ function Tree() {
             {sidebarOpen ?
               <RightSquareFilled
                 style={{
-                  fontSize: 24,
+                  fontSize: 20,
                   color: '#eee',
                   padding: '7px 4px',
                   transform: 'translateX(25px)'
@@ -453,7 +453,7 @@ function Tree() {
               :
               <LeftSquareFilled
                 style={{
-                  fontSize: 24,
+                  fontSize: 20,
                   color: '#111',
                   padding: '7px 4px'
                 }}
