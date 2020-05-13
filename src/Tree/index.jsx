@@ -171,6 +171,21 @@ function Tree() {
     }
   }
 
+  function updateNodeColor(node, item) {
+    traverse(tree).forEach(function(x) {
+      if (typeof x === 'object' && x === node) {
+        if (item.name === 'none') {
+          delete x.color;
+          delete x.background;
+        } else {
+          x.color = item.color;
+          x.background = item.background;
+        }
+        onRefresh();
+      }
+    });
+  }
+
   function copyNode(node) {
     setClipboard(node);
     message.info(`Node copied to clipboard`);
@@ -364,7 +379,7 @@ function Tree() {
     );
   };
 
-  const handleInspectorAction = action => {
+  const handleInspectorAction = (action, params) => {
     switch (action) {
       case "edit":
         setEditing(selectedNode.id);
@@ -378,6 +393,9 @@ function Tree() {
       case "delete":
         deleteNode(selectedNode);
         unselectAll();
+        break;
+      case "changeColor":
+        updateNodeColor(selectedNode, params);
         break;
       default:
         break;
@@ -396,16 +414,14 @@ function Tree() {
           }
         }}
         style={{
-          marginRight: sidebarOpen ? '375px' : 0
+          width: sidebarOpen ? 'calc(100% - 358px)' : '100%'
         }}
       >{nodeTree}</div>
-      {selectedNode &&
-        <Inspector
-          selectedNode={selectedNode}
-          clipboard={clipboard}
-          onAction={handleInspectorAction}
-        />
-      }
+      <Inspector
+        selectedNode={selectedNode}
+        clipboard={clipboard}
+        onAction={handleInspectorAction}
+      />
       <Sidebar className="sidebar" pose={sidebarOpen ? 'visible' : 'hidden'}>
         <div className="toggle">
           {sidebarOpen && <Fragment>
@@ -421,12 +437,29 @@ function Tree() {
               }}
             >Publish</Button>
           </Fragment>}
-          <div className="opener" onClick={() => UI.setState({ sidebarOpen: !sidebarOpen })}>
+          <div
+            className="opener"
+            onClick={() => UI.setState({ sidebarOpen: !sidebarOpen })}
+            style={{
+              backgroundColor: (selectedNode && selectedNode.background) || '#111'
+            }}
+          >
             {sidebarOpen ?
-              <RightOutlined style={{ fontSize: 14, color: 'white', padding: '7px 4px' }} />
+              <RightOutlined
+                style={{
+                  fontSize: 14,
+                  color: (selectedNode && selectedNode.color) || '#fff',
+                  padding: '7px 4px'
+                }}
+              />
               :
-              <LeftOutlined style={{ fontSize: 14, color: 'white', padding: '7px 4px' }}
-            />}
+              <LeftOutlined
+                style={{
+                  fontSize: 14,
+                  color: (selectedNode && selectedNode.color) || '#fff',
+                  padding: '7px 4px'
+                }}
+              />}
           </div>
         </div>
         <Questionnaire flow={selectedNode || tree[0]} preview={true} onAnswer={(next) => selectNode(next)} />

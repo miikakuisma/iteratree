@@ -143,8 +143,8 @@ class Node extends React.Component {
         <div
           className={node.selected ? "node selected" : "node"}
           style={{
-            background: node.selected ? (isPreviewingRemove ? 'red' : '#1890ff') : '#ffffff',
-            border: node.selected ? (isPreviewingRemove ? '2px solid red' : '2px solid #1890ff') : '2px solid #bfbfbf',
+            background: node.selected ? (isPreviewingRemove ? 'red' : node.background || '#111') : '#ffffff',
+            borderTop: node.selected ? (isPreviewingRemove ? '4px solid red' : `4px solid ${node.background || '#111'}`) : `4px solid ${node.background || '#ccc'}`,
             opacity: isPreviewingRemove ? 0.3 : 1,
           }}
           onMouseEnter={() => {
@@ -164,13 +164,17 @@ class Node extends React.Component {
               onKeyUp={handleKeyUp}
               className="title"
               defaultValue={node.title || ''}
+              allowClear
+              style={{
+                backgroundColor: 'rgba(255,255,255,0.3)'
+              }}
             />
           ) : (
             <span
               className="title"
               onClick={handleClickTitle}
               style={{
-                color: node.selected ? '#fff' : '#111',
+                color: node.selected ? node.color || '#fff' : '#111',
               }}
             > <div className="badgeContainer">
                 <Badge
@@ -181,7 +185,7 @@ class Node extends React.Component {
                 />
               </div>
               {isHovering && <div className="collapseControl" onClick={handleCollapse}>
-                {isCollapsed ? <PlusSquareOutlined style={{ color: isSelected ? '#fff' : '#000' }} /> : <MinusSquareOutlined style={{ color: '#ccc' }} />}
+                {isCollapsed ? <PlusSquareOutlined style={{ color: isSelected ? '#fff' : '#000' }} /> : <MinusSquareOutlined style={{ color: '#999' }} />}
               </div>}
               {!isCollapsed ? (node.title || 'Untitled') : null }
             </span>

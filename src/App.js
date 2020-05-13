@@ -110,7 +110,7 @@ export default function App() {
             <Tree />
           </Content>}
         </Layout>
-        {mode === "questionnaire" && <Questionnaire flow={tree} />}
+        {mode === "questionnaire" && <Questionnaire flow={tree} preview={false} onAnswer={x => console.log(x)} />}
         {UI.shortcuts && <Shortcuts />}
         {UI.userModal && <UserMenu />}
         {UI.codeModal && <ShowCode />}

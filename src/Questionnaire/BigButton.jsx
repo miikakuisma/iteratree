@@ -9,13 +9,14 @@ const propTypes = {
   label: PropTypes.string,
   nodeId: PropTypes.number,
   disabled: PropTypes.bool,
+  style: PropTypes.object,
   onPressed: PropTypes.func
 };
 
 // eslint-disable-next-line no-undef
 const traverse = require("traverse");
 
-function BigButton({ label, nodeId, disabled, onPressed }) {
+function BigButton({ label, nodeId, disabled, style, onPressed }) {
   const store = useContext(TreeContext);
   const [buttonDown, setButtonDown] = useState(false);
 
@@ -54,6 +55,7 @@ function BigButton({ label, nodeId, disabled, onPressed }) {
         setButtonDown(false);
       }}
       onClick={handleClick}
+      style={style}
     >{label}</Button>
   )  
 }

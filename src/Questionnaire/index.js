@@ -38,6 +38,9 @@ class Questionnaire extends React.Component {
     if (this.props.preview && this.state.node.id !== this.props.flow.id) {
       this.setState({ node: this.props.flow });
     }
+    if (this.props.preview && this.props.flow !== this.state.node) {
+      this.setState({ node: this.props.flow });
+    }
   }
 
   handleClick(node) {
@@ -124,7 +127,12 @@ class Questionnaire extends React.Component {
   render() {
     const { node } = this.state
     return (
-      <div className={this.props.preview ? "Questionnaire preview" : "Questionnaire"}>
+      <div
+        className={this.props.preview ? "Questionnaire preview" : "Questionnaire"}
+        style={{
+          background: node.background || '#111111'
+        }}
+      >
         {this.getBoxContent(node)}
       </div>
     )

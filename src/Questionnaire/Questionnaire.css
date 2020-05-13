@@ -84,9 +84,9 @@
   width: 100%;
   margin: 5px;
   padding: 20px;
-  background: #2083c9;
+  background: transparent;
   border-radius: 3px;
-  border: none;
+  border: 2px solid white;
 }
 
 .Questionnaire button:active, button:focus {
@@ -101,5 +101,5 @@
   height: 120vw;
   z-index: 11;
   border-radius: 50%;
-  background-color: #2083c8;
+  background-color: white;
 }

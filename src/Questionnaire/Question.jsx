@@ -26,6 +26,11 @@ class Question extends React.Component {
       onPressed={() => {
         onClickNode(option);
       }}
+      style={{
+        width: node.options.length == 2 && '47%',
+        color: node.background || '#111',
+        background: node.color || 'white'
+      }}
     />);
 
     return (
@@ -42,7 +47,12 @@ class Question extends React.Component {
             pose={isVisible ? 'visible' : 'hidden'}
           >
             <span className="title">&nbsp;</span>
-            <p className="question">{node.title}</p>
+            <p
+              className="question"
+              style={{
+                color: node.color || 'white'
+              }}
+            >{node.title}</p>
           </QuestionBox>}
         </div>
         <div

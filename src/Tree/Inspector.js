@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Drawer, Space, Button } from 'antd';
-import { EditFilled, CopyOutlined, DiffOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Drawer, Space, Button, Dropdown, Menu } from 'antd';
+import { BgColorsOutlined, EditFilled, CopyOutlined, DiffOutlined, DeleteOutlined } from '@ant-design/icons';
+import { palette } from '../lib/colors';
 
 const propTypes = {
   selectedNode: PropTypes.object,
@@ -11,34 +12,72 @@ const propTypes = {
 
 function Inspector({ selectedNode, clipboard, onAction }) {
 
+  const handleSelectColor = (item) => {
+    onAction("changeColor", item);
+  }
+
+  const colorItems = palette.map((item, index) =>
+    <Menu.Item key={index} onClick={() => {
+      handleSelectColor(item);
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div
+          style={{
+            backgroundColor: item.background,
+            width: '16px',
+            height: '16px',
+            float: 'left',
+            marginRight: '5px',
+          }}
+        />
+        {item.name}
+      </div>
+    </Menu.Item>
+  );
+
+  const menu = (
+    <Menu>
+      {colorItems}
+    </Menu>
+  );
+
   return(
     <Drawer
-      title={selectedNode.title || 'Untitled'}
+      title={selectedNode && selectedNode.title || ''}
       placement='bottom'
       closable={false}
       height={55}
       mask={false}
-      visible={selectedNode !== null}
+      visible={true}
     >
-      
       <div className="actions">
         <Space>
+          <Dropdown disabled={!selectedNode} overlay={menu} placement="topCenter">
+            <Button
+              icon={<BgColorsOutlined />}
+              onClick={() => {
+                onAction("edit");
+              }}
+            >Color</Button>
+          </Dropdown>
           <Button
             type="primary"
             icon={<EditFilled />}
+            disabled={!selectedNode}
             onClick={() => {
               onAction("edit");
             }}
           >Edit</Button>
           <Button
             icon={<CopyOutlined />}
+            disabled={!selectedNode}
             onClick={() => {
               onAction("copy");
             }}
           >Copy</Button>
           <Button
             icon={<DiffOutlined />}
-            disabled={clipboard === null}
+            disabled={clipboard === null || !selectedNode}
             onClick={() => {
               onAction("paste");
             }}
@@ -48,7 +87,7 @@ function Inspector({ selectedNode, clipboard, onAction }) {
             onClick={() => {
               onAction("delete");
             }}
-            disabled={selectedNode.id === 0}
+            disabled={selectedNode && selectedNode.id === 0 || !selectedNode}
             danger
           >Delete</Button>
         </Space>
