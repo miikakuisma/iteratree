@@ -76,7 +76,6 @@
 }
 
 .Questionnaire .buttons {
-  display: inline-flex;
   padding: 20px;
 }
 
@@ -88,6 +87,7 @@
   padding: 20px;
   background: transparent;
   border-radius: 3px;
+  min-height: 80px;
   border: 2px solid white;
 }
 
