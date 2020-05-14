@@ -72,6 +72,7 @@ export default function App() {
           logger(response)
           refreshTree(response[0].tree);
           if (questionnaire) {
+            window.history.replaceState({}, document.title, "/");
             setMode("questionnaire");
           } else {
             setMode("editor");
@@ -103,14 +104,14 @@ export default function App() {
   return (
     <TreeContext.Provider value={{ tree, onRefresh: refreshTree }}>
       <UIContext.Provider value={{ state: UI, setState: refreshUI }}>
-        <Layout>
+        {mode === "questionnaire" && <Questionnaire flow={tree} preview={false} />}
+        {mode === "editor" && <Layout>
           <TopMenu onEnterPreview={() => setMode("questionnaire")} onExitPreview={() => setMode("editor")} />
           <TreeName />
-          {mode === "editor" &&<Content className="App">
+          <Content className="App">
             <Tree />
-          </Content>}
-        </Layout>
-        {mode === "questionnaire" && <Questionnaire flow={tree} preview={false} onAnswer={x => console.log(x)} />}
+          </Content>
+        </Layout>}
         {UI.shortcuts && <Shortcuts />}
         {UI.userModal && <UserMenu />}
         {UI.codeModal && <ShowCode />}
