@@ -28,6 +28,9 @@ export default function TreeName() {
 
   const handleSaveTitle = (e) => {
     setEditing(false);
+    if (id === "") {
+      return
+    }
     renameTree({
       treeId: id,
       newName: e.target.value,

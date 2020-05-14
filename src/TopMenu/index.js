@@ -98,13 +98,10 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
         // logger(store.tree[0])
         store.tree[0].root.id = response.objectId;
         store.tree[0].root.author = UI.state.user.objectId;
-        store.onRefresh();
-        notification.success({ message: "Saved to Cloud" });
-        refreshMenu();
         // Let's update the saved Tree so that the ID that just got generated during saving gets saved to the data
         updateTree(store.tree);
         message.destroy();
-        window.location.reload();
+        // window.location.reload();
       },
       onError: (response) => {
         notification.error({ message: "Cannot save", description: response });
@@ -120,6 +117,9 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
       tree,
       onSuccess: () => {
         message.destroy();
+        store.onRefresh();
+        notification.success({ message: "Saved to Cloud" });
+        refreshMenu();
       },
       onError: (response) => {
         notification.error({ message: "Cannot save", description: response });

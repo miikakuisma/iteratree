@@ -72,7 +72,7 @@ export default function App() {
           logger(response)
           refreshTree(response[0].tree);
           if (questionnaire) {
-            window.history.replaceState({}, document.title, "/");
+            // window.history.replaceState({}, document.title, "/");
             setMode("questionnaire");
           } else {
             setMode("editor");
