@@ -44,7 +44,7 @@ function Inspector({ selectedNode, clipboard, onAction }) {
 
   return(
     <Drawer
-      title={selectedNode && selectedNode.title || ''}
+      title={(selectedNode && selectedNode.title) || ''}
       placement='bottom'
       closable={false}
       height={55}
@@ -88,7 +88,7 @@ function Inspector({ selectedNode, clipboard, onAction }) {
             onClick={() => {
               onAction("delete");
             }}
-            disabled={selectedNode && selectedNode.id === 0 || !selectedNode}
+            disabled={(selectedNode && selectedNode.id === 0) || !selectedNode}
             danger
           >Delete</Button>
         </Space>

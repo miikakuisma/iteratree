@@ -254,3 +254,10 @@ button.ant-btn[disabled] {
   cursor: pointer;
 }
 
+.content-tools {
+  position: absolute;
+  z-index: 99;
+  top: 50px;
+  left: 0;
+  right: 0;
+}

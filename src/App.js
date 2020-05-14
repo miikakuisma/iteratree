@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { TreeContext, UIContext, initialAppState, initialUIState } from './Store';
+import { TreeContext, ContentContext, UIContext, initialAppState, initialContentState, initialUIState } from './Store';
 import { Layout, notification } from 'antd';
 import { getCurrentUser, getMyTrees, loadTree } from "./lib/parse";
 import { logger } from "./lib/helpers";
@@ -23,9 +23,17 @@ export default function App() {
     storedTree = JSON.parse(window.localStorage.getItem("tree"));
   } catch (e) {
     storedTree = null;
-  }  
+  }
+  // Get last edited Content from localstorage
+  let storedContent;
+  try {
+    storedContent = JSON.parse(window.localStorage.getItem("content"));
+  } catch (e) {
+    storedContent = null;
+  }
 
   const [tree, updateTree] = useState(storedTree || initialAppState);
+  const [content, updateContent] = useState(storedContent || initialContentState);
   const [UI, updateUI] = useState(initialUIState);
   const [mode, setMode] = useState('loading');
 
@@ -101,21 +109,38 @@ export default function App() {
     });
   }
 
+  function refreshContent(addedContent) {
+    if (addedContent.length === 0) {
+      updateContent([]);
+    } else {
+      updateContent([
+        ...content,
+        ...addedContent
+      ]);
+      window.localStorage.setItem("content", JSON.stringify([
+        ...content,
+        ...addedContent
+      ]));  
+    }
+  }
+
   return (
     <TreeContext.Provider value={{ tree, onRefresh: refreshTree }}>
-      <UIContext.Provider value={{ state: UI, setState: refreshUI }}>
-        {mode === "questionnaire" && <Questionnaire flow={tree} preview={false} />}
-        {mode === "editor" && <Layout>
-          <TopMenu onEnterPreview={() => setMode("questionnaire")} onExitPreview={() => setMode("editor")} />
-          <TreeName />
-          <Content className="App">
-            <Tree />
-          </Content>
-        </Layout>}
-        {UI.shortcuts && <Shortcuts />}
-        {UI.userModal && <UserMenu />}
-        {UI.codeModal && <ShowCode />}
-      </UIContext.Provider>
+      <ContentContext.Provider value={{ state: content, setState: refreshContent }}>
+        <UIContext.Provider value={{ state: UI, setState: refreshUI }}>
+          {mode === "questionnaire" && <Questionnaire flow={tree} preview={false} />}
+          {mode === "editor" && <Layout>
+            <TopMenu onEnterPreview={() => setMode("questionnaire")} onExitPreview={() => setMode("editor")} />
+            <TreeName />
+            <Content className="App">
+              <Tree />
+            </Content>
+          </Layout>}
+          {UI.shortcuts && <Shortcuts />}
+          {UI.userModal && <UserMenu />}
+          {UI.codeModal && <ShowCode />}
+        </UIContext.Provider>
+      </ContentContext.Provider>
     </TreeContext.Provider>
   );
 }

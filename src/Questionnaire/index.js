@@ -10,6 +10,7 @@ const propTypes = {
     PropTypes.object
   ]),
   preview: PropTypes.bool,
+  content: PropTypes.object,
   onAnswer: PropTypes.func,
 };
 
@@ -18,6 +19,7 @@ class Questionnaire extends React.Component {
     super(props)
     this.state = {
       node: this.getInitialNode(),
+      content: props.content,
       boxVisible: false,
       deviceVisible: false,
       switcherRunning: false,
@@ -63,9 +65,12 @@ class Questionnaire extends React.Component {
     }
   }
 
-  getBoxContent(node) {
+  getBoxContent(node, content) {
     const { boxVisible, switcherRunning } = this.state
     const { preview } = this.props;
+
+    const getContent = content.find(c => c.nodeId === node.id.toString());
+    const nodeContent = getContent && getContent.content;
 
     if (node.options) {
       return (<Question
@@ -73,6 +78,7 @@ class Questionnaire extends React.Component {
         isVisible={boxVisible}
         isPreviewing={preview}
         node={node}
+        content={nodeContent}
         onClickNode={(answer) => {
           if (answer && answer.options && answer.options.length === 1) {
             this.handleClick(answer.options[0]);
@@ -93,6 +99,7 @@ class Questionnaire extends React.Component {
           isVisible={boxVisible}
           isPreviewing={preview}
           node={node}
+          content={nodeContent}
           onClickNode={(answer) => {
             if (answer.options.length === 1) {
               this.handleClick(answer.options[0]);
@@ -125,7 +132,7 @@ class Questionnaire extends React.Component {
   }
   
   render() {
-    const { node } = this.state
+    const { node, content } = this.state
     return (
       <div
         className={this.props.preview ? "Questionnaire preview" : "Questionnaire"}
@@ -133,7 +140,7 @@ class Questionnaire extends React.Component {
           background: node.background || '#111111'
         }}
       >
-        {this.getBoxContent(node)}
+        {this.getBoxContent(node, content)}
       </div>
     )
   }

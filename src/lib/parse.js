@@ -77,7 +77,7 @@ export function resetPassword({ email, onSuccess, onError  }) {
   });
 }
 
-export function saveToDB({ tree, onSuccess, onError }) {
+export function saveNewTree({ tree, onSuccess, onError }) {
   logger('API Request (save)');
   const currentUser = Parse.User.current();
   if (!currentUser) {
@@ -106,13 +106,13 @@ export function saveToDB({ tree, onSuccess, onError }) {
   );
 }
 
-export function renameTree({ treeId, newName, onSuccess, onError }) {
+export function updateSavedTree({ tree, onSuccess, onError }) {
   logger('API Request (update)');
   const TreeClass = Parse.Object.extend('Tree');
   const query = new Parse.Query(TreeClass);
 
-  query.get(treeId).then((object) => {
-    object.set('name', newName);
+  query.get(tree[0].root.id).then((object) => {
+    object.set('tree', tree);
     object.save().then((response) => {
       if (typeof document !== 'undefined') {
         onSuccess(JSON.parse(JSON.stringify(response)));
@@ -125,13 +125,13 @@ export function renameTree({ treeId, newName, onSuccess, onError }) {
   });
 }
 
-export function updateTreeInDB({ tree, onSuccess, onError }) {
+export function renameTree({ treeId, newName, onSuccess, onError }) {
   logger('API Request (update)');
   const TreeClass = Parse.Object.extend('Tree');
   const query = new Parse.Query(TreeClass);
 
-  query.get(tree[0].root.id).then((object) => {
-    object.set('tree', tree);
+  query.get(treeId).then((object) => {
+    object.set('name', newName);
     object.save().then((response) => {
       if (typeof document !== 'undefined') {
         onSuccess(JSON.parse(JSON.stringify(response)));
@@ -195,4 +195,59 @@ export function deleteTree({ id, onSuccess, onError }) {
       onError("Couldn't delete that Tree");
     });
   });
+}
+
+export function saveNodeContent({ treeId, nodeId, content }) {
+  logger('API Request (save content)');
+  return new Promise(
+    function (resolve, reject) {
+
+      const currentUser = Parse.User.current();
+      if (!currentUser) {
+        reject("You must be signed in first");
+      }
+
+      const ContentClass = Parse.Object.extend('nodeContent');
+      const newContent = new ContentClass();
+
+      newContent.set('treeId', treeId);
+      newContent.set('nodeId', nodeId.toString());
+      newContent.set('content', content);
+      newContent.set('owner', currentUser.id);
+
+      newContent.save().then(
+        (result) => {
+          if (typeof document !== 'undefined') {
+            resolve(JSON.parse(JSON.stringify(result)));
+          }
+        },
+        (error) => {
+          if (typeof document !== 'undefined') {
+            reject(error);
+          }
+        }
+      );
+    }
+  )  
+}
+
+export function loadTreeContent({ treeId }) {
+  logger('API Request (load)');
+  return new Promise(
+    function (resolve, reject) {
+      const ContentClass = Parse.Object.extend('nodeContent');
+      const query = new Parse.Query(ContentClass);
+      query.equalTo("treeId", treeId);
+      query.find().then((results) => {
+        if (typeof document !== 'undefined') {
+          // logger(JSON.parse(JSON.stringify(results)))
+          resolve(JSON.parse(JSON.stringify(results)));
+        }
+      }, (error) => {
+        if (typeof document !== 'undefined') {
+          reject(error);
+        }
+      });
+    }
+  );
 }

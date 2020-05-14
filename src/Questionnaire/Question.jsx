@@ -11,13 +11,14 @@ const propTypes = {
     PropTypes.array,
     PropTypes.object
   ]),
+  content: PropTypes.object,
   onClickNode: PropTypes.func.isRequired,
 }
 
 class Question extends React.Component {
   
   render() {
-    const { isVisible, node, onClickNode } = this.props
+    const { isVisible, node, content, onClickNode } = this.props
 
     const buttons = node.options && node.options.map((option, index) => <BigButton
       key={index}
@@ -27,10 +28,10 @@ class Question extends React.Component {
         onClickNode(option);
       }}
       style={{
-        width: node.options.length == 2 && '47%',
+        width: node.options.length === 2 && '47%',
         color: node.background || '#111',
         background: node.color || 'white',
-        margin: node.options.length == 2 ? '5px' : '5px 0',
+        margin: node.options.length === 2 ? '5px' : '5px 0',
       }}
     />);
 
@@ -54,6 +55,7 @@ class Question extends React.Component {
                 color: node.color || 'white'
               }}
             >{node.title}</p>
+            <p>{content && content.markdown}</p>
           </QuestionBox>}
         </div>
         <div
