@@ -44,7 +44,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
       icon: <ExclamationCircleOutlined />,
       content: 'Unsaved changes will be lost',
       onOk() {
-        load(blank)
+        load(blank, true);
         // window.localStorage.removeItem('tree');
         // window.location.reload();
       },
@@ -68,20 +68,25 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
     });    
   }
 
-  function load(tree) {
+  function load(tree, skipConfirm) {
     UI.setState({ modalOpen: true });
-    confirm({
-      title: 'Unsaved changes will be lost',
-      icon: <ExclamationCircleOutlined />,
-      content: 'Are you sure you want to open this project?',
-      onOk() {
-        UI.setState({ modalOpen: false });
-        store.onRefresh(tree);
-      },
-      onCancel() {
-        UI.setState({ modalOpen: false });
-      },
-    });
+    if (skipConfirm) {
+      UI.setState({ modalOpen: false });
+      store.onRefresh(tree);
+    } else {
+      confirm({
+        title: 'Unsaved changes will be lost',
+        icon: <ExclamationCircleOutlined />,
+        content: 'Are you sure you want to open this project?',
+        onOk() {
+          UI.setState({ modalOpen: false });
+          store.onRefresh(tree);
+        },
+        onCancel() {
+          UI.setState({ modalOpen: false });
+        },
+      });  
+    }
   }
 
   function saveAs(tree) {

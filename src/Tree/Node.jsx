@@ -164,7 +164,6 @@ class Node extends React.Component {
               onKeyUp={handleKeyUp}
               className="title"
               defaultValue={node.title || ''}
-              allowClear
               style={{
                 backgroundColor: 'rgba(255,255,255,0.3)'
               }}
