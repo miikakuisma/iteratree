@@ -1,27 +1,22 @@
 import React, { useContext, useState, useEffect, Fragment } from "react";
 import { TreeContext, UIContext } from '../Store';
-import { message, Modal, Button, Typography } from 'antd';
-import { ExclamationCircleOutlined, LeftSquareFilled, RightSquareFilled } from '@ant-design/icons';
-import { Sidebar } from './animations';
+import { message, Modal } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { Sidebar } from './Sidebar';
 import { arrayMove } from "../lib/helpers";
 import Node from "./Node";
 import Inspector from "./Inspector";
-import Questionnaire from "../Questionnaire";
 import 'antd/dist/antd.css';
 import "../styles.css";
 
 // eslint-disable-next-line no-undef
 const traverse = require("traverse");
 
-const { Text } = Typography;
-
 function Tree() {
   const store = useContext(TreeContext);
   const UI = useContext(UIContext);
   const { tree, onRefresh } = store;
-  const { sidebarOpen, userModal, modalOpen, user, loggedIn } = UI.state;
-  const userLoggedIn = user && loggedIn;
-  const treeId = tree[0].root.id;
+  const { sidebarOpen, userModal, modalOpen } = UI.state;
 
   const [clipboard, setClipboard] = useState(null);
   const [selectedNode, setSelectedNode] = useState(null);
@@ -414,7 +409,7 @@ function Tree() {
           }
         }}
         style={{
-          width: sidebarOpen ? 'calc(100vw - 395px)' : 'calc(100% - 20px)'
+          width: sidebarOpen ? 'calc(100vw - 395px)' : '100%'
         }}
       >{nodeTree}</div>
       <Inspector
@@ -422,46 +417,7 @@ function Tree() {
         clipboard={clipboard}
         onAction={handleInspectorAction}
       />
-      <Sidebar className="sidebar" pose={sidebarOpen ? 'visible' : 'hidden'}>
-        <div className="toggle">
-          {sidebarOpen && <Fragment>
-            <Text style={{ color: 'white' }}>Questionnaire Preview</Text>
-            <Button
-              type="primary"
-              size="small"
-              disabled={!userLoggedIn || (treeId === "")}
-              onClick={() => {
-                // onEnterPreview();
-                // UI.setState({ questionnaire: true });
-                UI.setState({ codeModal: true });
-              }}
-            >Publish</Button>
-          </Fragment>}
-          <div
-            className="opener"
-            onClick={() => UI.setState({ sidebarOpen: !sidebarOpen })}
-          >
-            {sidebarOpen ?
-              <RightSquareFilled
-                style={{
-                  fontSize: 20,
-                  color: '#eee',
-                  padding: '7px 4px',
-                  transform: 'translateX(25px)'
-                }}
-              />
-              :
-              <LeftSquareFilled
-                style={{
-                  fontSize: 20,
-                  color: '#111',
-                  padding: '7px 4px'
-                }}
-              />}
-          </div>
-        </div>
-        <Questionnaire flow={selectedNode || tree[0]} preview={true} onAnswer={(next) => selectNode(next)} />
-      </Sidebar>
+      <Sidebar open={sidebarOpen} selectedNode={selectedNode || tree[0]} onSelectNode={(next) => selectNode(next)} />
     </Fragment>
   );
 }

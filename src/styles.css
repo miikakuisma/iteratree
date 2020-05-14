@@ -41,7 +41,7 @@ button.export {
 .nodeTree {
   display: flex;
   flex-direction: column;
-  height: calc(100% - 13px);
+  height: calc(100% - 15px);
   overflow: overlay;
   margin-top: -20px;
   padding-top: 20px;
@@ -249,7 +249,7 @@ button.ant-btn[disabled] {
 
 .sidebar .opener {
   position: absolute;
-  left: -27px;
+  left: -29px;
   top: calc(50vh - 100px);
   cursor: pointer;
 }

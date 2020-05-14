@@ -29,7 +29,8 @@ class Question extends React.Component {
       style={{
         width: node.options.length == 2 && '47%',
         color: node.background || '#111',
-        background: node.color || 'white'
+        background: node.color || 'white',
+        margin: node.options.length == 2 ? '5px' : '5px 0',
       }}
     />);
 
