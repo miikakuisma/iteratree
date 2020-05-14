@@ -29,17 +29,16 @@ function BigButton({ label, nodeId, disabled, style, onPressed }) {
         } else {
           node.clicks = 1;
         }
-        store.onRefresh();
       }
     });
-    onPressed();
+    store.onRefresh();
     updateTreeInDB({
       tree: store.tree,
       onSuccess: () => {
-
+        onPressed();
       },
       onError: () => {
-
+        onPressed();
       }
     })
   }
