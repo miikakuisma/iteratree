@@ -5,7 +5,7 @@ import { Button, Typography } from 'antd';
 import { LeftSquareFilled, RightSquareFilled } from '@ant-design/icons';
 import { SidebarContainer } from './animations';
 import Questionnaire from '../Questionnaire';
-import ContentTools from './ContentTools';
+// import ContentTools from './ContentTools';
 
 const { Text } = Typography;
 
@@ -63,7 +63,7 @@ export function Sidebar({ open, selectedNode, onSelectNode }) {
             />}
         </div>
       </div>
-      <ContentTools selectedNode={selectedNode} />
+      {/* <ContentTools selectedNode={selectedNode} /> */}
       <Questionnaire
         flow={selectedNode || tree[0]}
         preview={true}

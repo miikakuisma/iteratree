@@ -18,7 +18,7 @@ const propTypes = {
   onClickNode: PropTypes.func.isRequired,
 }
 
-export function Question({ isVisible, node, onClickNode }) {
+export function Question({ isVisible, isPreviewing, node, onClickNode }) {
   const store = useContext(TreeContext);
   const { tree } = store;
   const treeId = tree[0].root.id;
@@ -104,7 +104,7 @@ export function Question({ isVisible, node, onClickNode }) {
           {!saving && <Content
             node={node}
             content={thisContent}
-            editable={true}
+            editable={isPreviewing}
             onSave={saveContentText}
             onUpdate={updateContentText}
           />}
