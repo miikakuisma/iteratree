@@ -1,8 +1,20 @@
-import React, { useContext, Fragment } from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { TreeContext, ContentContext, UIContext } from '../Store';
-import { Menu, Modal, Button, notification, message } from 'antd';
-import { BranchesOutlined, ExclamationCircleOutlined, UserOutlined, ClearOutlined, FileAddOutlined, DeleteOutlined, QuestionCircleOutlined, ExportOutlined, QrcodeOutlined, LoadingOutlined, ShareAltOutlined } from '@ant-design/icons';
+import { Menu, Modal, notification, message } from 'antd';
+import {
+  BranchesOutlined,
+  ExclamationCircleOutlined,
+  UserOutlined,
+  ClearOutlined,
+  FileAddOutlined,
+  DeleteOutlined,
+  QuestionCircleOutlined,
+  // ExportOutlined,
+  QrcodeOutlined,
+  LoadingOutlined,
+  ShareAltOutlined
+} from '@ant-design/icons';
 import { signOut, saveNewTree, updateSavedTree, loadTree, deleteTree, getMyTrees, loadTreeContent } from "../lib/parse";
 import { blank, tutorial, happy, feedback, week } from './Examples';
 import md5 from "md5";
@@ -19,7 +31,7 @@ const propTypes = {
 const { SubMenu } = Menu;
 const { confirm } = Modal;
 
-function TopMenu({ onEnterPreview, onExitPreview }) {
+function TopMenu() {
   const store = useContext(TreeContext);
   const content = useContext(ContentContext);
   const UI = useContext(UIContext);
@@ -274,13 +286,6 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
         </Menu.ItemGroup> */}
 
         <Menu.ItemGroup title="Questionnaire">
-          {/* <Menu.Item
-            key="setting:6"
-            onClick={() => {
-              onEnterPreview();
-              UI.setState({ questionnaire: true });
-            }}
-          ><BranchesOutlined />Preview</Menu.Item> */}
           <Menu.Item
             key="setting:7"
             disabled={!userLoggedIn || (treeId === "")}
@@ -376,31 +381,6 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
           }}
         >Sign Out</Menu.Item>
       </SubMenu>
-      {UI.state.questionnaire ?
-        <Fragment>
-          <Button
-            style={{ position: 'absolute', right: '106px', top: '8px', zIndex: 999999 }}
-            onClick={() => {
-              UI.setState({ questionnaire: false });
-              onExitPreview();
-            }}
-          >EXIT</Button>
-          <Button
-            type="primary"
-            style={{ position: 'absolute', right: '8px', top: '8px', zIndex: 999999 }}
-            disabled={!UI.state.loggedIn}
-            onClick={() => {
-              UI.setState({
-                questionnaire: false,
-                codeModal: true
-              });
-              onExitPreview();
-            }}
-          >PUBLISH</Button>
-        </Fragment>
-        :
-        null
-      }
     </Menu>
   );
 }

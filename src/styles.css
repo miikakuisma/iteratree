@@ -261,3 +261,21 @@ button.ant-btn[disabled] {
   left: 0;
   right: 0;
 }
+
+.ant-typography-edit {
+  font-size: 24px;
+}
+
+.node-content.markdown h1 {
+  color: white !important;
+}
+
+.node-content textarea {
+  color: #111;
+  width: 100%;
+}
+
+.node-content.edit-icon {
+  font-size: 24px;
+  color: #1890ff;
+}

@@ -13,6 +13,7 @@ export const initialUIState = {
   sidebarOpen: true,
   shortcuts: false,
   modalOpen: false,
+  editingContent: false,
   userModal: false,
   codeModal: false,
   loggedIn: false,
