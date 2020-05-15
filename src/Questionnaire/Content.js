@@ -13,7 +13,13 @@ const propTypes = {
   onUpdate: PropTypes.func,
 };
 
-export function Content({ node, content, editable, onSave, onUpdate }) {
+export function Content({
+  // node,
+  content,
+  editable,
+  onSave,
+  onUpdate
+}) {
   const UI = useContext(UIContext);
   const [editing, setEditing] = useState(false);
   const hasContent = content !== undefined;

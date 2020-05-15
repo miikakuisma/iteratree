@@ -94,9 +94,9 @@ function TopMenu() {
         icon: <ExclamationCircleOutlined />,
         content: 'Are you sure you want to open this project?',
         onOk() {
+          content.clear();
           UI.setState({ modalOpen: false });
           store.onRefresh(tree);
-          content.clear();
         },
         onCancel() {
           UI.setState({ modalOpen: false });
@@ -181,6 +181,7 @@ function TopMenu() {
       icon: <ExclamationCircleOutlined />,
       content: 'Are you sure you want to open that?',
       onOk() {
+        content.clear();
         UI.setState({ modalOpen: false });
         message.loading('Loading tree..');
         loadTree({
