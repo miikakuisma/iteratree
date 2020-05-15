@@ -266,7 +266,11 @@ button.ant-btn[disabled] {
   font-size: 24px;
 }
 
-.node-content.markdown h1 {
+.node-content.markdown h1,
+.node-content.markdown h2,
+.node-content.markdown h3,
+.node-content.markdown h4,
+.node-content.markdown h5 {
   color: white !important;
 }
 
