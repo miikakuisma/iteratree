@@ -79,7 +79,7 @@ export default function App() {
         onSuccess: (response) => {
           logger(response);
           refreshTree(response[0].tree);
-          loadTreeContent({ treeId: response[0].tree.id })
+          loadTreeContent({ treeId: response[0].tree.objectId })
           .then((result) => {
             refreshContent(result);
           })
