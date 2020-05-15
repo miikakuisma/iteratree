@@ -38,8 +38,9 @@ export function Question({ isVisible, isPreviewing, node, onClickNode }) {
     }}
     style={{
       width: node.options.length === 2 && '47%',
-      color: node.background || '#111',
-      background: node.color || 'white',
+      color: option.color || '#111',
+      background: option.background || 'white',
+      borderColor: option.background || 'white',
       margin: node.options.length === 2 ? '5px' : '5px 0',
     }}
   />);
