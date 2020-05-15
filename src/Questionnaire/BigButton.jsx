@@ -32,13 +32,14 @@ function BigButton({ label, nodeId, disabled, style, onPressed }) {
       }
     });
     store.onRefresh();
+    onPressed();
     updateTreeInDB({
       tree: store.tree,
       onSuccess: () => {
-        onPressed();
+        // onPressed();
       },
       onError: () => {
-        onPressed();
+        // onPressed();
       }
     })
   }
