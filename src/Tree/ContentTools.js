@@ -21,7 +21,7 @@ export function ContentTools({ selectedNode }) {
           treeId,
           nodeId,
           content: {
-            markdown: 'turha luulla muuta'
+            markdown: 'Oletko ensimmäistä kertaa täällä?'
           }
         })
       }}>Add text</button>

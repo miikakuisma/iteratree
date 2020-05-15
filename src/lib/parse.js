@@ -231,6 +231,29 @@ export function saveNodeContent({ treeId, nodeId, content }) {
   )  
 }
 
+export function updateNodeContent({ contentId, content }) {
+  logger('API Request (update content)');
+  return new Promise(
+    function (resolve, reject) {
+      const ContentClass = Parse.Object.extend('nodeContent');
+      const query = new Parse.Query(ContentClass);
+      query.get(contentId).then((object) => {
+        object.set('content', content);
+        object.save().then((response) => {
+          if (typeof document !== 'undefined') {
+            // logger(JSON.parse(JSON.stringify(response)));
+            resolve(JSON.parse(JSON.stringify(response)));
+          }
+        }, (error) => {
+          if (typeof document !== 'undefined') {
+            reject(error);
+          }
+        });
+      });
+    }
+  )  
+}
+
 export function loadTreeContent({ treeId }) {
   logger('API Request (load)');
   return new Promise(
@@ -240,7 +263,7 @@ export function loadTreeContent({ treeId }) {
       query.equalTo("treeId", treeId);
       query.find().then((results) => {
         if (typeof document !== 'undefined') {
-          // logger(JSON.parse(JSON.stringify(results)))
+          // logger(JSON.parse(JSON.stringify(results)));
           resolve(JSON.parse(JSON.stringify(results)));
         }
       }, (error) => {

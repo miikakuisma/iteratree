@@ -75,7 +75,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
     if (skipConfirm) {
       UI.setState({ modalOpen: false });
       store.onRefresh(tree);
-      content.setState([]);
+      content.clear();
     } else {
       confirm({
         title: 'Unsaved changes will be lost',
@@ -84,7 +84,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
         onOk() {
           UI.setState({ modalOpen: false });
           store.onRefresh(tree);
-          content.setState([]);
+          content.clear();
         },
         onCancel() {
           UI.setState({ modalOpen: false });

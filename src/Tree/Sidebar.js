@@ -1,6 +1,6 @@
 import React, { Fragment, useContext } from "react";
 import PropTypes from "prop-types";
-import { TreeContext, ContentContext, UIContext } from '../Store';
+import { TreeContext, UIContext } from '../Store';
 import { Button, Typography } from 'antd';
 import { LeftSquareFilled, RightSquareFilled } from '@ant-design/icons';
 import { SidebarContainer } from './animations';
@@ -17,7 +17,6 @@ const propTypes = {
 
 export function Sidebar({ open, selectedNode, onSelectNode }) {
   const store = useContext(TreeContext);
-  const content = useContext(ContentContext);
   const UI = useContext(UIContext);
 
   const { tree } = store;
@@ -68,7 +67,6 @@ export function Sidebar({ open, selectedNode, onSelectNode }) {
       <Questionnaire
         flow={selectedNode || tree[0]}
         preview={true}
-        content={content.state}
         onAnswer={onSelectNode}
       />
     </SidebarContainer>

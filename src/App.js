@@ -109,24 +109,36 @@ export default function App() {
     });
   }
 
-  function refreshContent(addedContent) {
-    if (addedContent.length === 0) {
-      updateContent([]);
+  function refreshContent(newContent) {
+    if (content.length === 0 || !content) {
+      updateContent(newContent);
+      window.localStorage.setItem("content", JSON.stringify(newContent));
     } else {
-      updateContent([
-        ...content,
-        ...addedContent
-      ]);
-      window.localStorage.setItem("content", JSON.stringify([
-        ...content,
-        ...addedContent
-      ]));  
+      let updatedContent
+      // new entry 
+      if (!content.find(c => c.nodeId === newContent.nodeId)) {
+        updatedContent = content.push(newContent);
+      }
+      // or update?
+      updatedContent = content.map(c => {
+        if (c.nodeId === newContent.nodeId) {
+          return newContent;
+        }
+        return c;
+      });
+      updateContent(updatedContent);
+      window.localStorage.setItem("content", JSON.stringify(updatedContent));
     }
+  }
+
+  function resetContent() {
+    updateContent([]);
+    window.localStorage.removeItem("content");
   }
 
   return (
     <TreeContext.Provider value={{ tree, onRefresh: refreshTree }}>
-      <ContentContext.Provider value={{ state: content, setState: refreshContent }}>
+      <ContentContext.Provider value={{ state: content, setState: refreshContent, clear: resetContent }}>
         <UIContext.Provider value={{ state: UI, setState: refreshUI }}>
           {mode === "questionnaire" && <Questionnaire flow={tree} preview={false} />}
           {mode === "editor" && <Layout>
