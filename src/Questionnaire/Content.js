@@ -52,7 +52,7 @@ export function Content({ node, content, editable, onSave, onUpdate }) {
         <Fragment>
           <ReactMarkdown className="node-content markdown" source={content && content.content.markdown} />
           {editable &&
-            <Tooltip title={!content || !hasContent || !content.content.markdown ? "Add Markdown content" : "Edit"}>
+            <Tooltip title={!content || !hasContent || !content.content.markdown ? "Add Markdown content" : "Edit"} placement="bottom">
               {!content || !hasContent || !content.content.markdown ?
                 <PlusCircleOutlined className="node-content edit-icon" onClick={handleStartEditing} />
                 :
