@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { TreeContext, ContentContext, UIContext, initialAppState, initialContentState, initialUIState } from './Store';
 import { Layout, notification } from 'antd';
-import { getCurrentUser, getMyTrees, loadTree } from "./lib/parse";
+import { getCurrentUser, getMyTrees, loadTree, loadTreeContent } from "./lib/parse";
 import { logger } from "./lib/helpers";
 import TopMenu from "./TopMenu/";
 import UserMenu from "./UserMenu/";
@@ -77,10 +77,14 @@ export default function App() {
       loadTree({
         id,
         onSuccess: (response) => {
-          logger(response)
+          logger(response);
           refreshTree(response[0].tree);
+          loadTreeContent({ treeId: response[0].tree.id })
+          .then((result) => {
+            refreshContent(result);
+          })
           if (questionnaire) {
-            // window.history.replaceState({}, document.title, "/");
+            window.history.replaceState({}, document.title, "/");
             setMode("questionnaire");
           } else {
             setMode("editor");
@@ -99,7 +103,9 @@ export default function App() {
   function refreshTree(loadNewTree) {
     let newTree = JSON.stringify(loadNewTree) || JSON.stringify(tree);
     updateTree(JSON.parse(newTree));
-    window.localStorage.setItem("tree", JSON.stringify(tree));
+    if (mode === "editor") {
+      window.localStorage.setItem("tree", JSON.stringify(tree));
+    }
   }
 
   function refreshUI(newState) {
@@ -127,13 +133,17 @@ export default function App() {
         return c;
       });
       updateContent(updatedContent);
-      window.localStorage.setItem("content", JSON.stringify(updatedContent));
+      if (mode === "editor") {
+        window.localStorage.setItem("content", JSON.stringify(updatedContent));
+      }
     }
   }
 
   function resetContent() {
     updateContent([]);
-    window.localStorage.removeItem("content");
+    if (mode === "editor") {
+      window.localStorage.removeItem("content");
+    }
   }
 
   return (
