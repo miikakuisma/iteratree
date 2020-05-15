@@ -254,3 +254,34 @@ button.ant-btn[disabled] {
   cursor: pointer;
 }
 
+.content-tools {
+  position: absolute;
+  z-index: 99;
+  top: 50px;
+  left: 0;
+  right: 0;
+}
+
+.ant-typography-edit {
+  font-size: 24px;
+}
+
+.node-content.markdown h1,
+.node-content.markdown h2,
+.node-content.markdown h3,
+.node-content.markdown h4,
+.node-content.markdown h5 {
+  color: white !important;
+}
+
+.node-content textarea {
+  color: #111;
+  width: 100%;
+  padding: 5;
+  border-radius: 5px;
+}
+
+.node-content.edit-icon {
+  font-size: 24px;
+  color: rgba(255,255,255,0.7);
+}

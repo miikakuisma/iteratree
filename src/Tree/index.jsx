@@ -16,7 +16,7 @@ function Tree() {
   const store = useContext(TreeContext);
   const UI = useContext(UIContext);
   const { tree, onRefresh } = store;
-  const { sidebarOpen, userModal, modalOpen } = UI.state;
+  const { sidebarOpen, userModal, modalOpen, editingContent } = UI.state;
 
   const [clipboard, setClipboard] = useState(null);
   const [selectedNode, setSelectedNode] = useState(null);
@@ -68,7 +68,7 @@ function Tree() {
   }
 
   window.onkeydown = e => {
-    if (isAskingToConfirm || userModal) {
+    if (isAskingToConfirm || userModal || editingContent) {
       return
     }
     switch (e.key) {
@@ -334,7 +334,7 @@ function Tree() {
         node={node}
         subNodes={subNodes}
         pasteEnabled={clipboard !== null}
-        keyboardListenerDisabled={isAskingToConfirm || modalOpen}
+        keyboardListenerDisabled={isAskingToConfirm || modalOpen || editingContent}
         isEditing={isEditing === node.id}
         isPreviewingRemove={previewDeleteNode === node.id}
         isSelected={node.selected}

@@ -1,9 +1,21 @@
-import React, { useContext, Fragment } from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
-import { TreeContext, UIContext } from '../Store';
-import { Menu, Modal, Button, notification, message } from 'antd';
-import { BranchesOutlined, ExclamationCircleOutlined, UserOutlined, ClearOutlined, FileAddOutlined, DeleteOutlined, QuestionCircleOutlined, ExportOutlined, QrcodeOutlined, LoadingOutlined, ShareAltOutlined } from '@ant-design/icons';
-import { signOut, saveToDB, updateTreeInDB, loadTree, deleteTree, getMyTrees } from "../lib/parse";
+import { TreeContext, ContentContext, UIContext } from '../Store';
+import { Menu, Modal, notification, message } from 'antd';
+import {
+  BranchesOutlined,
+  ExclamationCircleOutlined,
+  UserOutlined,
+  ClearOutlined,
+  FileAddOutlined,
+  DeleteOutlined,
+  QuestionCircleOutlined,
+  // ExportOutlined,
+  QrcodeOutlined,
+  LoadingOutlined,
+  ShareAltOutlined
+} from '@ant-design/icons';
+import { signOut, saveNewTree, updateSavedTree, loadTree, deleteTree, getMyTrees, loadTreeContent } from "../lib/parse";
 import { blank, tutorial, happy, feedback, week } from './Examples';
 import md5 from "md5";
 import "../styles.css";
@@ -19,8 +31,9 @@ const propTypes = {
 const { SubMenu } = Menu;
 const { confirm } = Modal;
 
-function TopMenu({ onEnterPreview, onExitPreview }) {
+function TopMenu() {
   const store = useContext(TreeContext);
+  const content = useContext(ContentContext);
   const UI = useContext(UIContext);
   const { tree } = store;
   const { user, loggedIn, myTrees, loading } = UI.state;
@@ -44,8 +57,9 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
       icon: <ExclamationCircleOutlined />,
       content: 'Unsaved changes will be lost',
       onOk() {
+        window.localStorage.removeItem('tree');
+        window.localStorage.removeItem('content');
         load(blank, true);
-        // window.localStorage.removeItem('tree');
         // window.location.reload();
       },
       onCancel() {
@@ -73,6 +87,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
     if (skipConfirm) {
       UI.setState({ modalOpen: false });
       store.onRefresh(tree);
+      content.clear();
     } else {
       confirm({
         title: 'Unsaved changes will be lost',
@@ -81,6 +96,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
         onOk() {
           UI.setState({ modalOpen: false });
           store.onRefresh(tree);
+          content.clear();
         },
         onCancel() {
           UI.setState({ modalOpen: false });
@@ -91,7 +107,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
 
   function saveAs(tree) {
     message.loading('Saving in progress..');
-    saveToDB({
+    saveNewTree({
       tree,
       onSuccess: (response) => {
         // logger("NEW TREE", response);
@@ -113,7 +129,7 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
 
   function updateTree(tree) {
     message.loading('Saving in progress..');
-    updateTreeInDB({
+    updateSavedTree({
       tree,
       onSuccess: () => {
         message.destroy();
@@ -172,7 +188,10 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
           onSuccess: (response) => {
             // logger(response);
             store.onRefresh(response[0].tree);
-            message.destroy();
+            loadTreeContent({ treeId: id }).then((result) => {
+              content.setState(result);
+              message.destroy();
+            })
           },
           onError: (error) => {
             // console.error(error);
@@ -267,13 +286,6 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
         </Menu.ItemGroup> */}
 
         <Menu.ItemGroup title="Questionnaire">
-          {/* <Menu.Item
-            key="setting:6"
-            onClick={() => {
-              onEnterPreview();
-              UI.setState({ questionnaire: true });
-            }}
-          ><BranchesOutlined />Preview</Menu.Item> */}
           <Menu.Item
             key="setting:7"
             disabled={!userLoggedIn || (treeId === "")}
@@ -369,31 +381,6 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
           }}
         >Sign Out</Menu.Item>
       </SubMenu>
-      {UI.state.questionnaire ?
-        <Fragment>
-          <Button
-            style={{ position: 'absolute', right: '106px', top: '8px', zIndex: 999999 }}
-            onClick={() => {
-              UI.setState({ questionnaire: false });
-              onExitPreview();
-            }}
-          >EXIT</Button>
-          <Button
-            type="primary"
-            style={{ position: 'absolute', right: '8px', top: '8px', zIndex: 999999 }}
-            disabled={!UI.state.loggedIn}
-            onClick={() => {
-              UI.setState({
-                questionnaire: false,
-                codeModal: true
-              });
-              onExitPreview();
-            }}
-          >PUBLISH</Button>
-        </Fragment>
-        :
-        null
-      }
     </Menu>
   );
 }

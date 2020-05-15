@@ -4,7 +4,8 @@ import { TreeContext, UIContext } from '../Store';
 import { Button, Typography } from 'antd';
 import { LeftSquareFilled, RightSquareFilled } from '@ant-design/icons';
 import { SidebarContainer } from './animations';
-import Questionnaire from "../Questionnaire";
+import Questionnaire from '../Questionnaire';
+// import ContentTools from './ContentTools';
 
 const { Text } = Typography;
 
@@ -62,7 +63,12 @@ export function Sidebar({ open, selectedNode, onSelectNode }) {
             />}
         </div>
       </div>
-      <Questionnaire flow={selectedNode || tree[0]} preview={true} onAnswer={onSelectNode} />
+      {/* <ContentTools selectedNode={selectedNode} /> */}
+      <Questionnaire
+        flow={selectedNode || tree[0]}
+        preview={true}
+        onAnswer={onSelectNode}
+      />
     </SidebarContainer>
   );
 }
