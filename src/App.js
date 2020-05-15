@@ -74,6 +74,7 @@ export default function App() {
     const id = urlParams.get("id");
     const questionnaire = urlParams.get("questionnaire");
     if (id) {
+      resetContent();
       loadTree({
         id,
         onSuccess: (response) => {
@@ -116,15 +117,19 @@ export default function App() {
   }
 
   function refreshContent(newContent) {
-    if (content.length === 0 || !content) {
-      updateContent(newContent);
-      window.localStorage.setItem("content", JSON.stringify(newContent));
-    } else {
-      let updatedContent
-      // new entry 
-      if (!content.find(c => c.nodeId === newContent.nodeId)) {
-        updatedContent = content.push(newContent);
+    let updatedContent
+    // new entry 
+    if (!content.find(c => c.nodeId === newContent.nodeId)) {
+      if (newContent.length > 1) {
+        updatedContent = [...content, ...newContent];
+      } else {
+        updatedContent = [...content, newContent];
       }
+      updateContent(updatedContent);
+      if (mode === "editor") {
+        window.localStorage.setItem("content", JSON.stringify(updatedContent));
+      }
+    } else {
       // or update?
       updatedContent = content.map(c => {
         if (c.nodeId === newContent.nodeId) {
@@ -141,9 +146,7 @@ export default function App() {
 
   function resetContent() {
     updateContent([]);
-    if (mode === "editor") {
-      window.localStorage.removeItem("content");
-    }
+    window.localStorage.removeItem("content");
   }
 
   return (
