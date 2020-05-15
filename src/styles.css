@@ -273,9 +273,11 @@ button.ant-btn[disabled] {
 .node-content textarea {
   color: #111;
   width: 100%;
+  padding: 5;
+  border-radius: 5px;
 }
 
 .node-content.edit-icon {
   font-size: 24px;
-  color: #1890ff;
+  color: white;
 }

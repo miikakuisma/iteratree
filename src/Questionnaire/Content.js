@@ -1,7 +1,8 @@
 import React, { Fragment, useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { UIContext } from '../Store';
-import { EditOutlined } from '@ant-design/icons';
+import { Tooltip } from 'antd';
+import { EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import ReactMarkdown from 'react-markdown'
 
 const propTypes = {
@@ -44,13 +45,21 @@ export function Content({ node, content, editable, onSave, onUpdate }) {
         <textarea
           autoFocus
           rows="4"
-          style={{ color: node.color || '#111'}}
           onBlur={handleChange}
-        >{content ? content.content.markdown : ""}</textarea>
+          defaultValue={content ? content.content.markdown : ""}
+        ></textarea>
         :
         <Fragment>
           <ReactMarkdown className="node-content markdown" source={content && content.content.markdown} />
-          {editable && <EditOutlined className="node-content edit-icon" onClick={handleStartEditing} />}
+          {editable &&
+            <Tooltip title={!content || !hasContent || !content.content.markdown ? "Add Markdown content" : "Edit"}>
+              {!content || !hasContent || !content.content.markdown ?
+                <PlusCircleOutlined className="node-content edit-icon" onClick={handleStartEditing} />
+                :
+                <EditOutlined className="node-content edit-icon" onClick={handleStartEditing} />
+              }
+            </Tooltip>
+          }
         </Fragment>
       }
     </div>
