@@ -18,7 +18,7 @@ export function Content({ node, content, editable, onSave, onUpdate }) {
   const [editing, setEditing] = useState(false);
   const hasContent = content !== undefined;
 
-  // "[Link to Typeform](https://www.typeform.com/templates/t/reference-request-form-template/)"
+  // "[Link](https://url)"
 
   const handleStartEditing = () => {
     if (!editable) {
