@@ -248,17 +248,6 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
               handleDeleteTree(tree[0].root.id);
             }}
           ><DeleteOutlined />Delete</Menu.Item>
-        </Menu.ItemGroup>
-
-        <Menu.ItemGroup title="Export">
-          <Menu.Item
-            key="setting:4"
-            onClick={() => {
-              // eslint-disable-next-line no-console
-              console.log(JSON.stringify(tree));
-              notification.success({ message: "Exported to JSON", description: "You can find JSON from the Console now" });
-            }}
-          ><ExportOutlined />Export JSON</Menu.Item>
           <Menu.Item
             key="setting:5"
             disabled={!userLoggedIn || (treeId === "")}
@@ -273,21 +262,32 @@ function TopMenu({ onEnterPreview, onExitPreview }) {
           ><ShareAltOutlined />Share</Menu.Item>
         </Menu.ItemGroup>
 
-        <Menu.ItemGroup title="Questionnaire">
+        {/* <Menu.ItemGroup title="Export">
           <Menu.Item
+            key="setting:4"
+            onClick={() => {
+              // eslint-disable-next-line no-console
+              console.log(JSON.stringify(tree));
+              notification.success({ message: "Exported to JSON", description: "You can find JSON from the Console now" });
+            }}
+          ><ExportOutlined />Export JSON</Menu.Item>          
+        </Menu.ItemGroup> */}
+
+        <Menu.ItemGroup title="Questionnaire">
+          {/* <Menu.Item
             key="setting:6"
             onClick={() => {
               onEnterPreview();
               UI.setState({ questionnaire: true });
             }}
-          ><BranchesOutlined />Preview</Menu.Item>
+          ><BranchesOutlined />Preview</Menu.Item> */}
           <Menu.Item
             key="setting:7"
             disabled={!userLoggedIn || (treeId === "")}
             onClick={() => {
               UI.setState({ codeModal: true });
             }}
-          ><QrcodeOutlined />Get QR-Code</Menu.Item>
+          ><QrcodeOutlined />Publish QR-Code</Menu.Item>
           <Menu.Item
             key="setting:8"
             disabled={!userLoggedIn || (treeId === "")}
