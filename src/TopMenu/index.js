@@ -286,14 +286,14 @@ function TopMenu() {
           ><ExportOutlined />Export JSON</Menu.Item>          
         </Menu.ItemGroup> */}
 
-        <Menu.ItemGroup title="Questionnaire">
+        <Menu.ItemGroup title="Publishing">
           <Menu.Item
             key="setting:7"
             disabled={!userLoggedIn || (treeId === "")}
             onClick={() => {
               UI.setState({ codeModal: true });
             }}
-          ><QrcodeOutlined />Publish QR-Code</Menu.Item>
+          ><QrcodeOutlined />Get QR-Code</Menu.Item>
           <Menu.Item
             key="setting:8"
             disabled={!userLoggedIn || (treeId === "")}

@@ -28,7 +28,7 @@ export function Sidebar({ open, selectedNode, onSelectNode }) {
     <SidebarContainer className="sidebar" pose={open ? 'visible' : 'hidden'}>
       <div className="toggle">
         {sidebarOpen && <Fragment>
-          <Text style={{ color: 'white' }}>Questionnaire Preview</Text>
+          <Text style={{ color: 'white' }}>Preview</Text>
           <Button
             type="primary"
             size="small"
