@@ -43,6 +43,7 @@ export default function App() {
     // Fetch user data
     getCurrentUser({
       onSuccess: (response) => {
+        handleLaunchParams({ userId: response.objectId })
         // Get user's saved trees
         getMyTrees({
           onSuccess: (response2) => {
@@ -65,30 +66,40 @@ export default function App() {
           loggedIn: false,
           user: null
         });
+        handleLaunchParams({ userId: null })
       }
     });
 
-    // Load Tree from given ?id= in the URL params
+  }, []);
+
+  function handleLaunchParams({ userId }) {
+    // Load Tree from given ?view= and ?edit= in the URL params
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const id = urlParams.get("id");
-    const questionnaire = urlParams.get("questionnaire");
-    if (id) {
+    const edit = urlParams.get("edit");
+    const view = urlParams.get("view");
+    if (edit || view) {
       resetContent();
       loadTree({
-        id,
+        id: edit || view,
         onSuccess: (response) => {
-          logger(response);
+          // logger(response);
           refreshTree(response[0].tree);
           loadTreeContent({ treeId: response[0].tree.objectId })
           .then((result) => {
             refreshContent(result);
           })
-          if (questionnaire) {
+          if (view) {
             window.history.replaceState({}, document.title, "/");
-            setMode("questionnaire");
-          } else {
-            setMode("editor");
+            setMode("view");
+          }
+          if (edit) {
+            if (userId === response[0].owner) {
+              setMode("editor");
+            } else {
+              notification.error({ message: "No editing permissions", description: "Switching to presentation mode.", duration: 0 });
+              setMode("view");
+            }
           }
         },
         onError: (error) => {
@@ -99,7 +110,7 @@ export default function App() {
     } else {
       setMode("editor");
     }
-  }, []);
+  }
 
   function refreshTree(loadNewTree) {
     let newTree = JSON.stringify(loadNewTree) || JSON.stringify(tree);
@@ -153,9 +164,9 @@ export default function App() {
     <TreeContext.Provider value={{ tree, onRefresh: refreshTree }}>
       <ContentContext.Provider value={{ state: content, setState: refreshContent, clear: resetContent }}>
         <UIContext.Provider value={{ state: UI, setState: refreshUI }}>
-          {mode === "questionnaire" && <Questionnaire flow={tree} preview={false} />}
+          {mode === "view" && <Questionnaire flow={tree} preview={false} />}
           {mode === "editor" && <Layout>
-            <TopMenu onEnterPreview={() => setMode("questionnaire")} onExitPreview={() => setMode("editor")} />
+            <TopMenu onEnterPreview={() => setMode("view")} onExitPreview={() => setMode("editor")} />
             <TreeName />
             <Content className="App">
               <Tree />

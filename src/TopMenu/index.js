@@ -265,11 +265,11 @@ function TopMenu() {
             key="setting:5"
             disabled={!userLoggedIn || (treeId === "")}
             onClick={() => {
-              navigator.clipboard.writeText(`https://iteratree.com/?id=${treeId}`);
+              navigator.clipboard.writeText(`https://iteratree.com/?view=${treeId}`);
               notification.success({
                 duration: 0,
                 message: "Share Link Copied!",
-                description: `https://iteratree.com/?id=${treeId}`
+                description: `https://iteratree.com/?view=${treeId}`
               });              
             }}
           ><ShareAltOutlined />Share</Menu.Item>
