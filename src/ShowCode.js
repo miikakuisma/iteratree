@@ -19,7 +19,7 @@ export default function ShowCode() {
     domtoimage.toJpeg(document.getElementById('qr-code'), { quality: 0.95 })
     .then(function (dataUrl) {
         var link = document.createElement('a');
-        link.download = `Questionnaire - ${store.tree[0].root.name}.jpg`;
+        link.download = `Iteratree - ${store.tree[0].root.name}.jpg`;
         link.href = dataUrl;
         link.click();
         UI.setState({ codeModal: false });
@@ -28,7 +28,7 @@ export default function ShowCode() {
 
   return (
     <Modal
-      title="Questionnaire QR-Code"
+      title="Published QR-Code"
       width={310}
       visible={true}
       closable={false}
@@ -42,7 +42,7 @@ export default function ShowCode() {
       }}
     >
       <div id="qr-code" onClick={handleDownload}>
-        <QRCode value={`https://iteratree.com/?id=${id}&questionnaire=true`} />
+        <QRCode value={`https://iteratree.com/?view=${id}`} />
       </div>
     </Modal>
   );

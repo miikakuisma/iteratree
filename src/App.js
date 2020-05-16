@@ -71,12 +71,12 @@ export default function App() {
     // Load Tree from given ?id= in the URL params
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const id = urlParams.get("id");
-    const questionnaire = urlParams.get("questionnaire");
-    if (id) {
+    const edit = urlParams.get("edit");
+    const view = urlParams.get("view");
+    if (edit || view) {
       resetContent();
       loadTree({
-        id,
+        id: edit || view,
         onSuccess: (response) => {
           logger(response);
           refreshTree(response[0].tree);
@@ -84,9 +84,9 @@ export default function App() {
           .then((result) => {
             refreshContent(result);
           })
-          if (questionnaire) {
+          if (view) {
             window.history.replaceState({}, document.title, "/");
-            setMode("questionnaire");
+            setMode("view");
           } else {
             setMode("editor");
           }
@@ -153,9 +153,9 @@ export default function App() {
     <TreeContext.Provider value={{ tree, onRefresh: refreshTree }}>
       <ContentContext.Provider value={{ state: content, setState: refreshContent, clear: resetContent }}>
         <UIContext.Provider value={{ state: UI, setState: refreshUI }}>
-          {mode === "questionnaire" && <Questionnaire flow={tree} preview={false} />}
+          {mode === "view" && <Questionnaire flow={tree} preview={false} />}
           {mode === "editor" && <Layout>
-            <TopMenu onEnterPreview={() => setMode("questionnaire")} onExitPreview={() => setMode("editor")} />
+            <TopMenu onEnterPreview={() => setMode("view")} onExitPreview={() => setMode("editor")} />
             <TreeName />
             <Content className="App">
               <Tree />

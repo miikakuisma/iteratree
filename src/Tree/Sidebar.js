@@ -35,7 +35,7 @@ export function Sidebar({ open, selectedNode, onSelectNode }) {
             disabled={!userLoggedIn || (treeId === "")}
             onClick={() => {
               // onEnterPreview();
-              // UI.setState({ questionnaire: true });
+              // UI.setState({ view: true });
               UI.setState({ codeModal: true });
             }}
           >Publish</Button>
