@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { TreeContext, ContentContext, UIContext, initialAppState, initialContentState, initialUIState } from './Store';
+import { TreeContext, UIContext, initialAppState, initialUIState } from './Store';
 import { Layout, notification } from 'antd';
-import { getCurrentUser, getMyTrees, loadTree, loadTreeContent } from "./lib/parse";
+import { getCurrentUser, getMyTrees, loadTree } from "./lib/parse";
 import { logger } from "./lib/helpers";
 import TopMenu from "./TopMenu/";
 import UserMenu from "./UserMenu/";
@@ -24,16 +24,8 @@ export default function App() {
   } catch (e) {
     storedTree = null;
   }
-  // Get last edited Content from localstorage
-  let storedContent;
-  try {
-    storedContent = JSON.parse(window.localStorage.getItem("content"));
-  } catch (e) {
-    storedContent = null;
-  }
 
   const [tree, updateTree] = useState(storedTree || initialAppState);
-  const [content, updateContent] = useState(storedContent || initialContentState);
   const [UI, updateUI] = useState(initialUIState);
   const [mode, setMode] = useState('loading');
 
@@ -79,16 +71,12 @@ export default function App() {
     const edit = urlParams.get("edit");
     const view = urlParams.get("view");
     if (edit || view) {
-      resetContent();
+      // resetContent();
       loadTree({
         id: edit || view,
         onSuccess: (response) => {
           // logger(response);
           refreshTree(response[0].tree);
-          loadTreeContent({ treeId: response[0].tree.objectId })
-          .then((result) => {
-            refreshContent(result);
-          })
           if (view) {
             window.history.replaceState({}, document.title, "/");
             setMode("view");
@@ -127,56 +115,21 @@ export default function App() {
     });
   }
 
-  function refreshContent(newContent) {
-    let updatedContent
-    // new entry 
-    if (!content.find(c => c.nodeId === newContent.nodeId)) {
-      if (newContent.length > 1) {
-        updatedContent = [...content, ...newContent];
-      } else {
-        updatedContent = [...content, newContent];
-      }
-      updateContent(updatedContent);
-      if (mode === "editor") {
-        window.localStorage.setItem("content", JSON.stringify(updatedContent));
-      }
-    } else {
-      // or update?
-      updatedContent = content.map(c => {
-        if (c.nodeId === newContent.nodeId) {
-          return newContent;
-        }
-        return c;
-      });
-      updateContent(updatedContent);
-      if (mode === "editor") {
-        window.localStorage.setItem("content", JSON.stringify(updatedContent));
-      }
-    }
-  }
-
-  function resetContent() {
-    updateContent([]);
-    window.localStorage.removeItem("content");
-  }
-
   return (
     <TreeContext.Provider value={{ tree, onRefresh: refreshTree }}>
-      <ContentContext.Provider value={{ state: content, setState: refreshContent, clear: resetContent }}>
-        <UIContext.Provider value={{ state: UI, setState: refreshUI }}>
-          {mode === "view" && <Questionnaire flow={tree} preview={false} />}
-          {mode === "editor" && <Layout>
-            <TopMenu onEnterPreview={() => setMode("view")} onExitPreview={() => setMode("editor")} />
-            <TreeName />
-            <Content className="App">
-              <Tree />
-            </Content>
-          </Layout>}
-          {UI.shortcuts && <Shortcuts />}
-          {UI.userModal && <UserMenu />}
-          {UI.codeModal && <ShowCode />}
-        </UIContext.Provider>
-      </ContentContext.Provider>
+      <UIContext.Provider value={{ state: UI, setState: refreshUI }}>
+        {mode === "view" && <Questionnaire flow={tree} preview={false} />}
+        {mode === "editor" && <Layout>
+          <TopMenu onEnterPreview={() => setMode("view")} onExitPreview={() => setMode("editor")} />
+          <TreeName />
+          <Content className="App">
+            <Tree />
+          </Content>
+        </Layout>}
+        {UI.shortcuts && <Shortcuts />}
+        {UI.userModal && <UserMenu />}
+        {UI.codeModal && <ShowCode />}
+      </UIContext.Provider>
     </TreeContext.Provider>
   );
 }

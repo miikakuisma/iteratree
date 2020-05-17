@@ -231,46 +231,124 @@ export function saveNodeContent({ treeId, nodeId, content }) {
   )  
 }
 
-export function updateNodeContent({ contentId, content }) {
-  logger('API Request (update content)');
-  return new Promise(
-    function (resolve, reject) {
-      const ContentClass = Parse.Object.extend('nodeContent');
-      const query = new Parse.Query(ContentClass);
-      query.get(contentId).then((object) => {
-        object.set('content', content);
-        object.save().then((response) => {
-          if (typeof document !== 'undefined') {
-            // logger(JSON.parse(JSON.stringify(response)));
-            resolve(JSON.parse(JSON.stringify(response)));
-          }
-        }, (error) => {
-          if (typeof document !== 'undefined') {
-            reject(error);
-          }
-        });
-      });
-    }
-  )  
-}
 
-export function loadTreeContent({ treeId }) {
-  logger('API Request (load)');
-  return new Promise(
-    function (resolve, reject) {
-      const ContentClass = Parse.Object.extend('nodeContent');
-      const query = new Parse.Query(ContentClass);
-      query.equalTo("treeId", treeId);
-      query.find().then((results) => {
-        if (typeof document !== 'undefined') {
-          // logger(JSON.parse(JSON.stringify(results)));
-          resolve(JSON.parse(JSON.stringify(results)));
-        }
-      }, (error) => {
-        if (typeof document !== 'undefined') {
-          reject(error);
-        }
-      });
-    }
-  );
-}
+
+// export function updateNodeContent({ contentId, content }) {
+//   logger('API Request (update content)');
+//   return new Promise(
+//     function (resolve, reject) {
+//       const ContentClass = Parse.Object.extend('nodeContent');
+//       const query = new Parse.Query(ContentClass);
+//       query.get(contentId).then((object) => {
+//         object.set('content', content);
+//         object.save().then((response) => {
+//           if (typeof document !== 'undefined') {
+//             // logger(JSON.parse(JSON.stringify(response)));
+//             resolve(JSON.parse(JSON.stringify(response)));
+//           }
+//         }, (error) => {
+//           if (typeof document !== 'undefined') {
+//             reject(error);
+//           }
+//         });
+//       });
+//     }
+//   )  
+// }
+
+// export function loadTreeContent({ treeId }) {
+//   logger('API Request (load)');
+//   return new Promise(
+//     function (resolve, reject) {
+//       const ContentClass = Parse.Object.extend('nodeContent');
+//       const query = new Parse.Query(ContentClass);
+//       query.equalTo("treeId", treeId);
+//       query.find().then((results) => {
+//         if (typeof document !== 'undefined') {
+//           // logger(JSON.parse(JSON.stringify(results)));
+//           resolve(JSON.parse(JSON.stringify(results)));
+//         }
+//       }, (error) => {
+//         if (typeof document !== 'undefined') {
+//           reject(error);
+//         }
+//       });
+//     }
+//   );
+// }
+
+// FROM UI
+
+// const saveContentText = (text) => {
+//   setSaving(true);
+//   saveNodeContent({
+//     treeId,
+//     nodeId,
+//     content: {
+//       markdown: text
+//     }
+//   })
+//   .catch((e) => {
+//     setSaving(false);
+//     message.error(e)}
+//   )
+//   .then((response) => {
+//     setSaving(false);
+//     content.setState(response);
+//   });
+// }
+
+// const updateContentText = (text) => {
+//   setSaving(true);
+//   updateNodeContent({
+//     contentId,
+//     content: {
+//       markdown: text
+//     }
+//   })
+//   .catch((e) => {
+//     setSaving(false);
+//     message.error(e)}
+//   )
+//   .then((response) => {
+//     setSaving(false);
+//     content.setState(response);
+//   });
+// }
+
+
+
+// APP JS UPDATING
+
+// function refreshContent(newContent) {
+//   let updatedContent
+//   // new entry 
+//   if (!content.find(c => c.nodeId === newContent.nodeId)) {
+//     if (newContent.length > 1) {
+//       updatedContent = [...content, ...newContent];
+//     } else {
+//       updatedContent = [...content, newContent];
+//     }
+//     updateContent(updatedContent);
+//     if (mode === "editor") {
+//       window.localStorage.setItem("content", JSON.stringify(updatedContent));
+//     }
+//   } else {
+//     // or update?
+//     updatedContent = content.map(c => {
+//       if (c.nodeId === newContent.nodeId) {
+//         return newContent;
+//       }
+//       return c;
+//     });
+//     updateContent(updatedContent);
+//     if (mode === "editor") {
+//       window.localStorage.setItem("content", JSON.stringify(updatedContent));
+//     }
+//   }
+// }
+
+// function resetContent() {
+//   updateContent([]);
+//   window.localStorage.removeItem("content");
+// }
