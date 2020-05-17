@@ -226,7 +226,7 @@ function TopMenu() {
   }
 
   return (
-    <Menu mode="horizontal" selectable={false}>
+    <Menu mode="horizontal" selectable={false} theme="light">
       <SubMenu
         title={
           <span className="submenu-title-wrapper">
