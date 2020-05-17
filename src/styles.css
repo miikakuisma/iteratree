@@ -197,6 +197,8 @@ button.export {
   position: absolute;
   top: 13px;
   right: 13px;
+  left: 13px;
+  text-align: right;
 }
 
 button.ant-btn[disabled] {
@@ -231,14 +233,14 @@ button.ant-btn[disabled] {
 
 .sidebar {
   position: fixed;
-  top: 48px;
+  top: 47px;
   left: unset;
   width: 375px;
   right: 0px;
   bottom: 55px;
 }
 
-.sidebar .toggle {
+.sidebar .top {
   position: absolute;
   z-index: 99;
   display: flex;
@@ -258,9 +260,17 @@ button.ant-btn[disabled] {
 .content-tools {
   position: absolute;
   z-index: 99;
-  top: 50px;
+  top: -40px;
   left: 0;
   right: 0;
+  height: 32px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+}
+
+.content-tools span {
+  margin-right: 10px;
 }
 
 .ant-typography-edit {
@@ -285,4 +295,9 @@ button.ant-btn[disabled] {
 .node-content.edit-icon {
   font-size: 24px;
   color: rgba(255,255,255,0.7);
+}
+
+
+@media screen and (max-width: 380px) {
+
 }

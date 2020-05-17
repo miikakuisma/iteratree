@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
-import { TreeContext, ContentContext, UIContext } from '../Store';
+import { TreeContext, UIContext } from '../Store';
 import { Menu, Modal, notification, message } from 'antd';
 import {
   BranchesOutlined,
@@ -15,7 +15,7 @@ import {
   LoadingOutlined,
   ShareAltOutlined
 } from '@ant-design/icons';
-import { signOut, saveNewTree, updateSavedTree, loadTree, deleteTree, getMyTrees, loadTreeContent } from "../lib/parse";
+import { signOut, saveNewTree, updateSavedTree, loadTree, deleteTree, getMyTrees } from "../lib/parse";
 import { blank, tutorial, happy, feedback, week } from './Examples';
 import md5 from "md5";
 import "../styles.css";
@@ -33,7 +33,6 @@ const { confirm } = Modal;
 
 function TopMenu() {
   const store = useContext(TreeContext);
-  const content = useContext(ContentContext);
   const UI = useContext(UIContext);
   const { tree } = store;
   const { user, loggedIn, myTrees, loading } = UI.state;
@@ -87,14 +86,12 @@ function TopMenu() {
     if (skipConfirm) {
       UI.setState({ modalOpen: false });
       store.onRefresh(tree);
-      content.clear();
     } else {
       confirm({
         title: 'Unsaved changes will be lost',
         icon: <ExclamationCircleOutlined />,
         content: 'Are you sure you want to open this project?',
         onOk() {
-          content.clear();
           UI.setState({ modalOpen: false });
           store.onRefresh(tree);
         },
@@ -174,6 +171,14 @@ function TopMenu() {
     });
   }
 
+  function unselectAll(tree) {
+    traverse(tree).forEach(function(x) {
+      if (typeof x === 'object') {
+        delete x.selected
+      }
+    });
+  }
+
   function fetchTree(id) {
     UI.setState({ modalOpen: true });
     confirm({
@@ -181,18 +186,15 @@ function TopMenu() {
       icon: <ExclamationCircleOutlined />,
       content: 'Are you sure you want to open that?',
       onOk() {
-        content.clear();
         UI.setState({ modalOpen: false });
         message.loading('Loading tree..');
         loadTree({
           id,
           onSuccess: (response) => {
             // logger(response);
+            unselectAll(response[0].tree);
             store.onRefresh(response[0].tree);
-            loadTreeContent({ treeId: id }).then((result) => {
-              content.setState(result);
-              message.destroy();
-            })
+            message.destroy();
           },
           onError: (error) => {
             // console.error(error);
@@ -226,7 +228,7 @@ function TopMenu() {
   }
 
   return (
-    <Menu mode="horizontal" selectable={false}>
+    <Menu mode="horizontal" selectable={false} theme="light">
       <SubMenu
         title={
           <span className="submenu-title-wrapper">
@@ -275,7 +277,7 @@ function TopMenu() {
           ><ShareAltOutlined />Share</Menu.Item>
         </Menu.ItemGroup>
 
-        {/* <Menu.ItemGroup title="Export">
+        <Menu.ItemGroup title="Export">
           <Menu.Item
             key="setting:4"
             onClick={() => {
@@ -283,8 +285,8 @@ function TopMenu() {
               console.log(JSON.stringify(tree));
               notification.success({ message: "Exported to JSON", description: "You can find JSON from the Console now" });
             }}
-          ><ExportOutlined />Export JSON</Menu.Item>          
-        </Menu.ItemGroup> */}
+          >Export JSON</Menu.Item>          
+        </Menu.ItemGroup>
 
         <Menu.ItemGroup title="Publishing">
           <Menu.Item
