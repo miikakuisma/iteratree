@@ -299,10 +299,5 @@ button.ant-btn[disabled] {
 
 
 @media screen and (max-width: 380px) {
-  .inspector .actions .ant-btn span {
-    display: none;
-  }
-  .inspector .actions .ant-btn [role="img"] {
-    display: inline-block;
-  }
+
 }

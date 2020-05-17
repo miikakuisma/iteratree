@@ -171,6 +171,14 @@ function TopMenu() {
     });
   }
 
+  function unselectAll(tree) {
+    traverse(tree).forEach(function(x) {
+      if (typeof x === 'object') {
+        delete x.selected
+      }
+    });
+  }
+
   function fetchTree(id) {
     UI.setState({ modalOpen: true });
     confirm({
@@ -184,6 +192,7 @@ function TopMenu() {
           id,
           onSuccess: (response) => {
             // logger(response);
+            unselectAll(response[0].tree);
             store.onRefresh(response[0].tree);
             message.destroy();
           },
