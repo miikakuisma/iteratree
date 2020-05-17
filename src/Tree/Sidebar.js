@@ -63,7 +63,7 @@ export function Sidebar({ open, selectedNode, onSelectNode }) {
             />}
         </div>
       </div>
-      <ContentTools selectedNode={selectedNode} />
+      {/* <ContentTools selectedNode={selectedNode} /> */}
       <Questionnaire
         flow={selectedNode || tree[0]}
         preview={true}
