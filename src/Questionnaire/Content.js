@@ -6,18 +6,14 @@ import { EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import ReactMarkdown from 'react-markdown'
 
 const propTypes = {
-  node: PropTypes.object,
-  content: PropTypes.object,
+  content: PropTypes.string,
   editable: PropTypes.bool,
-  onSave: PropTypes.func,
   onUpdate: PropTypes.func,
 };
 
 export function Content({
-  // node,
   content,
   editable,
-  onSave,
   onUpdate
 }) {
   const UI = useContext(UIContext);
@@ -38,11 +34,7 @@ export function Content({
     const text = e.target.value;
     setEditing(false);
     UI.setState({ editingContent: false });
-    if (hasContent) {
-      onUpdate(text)
-    } else {
-      onSave(text)
-    }
+    onUpdate(text);
   }
 
   return (
@@ -52,14 +44,14 @@ export function Content({
           autoFocus
           rows="4"
           onBlur={handleChange}
-          defaultValue={content ? content.content.markdown : ""}
+          defaultValue={content || ""}
         ></textarea>
         :
         <Fragment>
-          <ReactMarkdown className="node-content markdown" source={content && content.content.markdown} />
+          <ReactMarkdown className="node-content markdown" source={content} />
           {editable &&
-            <Tooltip title={!content || !hasContent || !content.content.markdown ? "Add Markdown content" : "Edit"} placement="bottom">
-              {!content || !hasContent || !content.content.markdown ?
+            <Tooltip title={!content || !hasContent ? "Add Markdown content" : "Edit"} placement="bottom">
+              {!content || !hasContent ?
                 <PlusCircleOutlined className="node-content edit-icon" onClick={handleStartEditing} />
                 :
                 <EditOutlined className="node-content edit-icon" onClick={handleStartEditing} />

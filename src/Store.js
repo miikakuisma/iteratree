@@ -2,11 +2,10 @@ import React from "react";
 import { happy } from "./TopMenu/Examples";
 
 export let TreeContext = React.createContext();
-export let ContentContext = React.createContext();
 export let UIContext = React.createContext();
 
 export const initialAppState = happy;
-export const initialContentState = [];
+
 export const initialUIState = {
   loading: false,
   questionnaire: false,
