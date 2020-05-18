@@ -8,7 +8,7 @@ import ReactMarkdown from 'react-markdown';
 const { TextArea } = Input;
 
 const propTypes = {
-  content: PropTypes.string,
+  content: PropTypes.object,
   editable: PropTypes.bool,
   onUpdate: PropTypes.func,
 };
@@ -19,7 +19,7 @@ export function Content({
   onUpdate
 }) {
   const UI = useContext(UIContext);
-  const [editing, setEditing] = useState(false);
+  const [editing, setEditing] = useState(null);
 
   // "[Link](https://url)"
 
@@ -27,65 +27,62 @@ export function Content({
     if (!editable) {
       return
     }
-    setEditing(true);
+    setEditing('markdown');
     UI.setState({ editingContent: true });
   }
 
   const handleChange = (e) => {
     const text = e.target.value;
-    setEditing(false);
+    setEditing(null);
     UI.setState({ editingContent: false });
-    onUpdate(text);
+    onUpdate({
+      ...content,
+      markdown: text
+    });
   }
 
   const addMenu = (
     <Menu>
       <Menu.Item
-        disabled={content}
+        disabled={content && content.markdown}
         onClick={() => {
-          setEditing(true);
+          setEditing('markdown');
         }}
       ><FileMarkdownOutlined />Markdown</Menu.Item>
       <Menu.Item
         disabled={true}
         onClick={() => {
-          setEditing(true);
+          setEditing('background');
         }}
-      ><FileImageOutlined />Background Image</Menu.Item>
+      ><FileImageOutlined />Background</Menu.Item>
       <Menu.Item
         disabled={true}
         onClick={() => {
-          setEditing(true);
+
         }}
       ><FileImageOutlined />Video</Menu.Item>
       <Menu.Item
         disabled={true}
         onClick={() => {
-          setEditing(true);
+
         }}
       ><FileImageOutlined />Music</Menu.Item>
       <Menu.Item
         disabled={true}
         onClick={() => {
-          setEditing(true);
+
         }}
       ><FileImageOutlined />Embed</Menu.Item>
       <Menu.Item
         disabled={true}
         onClick={() => {
-          setEditing(true);
-        }}
-      ><FileImageOutlined />Portal</Menu.Item>
-      <Menu.Item
-        disabled={true}
-        onClick={() => {
-          setEditing(true);
+          
         }}
       ><FileImageOutlined />API Call</Menu.Item>
       <Menu.Item
         disabled={true}
         onClick={() => {
-          setEditing(true);
+          
         }}
       ><FileImageOutlined />PayPal</Menu.Item>
     </Menu>
@@ -93,22 +90,22 @@ export function Content({
 
   return (
     <div className="node-content">
-      {editing ?
+      {editing === 'markdown' ?
         <Fragment>
           <TextArea
             placeholder="Markdown content"
             autoSize 
             autoFocus
             onBlur={handleChange}
-            defaultValue={content || ""}
+            defaultValue={content.markdown || ""}
           />
           <p style={{ color: 'rgba(255,255,255,0.5)'}}>Clear all text and leave editing to delete</p>
         </Fragment>
         :
         <Fragment>
-          {content &&
+          {content && content.markdown &&
             <div className={editable ? "markdown editable" : "markdown"} onClick={handleStartEditing}>
-              <ReactMarkdown source={content} />
+              <ReactMarkdown source={content.markdown} />
               {editable && <FileMarkdownOutlined className="edit-icon" />}
             </div>
           }

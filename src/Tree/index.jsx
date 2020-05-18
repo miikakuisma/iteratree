@@ -343,12 +343,12 @@ function Tree() {
           selectNode(node);
         }}
         onCopyNode={() => {
-          if (!isAskingToConfirm && !isEditing) {
+          if (!isAskingToConfirm && !isEditing && !editingContent) {
             copyNode(node);
           }
         }}
         onPasteNode={() => {
-          if (!isAskingToConfirm && !isEditing) {
+          if (!isAskingToConfirm && !isEditing && !editingContent) {
             pasteNode(node);
           }
         }}
