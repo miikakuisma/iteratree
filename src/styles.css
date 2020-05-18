@@ -310,15 +310,30 @@ button.ant-btn[disabled] {
   font-size: 24px;
 }
 
-.node-content.markdown h1,
-.node-content.markdown h2,
-.node-content.markdown h3,
-.node-content.markdown h4,
-.node-content.markdown h5 {
+.node-content {
+
+}
+
+.node-content .markdown h1,
+.node-content .markdown h2,
+.node-content .markdown h3,
+.node-content .markdown h4,
+.node-content .markdown h5 {
   color: white !important;
 }
 
-.node-content.markdown img {
+.node-content .markdown.editable {
+  position: relative;
+  cursor: pointer;
+  border: 1px dashed transparent;
+  border-right: 1px solid rgba(255,255,255,0.5);
+}
+
+.node-content .markdown.editable:hover {
+  border: 1px dashed rgba(255,255,255,0.5);
+}
+
+.node-content .markdown img {
   max-width: 100%;
 }
 
@@ -329,9 +344,27 @@ button.ant-btn[disabled] {
   border-radius: 5px;
 }
 
-.node-content.edit-icon {
+.node-content .edit-icon {
+  position: absolute;
+  top: 3px;
+  right: -32px;
+  font-size: 24px;
+  color: rgba(255,255,255,0.5);
+}
+
+.node-content .edit-icon:hover {
+  font-size: 24px;
+  color: rgba(255,255,255,1);
+}
+
+.node-content .add-icon {
+  margin-top: 20px;
   font-size: 24px;
   color: rgba(255,255,255,0.7);
+}
+
+.node-content .add-icon:hover {
+  color: rgba(255,255,255,1);
 }
 
 #thumbnail {

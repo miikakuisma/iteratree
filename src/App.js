@@ -59,7 +59,11 @@ export default function App() {
           loggedIn: false,
           user: null
         });
-        handleLaunchParams({ userId: null })
+        handleLaunchParams({ userId: null });
+        // updateUI({
+        //   ...UI,
+        //   browserOpen: true
+        // });
       }
     });
 
@@ -123,7 +127,7 @@ export default function App() {
         {mode === "editor" && <Layout>
           <TopMenu onEnterPreview={() => setMode("view")} onExitPreview={() => setMode("editor")} />
           <TreeName />
-          <Content className="App">
+          <Content className="App" theme="dark">
             <Tree />
           </Content>
         </Layout>}

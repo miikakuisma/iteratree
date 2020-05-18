@@ -17,25 +17,26 @@ export default function TreeName() {
 
   const menu = (
     <Menu>
-      <Menu.Item key="0">
-        <a href="#" onClick={() => {
+      <Menu.Item
+        key="0"
+        onClick={() => {
           UI.setState({ editingContent: true });
           setEditing(true);
         }}
-      ><EditOutlined /> Rename</a>
-      </Menu.Item>
+      ><EditOutlined /> Rename</Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="1" disabled={id === ""} style={{
-        opacity: id === "" ? '0.5' : '1',
-        cursor: 'default',
-        pointerEvents: 'none',
-      }}>
-        <a
-          href="#"
-          onClick={() => handleDeleteTree(id)}
-          style={{ color: id === "" ? 'unset' : '#cc0000' }}
-        ><DeleteOutlined /> Delete</a>
-      </Menu.Item>
+      <Menu.Item
+        key="1"
+        disabled={id === ""}
+        style={{
+          opacity: id === "" ? '0.5' : '1',
+          cursor: 'default',
+          pointerEvents: 'none',
+        }}
+        onClick={() => {
+          handleDeleteTree(id)
+        }}
+      ><DeleteOutlined /> Delete</Menu.Item>
     </Menu>
   );
 
