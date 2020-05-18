@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect, Fragment } from "react";
 import { TreeContext, UIContext } from '../Store';
 import { message, Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-import { Sidebar } from './Sidebar';
+import Sidebar from '../Sidebar';
 import { arrayMove } from "../lib/helpers";
 import Node from "./Node";
 import Inspector from "./Inspector";
