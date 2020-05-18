@@ -82,7 +82,7 @@ export default function TreeName() {
         </div>
         <div className="name">
           <span title={id}>{name}</span>
-          <Dropdown overlay={menu} trigger={['click']}>
+          <Dropdown overlay={menu} trigger={['hover']}>
             <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
               <DownOutlined />
             </a>

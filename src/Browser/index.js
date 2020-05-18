@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { TreeContext, UIContext } from '../Store';
 import { Modal, Tabs, message, notification, Card, Col, Row } from 'antd';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined, LoadingOutlined } from '@ant-design/icons';
 import { loadTree, getMyTrees } from "../lib/parse";
 import { blank, examples } from '../lib/examples';
 import Thumbnail from "../Thumbnail";
@@ -122,7 +122,7 @@ export default function Browser() {
     });
   }
 
-  const myTreeList = myTrees && myTrees.map((item) => <Col key={item.objectId} span={6}>
+  const myTreeList = myTrees && myTrees.map((item, index) => <Col key={`tree-${index}`} span={6}>
     <Card
       title={item.name}
       bordered={false}
@@ -137,7 +137,7 @@ export default function Browser() {
     </Card>
   </Col>);
 
-  const exampleList = examples.map((item) => <Col key={item.objectId} span={6}>
+  const exampleList = examples.map((item, index) => <Col key={`example-${index}`} span={6}>
     <Card
       title={item.name}
       bordered={false}
@@ -172,7 +172,7 @@ export default function Browser() {
         <TabPane tab="My Trees" key="1">
           <div className="site-card-wrapper">
             <Row gutter={[16, 16]}>
-              {myTreeList}
+              {myTrees ? myTreeList : <LoadingOutlined />}
             </Row>
           </div>
         </TabPane>
