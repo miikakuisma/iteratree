@@ -10,6 +10,7 @@ import Tree from "./Tree/";
 import Questionnaire from "./Questionnaire";
 import Shortcuts from "./Shortcuts";
 import ShowCode from "./ShowCode";
+import Browser from "./Browser";
 import "./styles.css";
 
 const { Content } = Layout;
@@ -129,6 +130,7 @@ export default function App() {
         {UI.shortcuts && <Shortcuts />}
         {UI.userModal && <UserMenu />}
         {UI.codeModal && <ShowCode />}
+        {UI.browserOpen && <Browser />}
       </UIContext.Provider>
     </TreeContext.Provider>
   );

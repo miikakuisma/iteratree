@@ -2,10 +2,10 @@ import React, { useContext, useState, useEffect, Fragment } from "react";
 import { TreeContext, UIContext } from '../Store';
 import { message, Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-import { Sidebar } from './Sidebar';
+import Sidebar from '../Sidebar';
 import { arrayMove } from "../lib/helpers";
 import Node from "./Node";
-import Inspector from "./Inspector";
+import Toolbar from "./Toolbar";
 import 'antd/dist/antd.css';
 import "../styles.css";
 
@@ -409,14 +409,16 @@ function Tree() {
           }
         }}
         style={{
-          width: sidebarOpen ? 'calc(100vw - 395px)' : '100%'
+          width: sidebarOpen ? 'calc(100vw - 405px)' : '100%'
         }}
-      >{nodeTree}</div>
-      <Inspector
-        selectedNode={selectedNode}
-        clipboard={clipboard}
-        onAction={handleInspectorAction}
-      />
+      >
+        <Toolbar
+          selectedNode={selectedNode}
+          clipboard={clipboard}
+          onAction={handleInspectorAction}
+        />
+        {nodeTree}
+      </div>
       <Sidebar open={sidebarOpen} selectedNode={selectedNode || tree[0]} onSelectNode={(next) => selectNode(next)} />
     </Fragment>
   );
