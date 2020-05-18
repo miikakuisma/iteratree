@@ -410,7 +410,7 @@ function Tree() {
           }
         }}
         style={{
-          width: sidebarOpen ? 'calc(100vw - 395px)' : '100%'
+          width: sidebarOpen ? 'calc(100vw - 405px)' : '100%'
         }}
       >
         <Inspector
