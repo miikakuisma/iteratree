@@ -18,7 +18,6 @@ export default function Browser() {
   const { myTrees } = UI.state;
 
   useEffect(() => {
-    console.log('GET TREES')
     getMyTrees({
       onSuccess: (response2) => {
         UI.setState({
@@ -110,6 +109,7 @@ export default function Browser() {
       icon: <ExclamationCircleOutlined />,
       content: 'Are you sure you want to open that?',
       onOk() {
+        unselectAll();
         UI.setState({
           modalOpen: false,
           browserOpen: false
@@ -119,7 +119,7 @@ export default function Browser() {
           id,
           onSuccess: (response) => {
             // logger(response);
-            unselectAll(response[0].tree);
+            unselectAll();
             store.onRefresh(response[0].tree);
             message.destroy();
           },
