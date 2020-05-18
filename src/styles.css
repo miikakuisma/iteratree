@@ -349,5 +349,11 @@ button.ant-btn[disabled] {
 }
 
 @media screen and (max-width: 380px) {
-
+  .treeName .logo {
+    display: none;
+  }
+  
+  .treeName .name {
+    border-left: none;
+  }
 }
