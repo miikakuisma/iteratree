@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Drawer, Space, Button, Dropdown, Menu, Tooltip } from 'antd';
+import { Space, Button, Dropdown, Menu, Tooltip } from 'antd';
 import { BgColorsOutlined, EditFilled, CopyOutlined, DiffOutlined, DeleteOutlined } from '@ant-design/icons';
 import { palette } from '../lib/colors';
 
@@ -43,68 +43,59 @@ function Inspector({ selectedNode, clipboard, onAction }) {
   );
 
   return(
-    <Drawer
-      className="inspector"
-      // title={(selectedNode && selectedNode.title) || ''}
-      placement='bottom'
-      closable={false}
-      height={55}
-      mask={false}
-      visible={true}
-    >
-      <div className="actions">
-        <Space>
-          <Dropdown disabled={!selectedNode} overlay={menu} placement="topCenter">
-            <Tooltip title="Color" placement="left">
-              <Button
-                icon={<BgColorsOutlined />}
-                onClick={() => {
-                  onAction("edit");
-                }}
-              ></Button>
-              </Tooltip>
-          </Dropdown>
-          <Tooltip title="Edit (Enter)" placement="top">
-            <Button
-              type="primary"
-              icon={<EditFilled />}
-              disabled={!selectedNode}
+    <div className="actions">
+      <Space>
+        <Dropdown disabled={!selectedNode} overlay={menu} placement="topCenter">
+          <Tooltip title="Color" placement="left">
+            <BgColorsOutlined
               onClick={() => {
                 onAction("edit");
               }}
-            ></Button>
+            />
           </Tooltip>
-          <Tooltip title="Copy (Cmd-C)" placement="top">
-            <Button
-              icon={<CopyOutlined />}
-              disabled={!selectedNode}
-              onClick={() => {
-                onAction("copy");
-              }}
-            ></Button>
-          </Tooltip>
-          <Tooltip title="Paste (Cmd-V)" placement="top">
-            <Button
-              icon={<DiffOutlined />}
-              disabled={clipboard === null || !selectedNode}
-              onClick={() => {
-                onAction("paste");
-              }}
-            ></Button>
-          </Tooltip>
-          <Tooltip title="Delete (Backspace)" placement="top">
-            <Button
-              icon={<DeleteOutlined />}
-              onClick={() => {
-                onAction("delete");
-              }}
-              disabled={(selectedNode && selectedNode.id === 0) || !selectedNode}
-              danger
-            ></Button>
-          </Tooltip>
-        </Space>
-      </div>
-    </Drawer>
+        </Dropdown>
+        <Tooltip title="Edit (Enter)" placement="top">
+          <EditFilled
+            onClick={() => {
+              onAction("edit");
+            }}
+          />
+        </Tooltip>
+        <Tooltip title="Copy (Cmd-C)" placement="top">
+          <CopyOutlined
+            style={selectedNode ? {
+              opacity: 0.5,
+              pointerEvents: 'none'
+            } : null}
+            onClick={() => {
+              onAction("copy");
+            }}
+          />
+        </Tooltip>
+        <Tooltip title="Paste (Cmd-V)" placement="top">
+          <DiffOutlined
+            style={clipboard === null || !selectedNode ? {
+              opacity: 0.5,
+              pointerEvents: 'none'
+            } : null}
+            onClick={() => {
+              onAction("paste");
+            }}
+          />
+        </Tooltip>
+        <Tooltip title="Delete (Backspace)" placement="top">
+          <DeleteOutlined
+            style={(selectedNode && selectedNode.id === 0) || !selectedNode ? {
+              opacity: 0.5,
+              pointerEvents: 'none'
+            } : null}
+            onClick={() => {
+              onAction("delete");
+            }}
+          />
+        </Tooltip>
+      </Space>
+    </div>
   )
 }
 

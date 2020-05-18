@@ -67,10 +67,25 @@ button.export {
 .nodeTree {
   display: flex;
   flex-direction: column;
-  height: calc(100% - 15px);
+  height: calc(100vh - 48px);
   overflow: overlay;
   margin-top: -20px;
   padding-top: 20px;
+}
+
+.nodeTree .actions {
+  text-align: right;
+  margin: 0px 10px 10px 0;
+}
+
+.nodeTree .actions span {
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.nodeTree .actions span:hover {
+  color: #000;
+  transition: 0.3s All ease;
 }
 
 .firstNode {
@@ -219,14 +234,6 @@ button.export {
   overflow: hidden !important;
 }
 
-.ant-drawer-body .actions {
-  position: absolute;
-  top: 13px;
-  right: 13px;
-  left: 13px;
-  text-align: right;
-}
-
 button.ant-btn[disabled] {
   display: none;
 }
@@ -263,7 +270,7 @@ button.ant-btn[disabled] {
   left: unset;
   width: 375px;
   right: 0px;
-  bottom: 55px;
+  bottom: 0px;
 }
 
 .sidebar .top {

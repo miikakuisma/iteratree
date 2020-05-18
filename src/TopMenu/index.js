@@ -183,7 +183,7 @@ function TopMenu() {
           ><ShareAltOutlined />Share</Menu.Item>
         </Menu.ItemGroup>
 
-        <Menu.ItemGroup title="Export">
+        {/* <Menu.ItemGroup title="Export">
           <Menu.Item
             key="setting:4"
             onClick={() => {
@@ -192,7 +192,7 @@ function TopMenu() {
               notification.success({ message: "Exported to JSON", description: "You can find JSON from the Console now" });
             }}
           >Export JSON</Menu.Item>          
-        </Menu.ItemGroup>
+        </Menu.ItemGroup> */}
 
         <Menu.ItemGroup title="Publishing">
           <Menu.Item

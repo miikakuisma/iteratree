@@ -412,13 +412,14 @@ function Tree() {
         style={{
           width: sidebarOpen ? 'calc(100vw - 395px)' : '100%'
         }}
-      >{nodeTree}</div>
-      <Inspector
-        selectedNode={selectedNode}
-        clipboard={clipboard}
-        onAction={handleInspectorAction}
-      />
-      <div className="thumbnailContainer"><Thumbnail visible={false} /></div>      
+      >
+        <Inspector
+          selectedNode={selectedNode}
+          clipboard={clipboard}
+          onAction={handleInspectorAction}
+        />
+        {nodeTree}
+      </div>
       <Sidebar open={sidebarOpen} selectedNode={selectedNode || tree[0]} onSelectNode={(next) => selectNode(next)} />
     </Fragment>
   );
