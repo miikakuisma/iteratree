@@ -310,8 +310,9 @@ button.ant-btn[disabled] {
   font-size: 24px;
 }
 
-.node-content {
-
+.node-content a {
+  color: white;
+  text-decoration: underline;
 }
 
 .node-content .markdown h1,

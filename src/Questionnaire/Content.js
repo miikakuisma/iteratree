@@ -23,18 +23,18 @@ export function Content({
 
   // "[Link](https://url)"
 
-  const handleStartEditing = () => {
+  const handleStartEditing = (type) => {
     if (!editable) {
       return
     }
-    setEditing('markdown');
     UI.setState({ editingContent: true });
+    setEditing(type);
   }
 
   const handleChange = (e) => {
     const text = e.target.value;
-    setEditing(null);
     UI.setState({ editingContent: false });
+    setEditing(null);
     onUpdate({
       ...content,
       markdown: text
@@ -46,7 +46,7 @@ export function Content({
       <Menu.Item
         disabled={content && content.markdown}
         onClick={() => {
-          setEditing('markdown');
+          handleStartEditing('markdown');
         }}
       ><FileMarkdownOutlined />Markdown</Menu.Item>
       <Menu.Item
@@ -97,14 +97,14 @@ export function Content({
             autoSize 
             autoFocus
             onBlur={handleChange}
-            defaultValue={content.markdown || ""}
+            defaultValue={(content && content.markdown) || ""}
           />
           <p style={{ color: 'rgba(255,255,255,0.5)'}}>Clear all text and leave editing to delete</p>
         </Fragment>
         :
         <Fragment>
           {content && content.markdown &&
-            <div className={editable ? "markdown editable" : "markdown"} onClick={handleStartEditing}>
+            <div className={editable ? "markdown editable" : "markdown"} onClick={() => handleStartEditing('markdown')}>
               <ReactMarkdown source={content.markdown} />
               {editable && <FileMarkdownOutlined className="edit-icon" />}
             </div>
