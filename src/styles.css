@@ -348,6 +348,16 @@ button.ant-btn[disabled] {
   border-bottom: 1px dotted #ccc;
 }
 
+.thumbnailContainer {
+  width: 640px;
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  height: 480px;
+  padding: 20px;
+  z-index: -1;
+}
+
 @media screen and (max-width: 380px) {
   .treeName .logo {
     display: none;

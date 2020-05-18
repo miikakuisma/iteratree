@@ -133,7 +133,7 @@ export default function Browser() {
       }}
       // cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
     >
-      <Thumbnail />
+      <Thumbnail tree={item.tree || []} />
     </Card>
   </Col>);
 
@@ -148,7 +148,7 @@ export default function Browser() {
       }}
       // cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
     >
-      <Thumbnail />
+      <Thumbnail tree={item.tree || []} />
     </Card>
   </Col>);
 

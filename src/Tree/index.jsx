@@ -6,6 +6,7 @@ import Sidebar from '../Sidebar';
 import { arrayMove } from "../lib/helpers";
 import Node from "./Node";
 import Inspector from "./Inspector";
+import Thumbnail from "../Thumbnail";
 import 'antd/dist/antd.css';
 import "../styles.css";
 
@@ -417,6 +418,7 @@ function Tree() {
         clipboard={clipboard}
         onAction={handleInspectorAction}
       />
+      <div className="thumbnailContainer"><Thumbnail visible={false} /></div>      
       <Sidebar open={sidebarOpen} selectedNode={selectedNode || tree[0]} onSelectNode={(next) => selectNode(next)} />
     </Fragment>
   );

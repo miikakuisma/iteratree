@@ -1,21 +1,13 @@
-import React, { useContext } from "react";
-import { TreeContext } from '../Store';
-import domtoimage from 'dom-to-image';
+import React from "react";
+import PropTypes from "prop-types";
 import 'antd/dist/antd.css';
 import "../styles.css";
 
-function Thumbnail() {
-  const store = useContext(TreeContext);
-  const { tree } = store;
+const propTypes = {
+  tree: PropTypes.object,
+};
 
-  function saveAsImage() {
-    domtoimage.toJpeg(document.getElementById('thumbnail'), { quality: 0.95 })
-    .then(function (dataUrl) {
-      // save to tree
-    });
-  }
-
-  console.log(tree);
+function Thumbnail({ tree }) {
 
   // eslint-disable-next-line react/prop-types
   const Node = ({ node, isCollapsed, subNodes }) => (
@@ -23,7 +15,7 @@ function Thumbnail() {
       <div
         className= "node"
         style={{
-          background: '#ccc',
+          background: node.background || '#ccc',
           opacity: 1,
         }}
       >
@@ -48,11 +40,12 @@ function Thumbnail() {
     return  Node({ node, subNodes, isCollapsed: node.isCollapsed });
   };
 
-  const nodeTree = tree.map(node => renderNode(node));
+  const nodeTree = tree && tree.map(node => renderNode(node));
 
   return (
     <div id="thumbnail">{nodeTree}</div>
   );
 }
 
+Thumbnail.propTypes = propTypes;
 export default Thumbnail;
