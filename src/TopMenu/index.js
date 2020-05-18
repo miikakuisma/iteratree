@@ -10,17 +10,15 @@ import {
   QuestionCircleOutlined,
   MenuOutlined,
   // ExportOutlined,
+  FolderOpenOutlined,
   QrcodeOutlined,
   LoadingOutlined,
   ShareAltOutlined
 } from '@ant-design/icons';
-import { signOut, saveNewTree, updateSavedTree, loadTree, getMyTrees } from "../lib/parse";
-import { blank, tutorial, happy, feedback, week } from './Examples';
+import { signOut, saveNewTree, updateSavedTree } from "../lib/parse";
+import { blank } from '../lib/examples';
 import md5 from "md5";
 import "../styles.css";
-
-// eslint-disable-next-line no-undef
-const traverse = require("traverse");
 
 const propTypes = {
   onEnterPreview: PropTypes.func,
@@ -30,23 +28,19 @@ const propTypes = {
 const { SubMenu } = Menu;
 const { confirm } = Modal;
 
+// eslint-disable-next-line no-undef
+const traverse = require("traverse");
+
 function TopMenu() {
   const store = useContext(TreeContext);
   const UI = useContext(UIContext);
   const { tree } = store;
-  const { user, loggedIn, myTrees, loading } = UI.state;
+  const { user, loggedIn, loading } = UI.state;
 
   const userLoggedIn = user && loggedIn;
   const avatarImage = UI.state.user ? <img alt="gravatar" className="avatar" src={`https://gravatar.com/avatar/${md5(UI.state.user.email)}`} /> : <UserOutlined className="avatar" /> ;
 
   const treeId = store.tree[0].root.id;
-
-  const myTreeList = myTrees && myTrees.map((item, index) => <Menu.Item
-    key={`setting:${index}`}
-    onClick={() => {
-      fetchTree(item.objectId);
-    }}
-  >{item.name}</Menu.Item>);
 
   function reset() {
     UI.setState({ modalOpen: true });
@@ -64,20 +58,6 @@ function TopMenu() {
         UI.setState({ modalOpen: false });
       },
     });
-  }
-
-  function refreshMenu() {
-    // refresh menu list
-    getMyTrees({
-      onSuccess: (response2) => {
-        UI.setState({
-          myTrees: response2
-        });
-      },
-      onError: () => {
-        // couldn't get the trees (maybe there was none)
-      }
-    });    
   }
 
   function load(tree, skipConfirm) {
@@ -131,51 +111,12 @@ function TopMenu() {
         message.destroy();
         store.onRefresh();
         notification.success({ message: "Saved to Cloud" });
-        refreshMenu();
       },
       onError: (response) => {
         notification.error({ message: "Cannot save", description: response });
         message.destroy();
       }
     })
-  }
-
-  function unselectAll(tree) {
-    traverse(tree).forEach(function(x) {
-      if (typeof x === 'object') {
-        delete x.selected
-      }
-    });
-  }
-
-  function fetchTree(id) {
-    UI.setState({ modalOpen: true });
-    confirm({
-      title: 'Unsaved changes will be lost',
-      icon: <ExclamationCircleOutlined />,
-      content: 'Are you sure you want to open that?',
-      onOk() {
-        UI.setState({ modalOpen: false });
-        message.loading('Loading tree..');
-        loadTree({
-          id,
-          onSuccess: (response) => {
-            // logger(response);
-            unselectAll(response[0].tree);
-            store.onRefresh(response[0].tree);
-            message.destroy();
-          },
-          onError: (error) => {
-            // console.error(error);
-            notification.error({ message: "Cannot load", description: error })
-            message.destroy();
-          }
-        });
-      },
-      onCancel() {
-        UI.setState({ modalOpen: false });
-      },
-    });
   }
 
   function resetCounts() {
@@ -214,6 +155,12 @@ function TopMenu() {
           ><ClearOutlined />New</Menu.Item>
           <Menu.Item
             key="setting:2"
+            onClick={() => {
+              UI.setState({ browserOpen: true });
+            }}
+          ><FolderOpenOutlined />Open</Menu.Item>
+          <Menu.Item
+            key="setting:3"
             onClick={() => {
               if (!userLoggedIn || !treeId || treeId === "") {
                 saveAs(tree);
@@ -274,51 +221,7 @@ function TopMenu() {
           ><QuestionCircleOutlined />Keyboard Shortcuts</Menu.Item>
         </Menu.ItemGroup>
       </SubMenu>
-      <SubMenu
-        title={
-          <span className="submenu-title-wrapper">
-            Examples
-          </span>
-        }
-      >
-        <Menu.ItemGroup title="Questionnaires">
-          <Menu.Item
-            key="setting:1"
-            onClick={() => {
-              load(tutorial);
-            }}
-          >Tutorial</Menu.Item>
-          <Menu.Item
-            key="setting:2"
-            onClick={() => {
-              load(happy);
-            }}
-          >Are you happy?</Menu.Item>
-          <Menu.Item
-            onClick={() => {
-              load(feedback);
-            }}
-          >Customer Feedback</Menu.Item>
-        </Menu.ItemGroup>
-
-        <Menu.ItemGroup title="Other">
-          <Menu.Item
-            key="setting:4"
-            onClick={() => {
-              load(week);
-            }}
-          >Weekly Routine</Menu.Item>
-        </Menu.ItemGroup>
-      </SubMenu>
-      {myTreeList && myTreeList.length > 0 && <SubMenu
-        title={
-          <span className="submenu-title-wrapper">
-            My Trees
-          </span>
-        }
-      >
-        {myTreeList}
-      </SubMenu>}
+      
       <SubMenu
         style={{ float: 'right' }}
         className="usermenu"

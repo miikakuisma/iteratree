@@ -323,6 +323,30 @@ button.ant-btn[disabled] {
   color: rgba(255,255,255,0.7);
 }
 
+#thumbnail {
+  pointer-events: none;
+  cursor: default;
+}
+
+#thumbnail .node span.title {
+  min-width: unset;
+  /* padding: 5px; */
+}
+
+.browser .site-card-wrapper {
+  background: #ececec;
+  padding: 30px;
+}
+
+.browser .ant-tabs {
+  margin-top: -10px;
+}
+
+.browser .ant-card-small > .ant-card-body {
+  max-height: 180px;
+  overflow: overlay;
+  border-bottom: 1px dotted #ccc;
+}
 
 @media screen and (max-width: 380px) {
 

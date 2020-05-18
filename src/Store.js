@@ -1,5 +1,5 @@
 import React from "react";
-import { happy } from "./TopMenu/Examples";
+import { happy } from "./lib/examples";
 
 export let TreeContext = React.createContext();
 export let UIContext = React.createContext();
@@ -12,6 +12,7 @@ export const initialUIState = {
   sidebarOpen: true,
   shortcuts: false,
   modalOpen: false,
+  browserOpen: false,
   editingContent: false,
   userModal: false,
   codeModal: false,
