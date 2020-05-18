@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { TreeContext, UIContext } from '../Store';
 import { Modal, Tabs, message, notification, Card, Col, Row } from 'antd';
 import { ExclamationCircleOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
@@ -16,6 +16,20 @@ export default function Browser() {
   const store = useContext(TreeContext);
   const UI = useContext(UIContext);
   const { myTrees } = UI.state;
+
+  useEffect(() => {
+    console.log('GET TREES')
+    getMyTrees({
+      onSuccess: (response2) => {
+        UI.setState({
+          myTrees: response2
+        });
+      },
+      onError: () => {
+        // couldn't get the trees (maybe there was none)
+      }
+    });
+  }, [])
 
   function handleTabChange(key) {
     switch (key) {
