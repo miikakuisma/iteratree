@@ -37,7 +37,7 @@ function Thumbnail({ tree }) {
 
   const renderNode = node => {
     const subNodes = node.options && node.options.map(sub => renderNode(sub));
-    return Node({ node, subNodes, isCollapsed: node.isCollapsed });
+    return <Node key={`thumb-${node.id}`} node={node} subNodes={subNodes} isCollapsed={node.isCollapsed} />;
   };
 
   const nodeTree = tree && tree.map(node => renderNode(node));

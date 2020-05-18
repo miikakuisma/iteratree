@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { TreeContext, UIContext } from '../Store';
 import { Modal, Tabs, message, notification, Card, Col, Row } from 'antd';
-import { ExclamationCircleOutlined, LoadingOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { loadTree, getMyTrees } from "../lib/parse";
 import { blank, examples } from '../lib/examples';
 import Thumbnail from "../Thumbnail";
@@ -131,7 +131,6 @@ export default function Browser() {
       onClick={() => {
         fetchTree(item.objectId);
       }}
-      // cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
     >
       <Thumbnail tree={item.tree || []} />
     </Card>
@@ -146,11 +145,26 @@ export default function Browser() {
       onClick={() => {
         load(item.data);
       }}
-      // cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
     >
-      <Thumbnail tree={item.tree || []} />
+      <Thumbnail tree={item.data || []} />
     </Card>
   </Col>);
+
+  const AddNew = () => {
+    return (<Col span={6}>
+      <Card
+        title="New"
+        bordered={false}
+        hoverable={true}
+        size="small"
+        onClick={() => {
+          reset();
+        }}
+      >
+        <PlusOutlined className="addNewThumb" />
+      </Card>
+    </Col>)
+  }
 
   return (
     <Modal
@@ -172,6 +186,7 @@ export default function Browser() {
         <TabPane tab="My Trees" key="1">
           <div className="site-card-wrapper">
             <Row gutter={[16, 16]}>
+              {<AddNew />}
               {myTrees ? myTreeList : <LoadingOutlined />}
             </Row>
           </div>
