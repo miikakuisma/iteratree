@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from "prop-types";
 import Question from './Question'
-import Switcher from './Switcher'
+// import Switcher from './Switcher'
 import './Questionnaire.css'
 
 const propTypes = {
@@ -64,7 +64,10 @@ class Questionnaire extends React.Component {
   }
 
   getBoxContent(node) {
-    const { boxVisible, switcherRunning } = this.state
+    const {
+      boxVisible,
+      // switcherRunning
+    } = this.state
     const { preview } = this.props;
 
     if (node.options) {
@@ -101,7 +104,7 @@ class Questionnaire extends React.Component {
             }
           }}
         />
-        <div className="buttons">
+        {/* <div className="buttons">
           {node.title && <button
             onClick={() => {
               if (preview) {
@@ -118,8 +121,8 @@ class Questionnaire extends React.Component {
               }, 1111)
             }}
           >Start Over</button>}
-        </div>
-        {!preview && <Switcher isVisible={switcherRunning} />}
+        </div> */}
+        {/* {!preview && <Switcher isVisible={switcherRunning} />} */}
       </div>)
     }    
   }

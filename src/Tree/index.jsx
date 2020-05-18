@@ -5,8 +5,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import Sidebar from '../Sidebar';
 import { arrayMove } from "../lib/helpers";
 import Node from "./Node";
-import Inspector from "./Inspector";
-import Thumbnail from "../Thumbnail";
+import Toolbar from "./Toolbar";
 import 'antd/dist/antd.css';
 import "../styles.css";
 
@@ -413,7 +412,7 @@ function Tree() {
           width: sidebarOpen ? 'calc(100vw - 405px)' : '100%'
         }}
       >
-        <Inspector
+        <Toolbar
           selectedNode={selectedNode}
           clipboard={clipboard}
           onAction={handleInspectorAction}

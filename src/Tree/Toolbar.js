@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Space, Button, Dropdown, Menu, Tooltip } from 'antd';
+import { Space, Dropdown, Menu, Tooltip } from 'antd';
 import { BgColorsOutlined, EditFilled, CopyOutlined, DiffOutlined, DeleteOutlined } from '@ant-design/icons';
 import { palette } from '../lib/colors';
 
@@ -10,7 +10,7 @@ const propTypes = {
   onAction: PropTypes.func,
 };
 
-function Inspector({ selectedNode, clipboard, onAction }) {
+function Toolbar({ selectedNode, clipboard, onAction }) {
 
   const handleSelectColor = (item) => {
     onAction("changeColor", item);
@@ -99,5 +99,5 @@ function Inspector({ selectedNode, clipboard, onAction }) {
   )
 }
 
-Inspector.propTypes = propTypes;
-export default Inspector;
+Toolbar.propTypes = propTypes;
+export default Toolbar;
