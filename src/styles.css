@@ -14,10 +14,36 @@
   left: 33%;
   top: 0;
   right: 33%;
-  height: 48px;
-  line-height: 46px;
-  text-align: center;
-  cursor: text;
+  height: 32px;
+  line-height: 32px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 7px;
+}
+
+.treeName .logo {
+  padding: 0 10px;
+}
+
+.treeName .logo span {
+  padding: 0 0px 0 10px;
+  color: black;
+  font-weight: 400;
+}
+
+.treeName .name {
+  padding: 0 10px;
+  border-left: 1px dotted #ccc;
+}
+
+.treeName .name span[title] {
+  
+}
+
+.treeName .ant-dropdown-trigger {
+  cursor: pointer;
+  margin-left: 15px;
 }
 
 button.reset {

@@ -3,19 +3,18 @@ import PropTypes from "prop-types";
 import { TreeContext, UIContext } from '../Store';
 import { Menu, Modal, notification, message } from 'antd';
 import {
-  BranchesOutlined,
   ExclamationCircleOutlined,
   UserOutlined,
   ClearOutlined,
   FileAddOutlined,
-  DeleteOutlined,
   QuestionCircleOutlined,
+  MenuOutlined,
   // ExportOutlined,
   QrcodeOutlined,
   LoadingOutlined,
   ShareAltOutlined
 } from '@ant-design/icons';
-import { signOut, saveNewTree, updateSavedTree, loadTree, deleteTree, getMyTrees } from "../lib/parse";
+import { signOut, saveNewTree, updateSavedTree, loadTree, getMyTrees } from "../lib/parse";
 import { blank, tutorial, happy, feedback, week } from './Examples';
 import md5 from "md5";
 import "../styles.css";
@@ -141,36 +140,6 @@ function TopMenu() {
     })
   }
 
-  function handleDeleteTree(id) {
-    UI.setState({ modalOpen: true });
-    confirm({
-      title: 'Delete this tree?',
-      icon: <ExclamationCircleOutlined />,
-      content: 'There is no way to undo',
-      onOk() {
-        UI.setState({ modalOpen: false });
-        message.loading('Deleting tree..');
-        deleteTree({
-          id,
-          onSuccess: (response) => {
-            notification.success({ message: response });
-            window.localStorage.removeItem('tree');
-            window.location.reload();
-            message.destroy();
-          },
-          onError: (response) => {
-            notification.error({ message: "Cannot delete", description: response });
-            message.destroy();
-            // logger('ERROR', response);
-          }
-        })
-      },
-      onCancel() {
-        UI.setState({ modalOpen: false });
-      },
-    });
-  }
-
   function unselectAll(tree) {
     traverse(tree).forEach(function(x) {
       if (typeof x === 'object') {
@@ -232,10 +201,7 @@ function TopMenu() {
       <SubMenu
         title={
           <span className="submenu-title-wrapper">
-            <BranchesOutlined style={{
-              transform: 'rotate(180deg) scaleX(-1)'
-            }} />
-            Iteratree
+            <MenuOutlined />
           </span>
         }
       >
@@ -256,13 +222,6 @@ function TopMenu() {
               }
             }}
           ><FileAddOutlined />Save</Menu.Item>
-          <Menu.Item
-            key="setting:3"
-            disabled={!userLoggedIn || !treeId || treeId === ""}
-            onClick={() => {
-              handleDeleteTree(tree[0].root.id);
-            }}
-          ><DeleteOutlined />Delete</Menu.Item>
           <Menu.Item
             key="setting:5"
             disabled={!userLoggedIn || (treeId === "")}
