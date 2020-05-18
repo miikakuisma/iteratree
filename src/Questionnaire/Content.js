@@ -2,7 +2,17 @@ import React, { Fragment, useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { UIContext } from '../Store';
 import { Tooltip, Dropdown, Menu, Input } from 'antd';
-import { EditOutlined, PlusCircleOutlined, FileMarkdownOutlined, FileImageOutlined } from '@ant-design/icons';
+import {
+  EditOutlined,
+  PlusCircleOutlined,
+  FileMarkdownOutlined,
+  FileImageOutlined,
+  YoutubeOutlined,
+  SoundOutlined,
+  GlobalOutlined,
+  ApiOutlined,
+  CreditCardOutlined
+} from '@ant-design/icons';
 import ReactMarkdown from 'react-markdown';
 
 const { TextArea } = Input;
@@ -60,31 +70,31 @@ export function Content({
         onClick={() => {
 
         }}
-      ><FileImageOutlined />Video</Menu.Item>
+      ><YoutubeOutlined />Video</Menu.Item>
       <Menu.Item
         disabled={true}
         onClick={() => {
 
         }}
-      ><FileImageOutlined />Music</Menu.Item>
+      ><SoundOutlined />Music</Menu.Item>
       <Menu.Item
         disabled={true}
         onClick={() => {
 
         }}
-      ><FileImageOutlined />Embed</Menu.Item>
+      ><GlobalOutlined />Embed</Menu.Item>
       <Menu.Item
         disabled={true}
         onClick={() => {
           
         }}
-      ><FileImageOutlined />API Call</Menu.Item>
+      ><ApiOutlined />API Call</Menu.Item>
       <Menu.Item
         disabled={true}
         onClick={() => {
           
         }}
-      ><FileImageOutlined />PayPal</Menu.Item>
+      ><CreditCardOutlined />Buy button</Menu.Item>
     </Menu>
   );
 
