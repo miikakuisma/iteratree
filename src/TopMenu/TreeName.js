@@ -30,8 +30,8 @@ export default function TreeName() {
         disabled={id === ""}
         style={{
           opacity: id === "" ? '0.5' : '1',
-          cursor: 'default',
-          pointerEvents: 'none',
+          cursor:  id === "" ? 'default' : 'pointer',
+          pointerEvents:  id === "" ? 'none' : 'all',
         }}
         onClick={() => {
           handleDeleteTree(id)

@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import process from "process";
 import PropTypes from "prop-types";
 import { TreeContext, UIContext } from '../Store';
 import { Menu, Modal, notification, message } from 'antd';
@@ -183,7 +184,7 @@ function TopMenu() {
           ><ShareAltOutlined />Share</Menu.Item>
         </Menu.ItemGroup>
 
-        {/* <Menu.ItemGroup title="Export">
+        {process.env.NODE_ENV === 'development' && <Menu.ItemGroup title="Dev tools">
           <Menu.Item
             key="setting:4"
             onClick={() => {
@@ -192,7 +193,7 @@ function TopMenu() {
               notification.success({ message: "Exported to JSON", description: "You can find JSON from the Console now" });
             }}
           >Export JSON</Menu.Item>          
-        </Menu.ItemGroup> */}
+        </Menu.ItemGroup>}
 
         <Menu.ItemGroup title="Publishing">
           <Menu.Item

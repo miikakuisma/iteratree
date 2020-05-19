@@ -8,8 +8,8 @@ import {
   FileMarkdownOutlined,
   FileImageOutlined,
   YoutubeOutlined,
-  SoundOutlined,
-  GlobalOutlined,
+  CommentOutlined,
+  CodeOutlined,
   ApiOutlined,
   CreditCardOutlined
 } from '@ant-design/icons';
@@ -59,42 +59,44 @@ export function Content({
           handleStartEditing('markdown');
         }}
       ><FileMarkdownOutlined />Markdown</Menu.Item>
-      <Menu.Item
-        disabled={true}
-        onClick={() => {
-          setEditing('background');
-        }}
-      ><FileImageOutlined />Background</Menu.Item>
-      <Menu.Item
-        disabled={true}
-        onClick={() => {
+      <Menu.ItemGroup title="Coming up">
+        <Menu.Item
+          disabled={true}
+          onClick={() => {
+            setEditing('background');
+          }}
+        ><FileImageOutlined />Background</Menu.Item>
+        <Menu.Item
+          disabled={true}
+          onClick={() => {
 
-        }}
-      ><YoutubeOutlined />Video</Menu.Item>
-      <Menu.Item
-        disabled={true}
-        onClick={() => {
+          }}
+        ><YoutubeOutlined />Video</Menu.Item>
+        <Menu.Item
+          disabled={true}
+          onClick={() => {
 
-        }}
-      ><SoundOutlined />Music</Menu.Item>
-      <Menu.Item
-        disabled={true}
-        onClick={() => {
+          }}
+        ><CommentOutlined />Message</Menu.Item>
+        <Menu.Item
+          disabled={true}
+          onClick={() => {
 
-        }}
-      ><GlobalOutlined />Embed</Menu.Item>
-      <Menu.Item
-        disabled={true}
-        onClick={() => {
-          
-        }}
-      ><ApiOutlined />API Call</Menu.Item>
-      <Menu.Item
-        disabled={true}
-        onClick={() => {
-          
-        }}
-      ><CreditCardOutlined />Buy button</Menu.Item>
+          }}
+        ><CodeOutlined />Embed</Menu.Item>
+        <Menu.Item
+          disabled={true}
+          onClick={() => {
+            
+          }}
+        ><ApiOutlined />API Call</Menu.Item>
+        <Menu.Item
+          disabled={true}
+          onClick={() => {
+            
+          }}
+        ><CreditCardOutlined />Buy button</Menu.Item>
+      </Menu.ItemGroup>
     </Menu>
   );
 
@@ -114,7 +116,10 @@ export function Content({
         :
         <Fragment>
           {content && content.markdown &&
-            <div className={editable ? "markdown editable" : "markdown"} onClick={() => handleStartEditing('markdown')}>
+            <div
+              className={editable ? "markdown editable" : "markdown"}
+              onClick={() => handleStartEditing('markdown')}
+            >
               <ReactMarkdown source={content.markdown} />
               {editable && <FileMarkdownOutlined className="edit-icon" />}
             </div>
