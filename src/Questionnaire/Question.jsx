@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { TreeContext } from '../Store';
 import BigButton from './BigButton'
@@ -19,6 +19,9 @@ const propTypes = {
 export function Question({ isVisible, isPreviewing, node, onClickNode }) {
   const store = useContext(TreeContext);
 
+  const boxRef = useRef(null);
+  const buttonsRef = useRef(null);
+
   const buttons = node.options && node.options.map((option, index) => <BigButton
     key={index}
     label={option.title}
@@ -35,6 +38,23 @@ export function Question({ isVisible, isPreviewing, node, onClickNode }) {
     }}
   />);
 
+  const [buttonStyle, setButtonStyle] = useState({});
+
+  React.useEffect(() => {
+    if ((boxRef.current.offsetHeight + buttonsRef.current.offsetHeight) < window.innerHeight) {
+      setButtonStyle({
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0
+      })
+    } else {
+      setButtonStyle({
+        position: 'relative'
+      })
+    }
+  }, [node]);
+
   return (
     <div style={{
       display: 'flex',
@@ -43,6 +63,7 @@ export function Question({ isVisible, isPreviewing, node, onClickNode }) {
     }}>
       <div
         className="boxContainer"
+        ref={boxRef}
       >
         {node.title && <QuestionBox
           className="box"
@@ -66,9 +87,11 @@ export function Question({ isVisible, isPreviewing, node, onClickNode }) {
         </QuestionBox>}
       </div>
       {buttons && <div
+        ref={buttonsRef}
         className="buttons"
         style={{
-          flexDirection: node.options && node.options.length > 2 ? 'column' : 'row'
+          flexDirection: node.options && node.options.length > 2 ? 'column' : 'row',
+          ...buttonStyle
         }}
       >
         {buttons}
