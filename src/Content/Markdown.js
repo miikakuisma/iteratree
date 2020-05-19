@@ -31,15 +31,19 @@ export function Markdown({ editing, editable, content, onStartEditing, onChange 
     )
   }
 
-  return (    
-    <div
-      className={editable ? "the-content editable" : "the-content"}
-      onClick={() => onStartEditing('markdown')}
-    >
-      <ReactMarkdown source={content} />
-      {editable && <FileMarkdownOutlined className="edit-icon" />}
-    </div>
-  )
+  if (content) {
+    return (    
+      <div
+        className={editable ? "the-content editable" : "the-content"}
+        onClick={() => onStartEditing('markdown')}
+      >
+        <ReactMarkdown source={content} />
+        {editable && <FileMarkdownOutlined className="edit-icon" />}
+      </div>
+    )
+  }
+
+  return null;
 }
 
 Markdown.propTypes = propTypes;

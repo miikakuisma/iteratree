@@ -32,30 +32,34 @@ export function Video({ editing, editable, content, onStartEditing, onChange }) 
     )
   }
 
-  return (
-    <div
-      className={editable ? "the-content editable" : "the-content"}
-      onClick={() => onStartEditing('video')}
-    >
-      {isYoutube && <iframe
-        src={content.replace('https://www.youtube.com/watch?v=', 'https://www.youtube.com/embed/')}
-        frameBorder='0'
-        allow='autoplay; encrypted-media'
-        allowFullScreen
-        title='video'
-      />}
-      {isVimeo && <iframe
-        src={content.replace('https://vimeo.com/', 'https://player.vimeo.com/video/')}
-        frameBorder='0'
-        allow="autoplay; fullscreen"
-        allowFullScreen
-        title='video'
+  if (content) {
+    return (
+      <div
+        className={editable ? "the-content editable" : "the-content"}
+        onClick={() => onStartEditing('video')}
       >
-      
-      </iframe>}
-      {editable && <YoutubeOutlined className="edit-icon" />}
-    </div>
-  )
+        {isYoutube && <iframe
+          src={content.replace('https://www.youtube.com/watch?v=', 'https://www.youtube.com/embed/')}
+          frameBorder='0'
+          allow='autoplay; encrypted-media'
+          allowFullScreen
+          title='video'
+        />}
+        {isVimeo && <iframe
+          src={content.replace('https://vimeo.com/', 'https://player.vimeo.com/video/')}
+          frameBorder='0'
+          allow="autoplay; fullscreen"
+          allowFullScreen
+          title='video'
+        >
+        
+        </iframe>}
+        {editable && <YoutubeOutlined className="edit-icon" />}
+      </div>
+    )
+  }
+
+  return null;
 }
 
 Video.propTypes = propTypes;

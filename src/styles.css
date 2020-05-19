@@ -70,12 +70,13 @@ button.export {
   height: calc(100vh - 48px);
   overflow: overlay;
   margin-top: -20px;
-  padding-top: 20px;
+  padding-top: 40px;
 }
 
 .nodeTree .actions {
-  text-align: right;
-  margin: 0px 10px 10px 0;
+  position: fixed;
+  right: 385px;
+  top: 64px;
 }
 
 .nodeTree .actions span {
@@ -325,6 +326,10 @@ button.ant-btn[disabled] {
 .node-content .the-content h4,
 .node-content .the-content h5 {
   color: white !important;
+}
+
+.node-content .the-content {
+  margin-bottom: 20px;
 }
 
 .node-content .the-content.editable {

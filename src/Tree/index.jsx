@@ -415,6 +415,7 @@ function Tree() {
         <Toolbar
           selectedNode={selectedNode}
           clipboard={clipboard}
+          sidebarOpen={sidebarOpen}
           onAction={handleInspectorAction}
         />
         {nodeTree}

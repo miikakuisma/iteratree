@@ -7,10 +7,11 @@ import { palette } from '../lib/colors';
 const propTypes = {
   selectedNode: PropTypes.object,
   clipboard: PropTypes.object,
+  sidebarOpen: PropTypes.bool,
   onAction: PropTypes.func,
 };
 
-function Toolbar({ selectedNode, clipboard, onAction }) {
+function Toolbar({ selectedNode, clipboard, sidebarOpen, onAction }) {
 
   const handleSelectColor = (item) => {
     onAction("changeColor", item);
@@ -43,7 +44,12 @@ function Toolbar({ selectedNode, clipboard, onAction }) {
   );
 
   return(
-    <div className="actions">
+    <div
+      className="actions"
+      style={{
+        right: sidebarOpen ? '385px' : '20px'
+      }}
+    >
       <Space>
         <Dropdown disabled={!selectedNode} overlay={menu} placement="topCenter">
           <Tooltip title="Color" placement="left">
