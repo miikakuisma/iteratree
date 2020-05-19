@@ -41,7 +41,7 @@ export function Question({ isVisible, isPreviewing, node, onClickNode }) {
   const [buttonStyle, setButtonStyle] = useState({});
 
   React.useEffect(() => {
-    if ((boxRef.current.offsetHeight + buttonsRef.current.offsetHeight) < window.innerHeight) {
+    if (boxRef.current && buttonsRef.current && (boxRef.current.offsetHeight + buttonsRef.current.offsetHeight) < window.innerHeight) {
       setButtonStyle({
         position: 'absolute',
         bottom: 0,
