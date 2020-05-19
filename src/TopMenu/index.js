@@ -1,5 +1,5 @@
+/* eslint-disable no-undef */
 import React, { useContext } from "react";
-import process from "process";
 import PropTypes from "prop-types";
 import { TreeContext, UIContext } from '../Store';
 import { Menu, Modal, notification, message } from 'antd';
