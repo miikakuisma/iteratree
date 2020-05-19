@@ -25,7 +25,7 @@ export function Sidebar({ open, selectedNode, onSelectNode }) {
   const treeId = tree[0].root.id;
 
   return (
-    <SidebarContainer className="sidebar" pose={open ? 'visible' : 'hidden'}>
+    <SidebarContainer className="sidebar" pose={open ? 'visible' : 'hidden'} style={{ overflow: open ? 'overlay' : 'visible' }}>
       <div className="top">
         {sidebarOpen && <Fragment>
           <Text style={{ color: 'white' }}>Preview</Text>
@@ -43,6 +43,9 @@ export function Sidebar({ open, selectedNode, onSelectNode }) {
         <div
           className="opener"
           onClick={() => UI.setState({ sidebarOpen: !sidebarOpen })}
+          style={{
+            right: open ? '376px' : '0px'
+          }}
         >
           {sidebarOpen ?
             <RightSquareFilled

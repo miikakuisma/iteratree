@@ -285,9 +285,8 @@ button.ant-btn[disabled] {
 }
 
 .sidebar .opener {
-  position: absolute;
-  left: -29px;
-  top: calc(50vh - 100px);
+  position: fixed;
+  top: calc(50vh - 48px);
   cursor: pointer;
 }
 
