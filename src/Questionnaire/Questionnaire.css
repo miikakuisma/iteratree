@@ -5,7 +5,7 @@
 }
 
 .Questionnaire {
-  text-align: center;
+  /* text-align: center;
   position: fixed;
   top: 0px;
   left: 0;
@@ -13,12 +13,17 @@
   bottom: 0;
   z-index: 9;
   background: #111;
-  overflow-y: auto;
+  overflow-y: auto; */
+  padding-bottom: 150px;
+  position: absolute;
+  min-height: -webkit-fill-available;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 .Questionnaire.preview {
   position: absolute;
-  overflow: hidden;
 }
 
 .Questionnaire .boxContainer {
@@ -37,6 +42,7 @@
   width: 100%;
   margin: 30px;
   padding: 10px;
+  text-align: center;
 }
 
 .Questionnaire .box .title {
@@ -77,6 +83,11 @@
 
 .Questionnaire .buttons {
   padding: 20px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .Questionnaire button {

@@ -65,14 +65,14 @@ export function Question({ isVisible, isPreviewing, node, onClickNode }) {
           />
         </QuestionBox>}
       </div>
-      <div
+      {buttons && <div
         className="buttons"
         style={{
           flexDirection: node.options && node.options.length > 2 ? 'column' : 'row'
         }}
       >
         {buttons}
-      </div>
+      </div>}
     </div>
   )
 }

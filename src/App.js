@@ -83,7 +83,7 @@ export default function App() {
           // logger(response);
           refreshTree(response[0].tree);
           if (view) {
-            window.history.replaceState({}, document.title, "/");
+            // window.history.replaceState({}, document.title, "/");
             setMode("view");
           }
           if (edit) {

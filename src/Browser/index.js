@@ -119,7 +119,7 @@ export default function Browser() {
           id,
           onSuccess: (response) => {
             // logger(response);
-            unselectAll(response[0].tree);
+            response[0].tree[0].selected = true;
             store.onRefresh(response[0].tree);
             message.destroy();
           },
