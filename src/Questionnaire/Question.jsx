@@ -4,7 +4,7 @@ import { TreeContext } from '../Store';
 import BigButton from './BigButton'
 import { QuestionBox } from './lib'
 import './Questionnaire.css'
-import Content from './Content'
+import Content from '../Content'
 
 const propTypes = {
   isVisible: PropTypes.bool.isRequired,
@@ -79,8 +79,8 @@ export function Question({ isVisible, isPreviewing, node, onClickNode }) {
           <Content
             content={node.content}
             editable={isPreviewing}
-            onUpdate={(markdown) => {
-              node.content = markdown;
+            onUpdate={(newContent) => {
+              node.content = newContent;
               store.onRefresh();
             }}
           />

@@ -319,26 +319,26 @@ button.ant-btn[disabled] {
   text-decoration: underline;
 }
 
-.node-content .markdown h1,
-.node-content .markdown h2,
-.node-content .markdown h3,
-.node-content .markdown h4,
-.node-content .markdown h5 {
+.node-content .the-content h1,
+.node-content .the-content h2,
+.node-content .the-content h3,
+.node-content .the-content h4,
+.node-content .the-content h5 {
   color: white !important;
 }
 
-.node-content .markdown.editable {
+.node-content .the-content.editable {
   position: relative;
   cursor: pointer;
   border: 1px dashed transparent;
   border-right: 1px solid rgba(255,255,255,0.5);
 }
 
-.node-content .markdown.editable:hover {
+.node-content .the-content.editable:hover {
   border: 1px dashed rgba(255,255,255,0.5);
 }
 
-.node-content .markdown img {
+.node-content .the-content img {
   max-width: 100%;
 }
 
