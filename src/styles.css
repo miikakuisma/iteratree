@@ -271,6 +271,7 @@ button.ant-btn[disabled] {
   width: 375px;
   right: 0px;
   bottom: 0px;
+  overflow-y: auto;
 }
 
 .sidebar .top {

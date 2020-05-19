@@ -14,7 +14,6 @@
   z-index: 9;
   background: #111;
   overflow-y: auto; */
-  padding-bottom: 150px;
   position: absolute;
   min-height: -webkit-fill-available;
   top: 0;
@@ -83,11 +82,10 @@
 
 .Questionnaire .buttons {
   padding: 20px;
-  position: absolute;
+  /* position: absolute;
   bottom: 0;
   left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.3);
+  right: 0; */
 }
 
 .Questionnaire button {
