@@ -310,6 +310,10 @@ button.ant-btn[disabled] {
   font-size: 24px;
 }
 
+.node-content ul {
+  text-align: left;
+}
+
 .node-content a {
   color: white;
   text-decoration: underline;
