@@ -69,7 +69,7 @@ function Toolbar({ selectedNode, clipboard, sidebarOpen, onAction }) {
         </Tooltip>
         <Tooltip title="Copy (Cmd-C)" placement="top">
           <CopyOutlined
-            style={selectedNode ? {
+            style={!selectedNode ? {
               opacity: 0.5,
               pointerEvents: 'none'
             } : null}
