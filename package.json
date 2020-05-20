@@ -1,6 +1,7 @@
 {
   "name": "iteratree",
   "version": "1.0.0",
+  "private": true,
   "description": "",
   "keywords": [],
   "main": "src/index.js",

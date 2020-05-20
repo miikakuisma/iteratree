@@ -37,10 +37,6 @@
   border-left: 1px dotted #ccc;
 }
 
-.treeName .name span[title] {
-  
-}
-
 .treeName .ant-dropdown-trigger {
   cursor: pointer;
   margin-left: 15px;
@@ -336,13 +332,19 @@ p.question {
   text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
 }
 
-.node-content .the-content h1,
+.node-content .the-content h1 {
+  color: white !important;
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
 .node-content .the-content h2,
 .node-content .the-content h3,
 .node-content .the-content h4,
 .node-content .the-content h5 {
   color: white !important;
   text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+  text-align: left;
 }
 
 .node-content .the-content {

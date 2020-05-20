@@ -41,42 +41,58 @@ export function Content({
     });  
   }
 
-  const handleStartEditing = (type) => {
+  const handleStartEditing = (index) => {
     if (!editable) {
       return
     }
     UI.setState({ editingContent: true });
-    setEditing(type);
+    setEditing(index);
+  }
+
+  const addElement = (type) => {
+    let contentItem = {
+      type,
+      value: ""
+    }
+    let newContent = content || [];
+    newContent.push(contentItem)
+    onUpdate(newContent);
+    setEditing(newContent.length - 1);
   }
 
   const handleChange = (e) => {
     const value = e.target.value;
     UI.setState({ editingContent: false });
+    let newContent = content;
+    if (value === "") {
+      newContent.splice(editing, 1);
+    } else {
+      newContent[editing].value = value;
+    }
+    onUpdate(newContent);
     setEditing(null);
-    onUpdate({
-      ...content,
-      [editing]: value
-    });
   }
+
+  console.log(content)
 
   const addMenu = (
     <Menu>
       <Menu.Item
-        disabled={content && content.background}
+        disabled={content && content.length > 0 && content.find(c => c.type === 'background')}
         onClick={() => {
-          setEditing('background');
+          addElement('background');
         }}
       ><FileImageOutlined />Background</Menu.Item>
       <Menu.Item
-        disabled={content && content.video}
+        disabled={false}
         onClick={() => {
-          handleStartEditing('video');
+          addElement('video');
         }}
       ><YoutubeOutlined />Video</Menu.Item>
       <Menu.Item
-        disabled={content && content.markdown}
+        disabled={false}
         onClick={() => {
-          handleStartEditing('markdown');
+          addElement('markdown');
         }}
       ><FileMarkdownOutlined />Text (markdown)</Menu.Item>
       <Menu.ItemGroup title="Coming up">
@@ -108,29 +124,39 @@ export function Content({
     </Menu>
   );
 
+  const contentList = content && content.length > 0 && content.map((contentItem, index) => {
+    if (contentItem.type === 'background') {
+      return <Background
+        editing={editing === index}
+        editable={editable}
+        content={contentItem}
+        onStartEditing={() => handleStartEditing(index)}
+        onChange={handleChange}
+      />
+    }
+    if (contentItem.type === 'video') {
+      return <Video
+        editing={editing === index}
+        editable={editable}
+        content={contentItem}
+        onStartEditing={() => handleStartEditing(index)}
+        onChange={handleChange}
+      />
+    }
+    if (contentItem.type === 'markdown') {
+      return <Markdown
+        editing={editing === index}
+        editable={editable}
+        content={contentItem}
+        onStartEditing={() => handleStartEditing(index)}
+        onChange={handleChange}
+      />
+    }
+  });
+
   return (
     <div className="node-content">
-      <Background
-        editing={editing === 'background'}
-        editable={editable}
-        content={content && content.background}
-        onStartEditing={handleStartEditing}
-        onChange={handleChange}
-      />
-      <Video
-        editing={editing === 'video'}
-        editable={editable}
-        content={content && content.video}
-        onStartEditing={handleStartEditing}
-        onChange={handleChange}
-      />
-      <Markdown
-        editing={editing === 'markdown'}
-        editable={editable}
-        content={content && content.markdown}
-        onStartEditing={handleStartEditing}
-        onChange={handleChange}
-      />
+      {contentList}
       {/* <button onClick={handleSearch}>Search</button> */}
       {editable &&
         <Tooltip title="Add Content" placement="top">

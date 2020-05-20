@@ -67,7 +67,7 @@ export function Question({ isVisible, isPreviewing, node, onClickNode }) {
       >
         <div className="background"
           style={{
-            backgroundImage: `url(${node.content && node.content.background})`,
+            backgroundImage: `url(${node.content && node.content.find(c => c.type === 'background').value})`,
             backgroundColor: node.background || '#111111'
           }}
         />

@@ -1,12 +1,10 @@
+import * as Env from '../env';
 import { logger } from "./helpers";
 
 // eslint-disable-next-line no-undef
 const Parse = require("parse");
-Parse.serverURL = "https://parseapi.back4app.com";
-Parse.initialize(
-  "o9nRKZJ6oS6b5G3lPgFmAEoSuARBZLEjghahwdS7",
-  "RDqcVOJSDAWGOiyjsxoWT3c7uVf6nCsXDp4VMQwp",
-);
+Parse.serverURL = Env.SERVER_URL;
+Parse.initialize(Env.APPLICATION_ID, Env.JAVASCRIPT_KEY);
 
 export function getCurrentUser({ onSuccess, onError }) {
   logger('API Request (getCurrentUser)');

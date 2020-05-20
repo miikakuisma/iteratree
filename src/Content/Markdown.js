@@ -24,7 +24,7 @@ export function Markdown({ editing, editable, content, onStartEditing, onChange 
           autoSize 
           autoFocus
           onBlur={onChange}
-          defaultValue={content || ""}
+          defaultValue={content.value || ""}
         />
         <p style={{ color: 'rgba(255,255,255,0.5)'}}>Clear all text and leave editing to delete</p>
       </Fragment>
@@ -35,9 +35,9 @@ export function Markdown({ editing, editable, content, onStartEditing, onChange 
     return (    
       <div
         className={editable ? "the-content editable" : "the-content"}
-        onClick={() => onStartEditing('markdown')}
+        onClick={onStartEditing}
       >
-        <ReactMarkdown source={content} />
+        <ReactMarkdown source={content.value} />
         {editable &&
           <Tooltip title="Text (markdown)" placement="left">
             <FileMarkdownOutlined className="edit-icon" />

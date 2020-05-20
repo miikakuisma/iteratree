@@ -20,7 +20,7 @@ export function Background({ editing, editable, content, onStartEditing, onChang
           placeholder="Image URL"
           autoFocus
           onBlur={onChange}
-          defaultValue={content || ""}
+          defaultValue={content.value || ""}
         />
         <p style={{ color: 'rgba(255,255,255,0.5)'}}>Clear all text and leave editing to delete</p>
       </Fragment>
@@ -31,11 +31,10 @@ export function Background({ editing, editable, content, onStartEditing, onChang
     return (    
       <div
         className={editable ? "the-content editable" : "the-content"}
-        onClick={() => onStartEditing('background')}
+        onClick={onStartEditing}
         style={{
           height: '30px',
           position: 'relative',
-          marginTop: '-30px',
           color: '#949393',
           paddingTop: '3px'
         }}
