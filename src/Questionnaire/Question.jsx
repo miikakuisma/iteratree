@@ -65,6 +65,12 @@ export function Question({ isVisible, isPreviewing, node, onClickNode }) {
         className="boxContainer"
         ref={boxRef}
       >
+        <div className="background"
+          style={{
+            backgroundImage: `url(${node.content && node.content.background})`,
+            backgroundColor: node.background || '#111111'
+          }}
+        />
         {node.title && <QuestionBox
           className="box"
           pose={isVisible ? 'visible' : 'hidden'}

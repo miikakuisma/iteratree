@@ -307,12 +307,17 @@ button.ant-btn[disabled] {
   margin-right: 10px;
 }
 
+.ant-typography {
+  text-shadow: 1px 1px 0px black;
+}
+
 .ant-typography-edit {
   font-size: 24px;
 }
 
 .node-content ul, .node-content p {
   text-align: left;
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
 }
 
 .node-content p img {
@@ -322,11 +327,13 @@ button.ant-btn[disabled] {
 
 p.question {
   text-align: center;
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
 }
 
 .node-content a {
   color: white;
   text-decoration: underline;
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
 }
 
 .node-content .the-content h1,
@@ -335,6 +342,7 @@ p.question {
 .node-content .the-content h4,
 .node-content .the-content h5 {
   color: white !important;
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
 }
 
 .node-content .the-content {
@@ -354,6 +362,17 @@ p.question {
 
 .node-content .the-content img {
   max-width: 100%;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  background-size: cover;
+  background-position: center;
 }
 
 .node-content textarea {

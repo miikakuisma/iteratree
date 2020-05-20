@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { UIContext } from '../Store';
+import Unsplash, { toJson } from 'unsplash-js';
 import { Tooltip, Dropdown, Menu } from 'antd';
 import {
   PlusCircleOutlined,
@@ -14,6 +15,7 @@ import {
 } from '@ant-design/icons';
 import Video from './Video';
 import Markdown from "./Markdown";
+import Background from "./Background";
 
 const propTypes = {
   content: PropTypes.object,
@@ -28,6 +30,16 @@ export function Content({
 }) {
   const UI = useContext(UIContext);
   const [editing, setEditing] = useState(null);
+
+  const unsplash = new Unsplash({ accessKey: "BwmlWZDZ9rebOdV8o5UWOgzmtWVARTMYOW2mQlFxdVw" });
+
+  const handleSearch = () => {
+    unsplash.search.photos("dogs", 1, 10, { orientation: "portrait" })
+    .then(toJson)
+    .then(json => {
+      console.log(json);
+    });  
+  }
 
   const handleStartEditing = (type) => {
     if (!editable) {
@@ -50,24 +62,24 @@ export function Content({
   const addMenu = (
     <Menu>
       <Menu.Item
-        disabled={content && content.markdown}
+        disabled={content && content.background}
         onClick={() => {
-          handleStartEditing('markdown');
+          setEditing('background');
         }}
-      ><FileMarkdownOutlined />Markdown</Menu.Item>
+      ><FileImageOutlined />Background</Menu.Item>
       <Menu.Item
         disabled={content && content.video}
         onClick={() => {
           handleStartEditing('video');
         }}
       ><YoutubeOutlined />Video</Menu.Item>
+      <Menu.Item
+        disabled={content && content.markdown}
+        onClick={() => {
+          handleStartEditing('markdown');
+        }}
+      ><FileMarkdownOutlined />Text (markdown)</Menu.Item>
       <Menu.ItemGroup title="Coming up">
-        <Menu.Item
-          disabled={true}
-          onClick={() => {
-            setEditing('background');
-          }}
-        ><FileImageOutlined />Background</Menu.Item>
         <Menu.Item
           disabled={true}
           onClick={() => {
@@ -98,6 +110,13 @@ export function Content({
 
   return (
     <div className="node-content">
+      <Background
+        editing={editing === 'background'}
+        editable={editable}
+        content={content && content.background}
+        onStartEditing={handleStartEditing}
+        onChange={handleChange}
+      />
       <Video
         editing={editing === 'video'}
         editable={editable}
@@ -112,6 +131,7 @@ export function Content({
         onStartEditing={handleStartEditing}
         onChange={handleChange}
       />
+      {/* <button onClick={handleSearch}>Search</button> */}
       {editable &&
         <Tooltip title="Add Content" placement="top">
           <Dropdown overlay={addMenu} trigger={['click']}>

@@ -16,7 +16,8 @@
     "react-pose": "^4.0.10",
     "react-qr-code": "^1.0.1",
     "react-scripts": "3.0.1",
-    "traverse": "0.6.6"
+    "traverse": "0.6.6",
+    "unsplash-js": "^6.0.0"
   },
   "devDependencies": {
     "typescript": "3.3.3"
