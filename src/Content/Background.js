@@ -20,7 +20,7 @@ export function Background({ editing, editable, content, onStartEditing, onChang
           placeholder="Image URL"
           autoFocus
           onBlur={onChange}
-          defaultValue={content.value || ""}
+          defaultValue={content || ""}
         />
         <p style={{ color: 'rgba(255,255,255,0.5)'}}>Clear all text and leave editing to delete</p>
       </Fragment>

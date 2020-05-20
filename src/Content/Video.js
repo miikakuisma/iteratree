@@ -14,8 +14,8 @@ const propTypes = {
 }
 
 export function Video({ editing, editable, content, onStartEditing, onChange }) {
-  const isYoutube = content && content.value.includes('youtube.com');
-  const isVimeo = content && content.value.includes('vimeo.com');
+  const isYoutube = content && content.includes('youtube.com');
+  const isVimeo = content && content.includes('vimeo.com');
 
   if (editing) {
     return (
@@ -24,7 +24,7 @@ export function Video({ editing, editable, content, onStartEditing, onChange }) 
           placeholder="YouTube or Vimeo URL"
           autoFocus
           onBlur={onChange}
-          defaultValue={content.value || ""}
+          defaultValue={content || ""}
         />
         <p style={{ color: 'rgba(255,255,255,0.5)'}}>Clear all text and leave editing to delete</p>
       </Fragment>
@@ -38,14 +38,14 @@ export function Video({ editing, editable, content, onStartEditing, onChange }) 
         onClick={onStartEditing}
       >
         {isYoutube && <iframe
-          src={content.value.replace('https://www.youtube.com/watch?v=', 'https://www.youtube.com/embed/')}
+          src={content.replace('https://www.youtube.com/watch?v=', 'https://www.youtube.com/embed/')}
           frameBorder='0'
           allow='autoplay; encrypted-media'
           allowFullScreen
           title='video'
         />}
         {isVimeo && <iframe
-          src={content.value.replace('https://vimeo.com/', 'https://player.vimeo.com/video/')}
+          src={content.replace('https://vimeo.com/', 'https://player.vimeo.com/video/')}
           frameBorder='0'
           allow="autoplay; fullscreen"
           allowFullScreen

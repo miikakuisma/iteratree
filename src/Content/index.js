@@ -18,7 +18,7 @@ import Markdown from "./Markdown";
 import Background from "./Background";
 
 const propTypes = {
-  content: PropTypes.object,
+  content: PropTypes.array,
   editable: PropTypes.bool,
   onUpdate: PropTypes.func,
 };
@@ -73,8 +73,6 @@ export function Content({
     setEditing(null);
   }
 
-  console.log(content)
-
   const addMenu = (
     <Menu>
       <Menu.Item
@@ -127,27 +125,30 @@ export function Content({
   const contentList = content && content.length > 0 && content.map((contentItem, index) => {
     if (contentItem.type === 'background') {
       return <Background
+        key={`content-${index}`}
         editing={editing === index}
         editable={editable}
-        content={contentItem}
+        content={contentItem.value}
         onStartEditing={() => handleStartEditing(index)}
         onChange={handleChange}
       />
     }
     if (contentItem.type === 'video') {
       return <Video
+        key={`content-${index}`}
         editing={editing === index}
         editable={editable}
-        content={contentItem}
+        content={contentItem.value}
         onStartEditing={() => handleStartEditing(index)}
         onChange={handleChange}
       />
     }
     if (contentItem.type === 'markdown') {
       return <Markdown
+        key={`content-${index}`}
         editing={editing === index}
         editable={editable}
-        content={contentItem}
+        content={contentItem.value}
         onStartEditing={() => handleStartEditing(index)}
         onChange={handleChange}
       />
