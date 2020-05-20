@@ -311,8 +311,13 @@ button.ant-btn[disabled] {
   font-size: 24px;
 }
 
-.node-content ul, p {
+.node-content ul, .node-content p {
   text-align: left;
+}
+
+.node-content p img {
+  margin: auto;
+  display: flex;
 }
 
 p.question {
