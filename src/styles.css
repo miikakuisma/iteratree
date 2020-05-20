@@ -311,8 +311,12 @@ button.ant-btn[disabled] {
   font-size: 24px;
 }
 
-.node-content ul {
+.node-content ul, p {
   text-align: left;
+}
+
+p.question {
+  text-align: center;
 }
 
 .node-content a {
@@ -390,6 +394,8 @@ button.ant-btn[disabled] {
 .browser .site-card-wrapper {
   background: #ececec;
   padding: 30px;
+  height: calc(100vh - 350px);
+  overflow-y: auto;
 }
 
 .browser .ant-tabs {

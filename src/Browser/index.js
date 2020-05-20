@@ -93,6 +93,7 @@ export default function Browser() {
             modalOpen: false,
             browserOpen: false,
           });
+          tree[0].selected = true;
           store.onRefresh(tree);
         },
         onCancel() {
@@ -182,11 +183,11 @@ export default function Browser() {
 
   return (
     <Modal
-      width={window.innerWidth - 200}
+      width={window.innerWidth - 40}
       visible={true}
       closable={true}
       maskClosable={true}
-      cancelText='Close'
+      cancelText='Cancel'
       okText='Start New'
       className="browser"
       onOk={() => {
@@ -196,7 +197,10 @@ export default function Browser() {
         UI.setState({ browserOpen: false });
       }}
     >
-      <Tabs defaultActiveKey="1" onChange={handleTabChange}>
+      <Tabs
+        defaultActiveKey="1"
+        onChange={handleTabChange}
+      >
         <TabPane tab="My Trees" key="1">
           <div className="site-card-wrapper">
             <Row gutter={[16, 16]}>

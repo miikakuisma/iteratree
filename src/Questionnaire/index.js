@@ -21,6 +21,7 @@ class Questionnaire extends React.Component {
       boxVisible: false,
       deviceVisible: false,
       switcherRunning: false,
+      today: null
     }
   }
 
@@ -29,9 +30,11 @@ class Questionnaire extends React.Component {
   }
 
   componentDidMount() {
+    const date = new Date();
     this.setState({
       boxVisible: true,
-    })
+      today: date.getDay()
+    });
   }
 
   componentDidUpdate() {
@@ -66,11 +69,31 @@ class Questionnaire extends React.Component {
   getBoxContent(node) {
     const {
       boxVisible,
+      today,
       // switcherRunning
     } = this.state
-    const { preview } = this.props;
+    const { preview } = this.props;  
 
     if (node.options) {
+      // Handle day filtering
+      const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+      const filteredDay = node.options.map(n => n.title).find(subnodeTitle => subnodeTitle === weekdays[today - 1]);
+      if (filteredDay) {
+        return (<Question
+          title={node.options.find(n => n.title === filteredDay).title}
+          isVisible={boxVisible}
+          isPreviewing={preview}
+          node={node.options.find(n => n.title === filteredDay)}
+          onClickNode={(answer) => {
+            if (answer && answer.options && answer.options.length === 1) {
+              this.handleClick(answer.options[0]);
+            } else {
+              this.handleClick(answer);
+            }
+          }}
+        />)
+      }
+
       return (<Question
         title={node.title}
         isVisible={boxVisible}
@@ -86,6 +109,7 @@ class Questionnaire extends React.Component {
       />)
     } else {
       
+      // No sub nodes left
       return (<div style={{
         display: 'flex',
         flexDirection: 'column',
