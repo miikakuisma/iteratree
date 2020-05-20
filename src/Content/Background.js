@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import { Input } from 'antd';
+import { Input, Tooltip } from 'antd';
 import { FileImageOutlined } from '@ant-design/icons';
 
 const propTypes = {
@@ -41,7 +41,11 @@ export function Background({ editing, editable, content, onStartEditing, onChang
         }}
       >
         <div className="background-" />
-        {editable && <FileImageOutlined className="edit-icon" />}
+        {editable &&
+          <Tooltip title="Background Image" placement="left">
+            <FileImageOutlined className="edit-icon" />
+          </Tooltip>
+        }
       </div>
     )
   }

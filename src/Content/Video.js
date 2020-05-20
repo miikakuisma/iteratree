@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import { Input } from 'antd';
+import { Input, Tooltip } from 'antd';
 import {
   YoutubeOutlined,
 } from '@ant-design/icons';
@@ -54,7 +54,11 @@ export function Video({ editing, editable, content, onStartEditing, onChange }) 
         >
         
         </iframe>}
-        {editable && <YoutubeOutlined className="edit-icon" />}
+        {editable &&
+          <Tooltip title="Video" placement="left">
+            <YoutubeOutlined className="edit-icon" />
+          </Tooltip>
+        }
       </div>
     )
   }

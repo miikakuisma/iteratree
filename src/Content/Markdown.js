@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import { Input } from 'antd';
+import { Input, Tooltip } from 'antd';
 import { FileMarkdownOutlined } from '@ant-design/icons';
 import ReactMarkdown from 'react-markdown';
 
@@ -38,7 +38,11 @@ export function Markdown({ editing, editable, content, onStartEditing, onChange 
         onClick={() => onStartEditing('markdown')}
       >
         <ReactMarkdown source={content} />
-        {editable && <FileMarkdownOutlined className="edit-icon" />}
+        {editable &&
+          <Tooltip title="Text (markdown)" placement="left">
+            <FileMarkdownOutlined className="edit-icon" />
+          </Tooltip>
+        }
       </div>
     )
   }
