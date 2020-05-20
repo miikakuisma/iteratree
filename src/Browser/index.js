@@ -31,6 +31,7 @@ export default function Browser() {
   }, [])
 
   function handleTabChange(key) {
+    window.localStorage.setItem('lastBrowserTab', key);
     switch (key) {
       case 1:
         getMyTrees({
@@ -198,21 +199,21 @@ export default function Browser() {
       }}
     >
       <Tabs
-        defaultActiveKey="1"
+        defaultActiveKey={window.localStorage.getItem('lastBrowserTab') || "1"}
         onChange={handleTabChange}
       >
-        <TabPane tab="My Trees" key="1">
+        <TabPane tab="Examples" key="1">
+          <Row gutter={[16, 16]}>
+            {exampleList}
+          </Row>
+        </TabPane>
+        <TabPane tab="My Trees" key="2">
           <div className="site-card-wrapper">
             <Row gutter={[16, 16]}>
               {<AddNew />}
               {myTrees ? myTreeList : <LoadingOutlined />}
             </Row>
           </div>
-        </TabPane>
-        <TabPane tab="Examples" key="2">
-          <Row gutter={[16, 16]}>
-            {exampleList}
-          </Row>
         </TabPane>
       </Tabs>
     </Modal>
