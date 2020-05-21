@@ -66,6 +66,7 @@ export function Title({ editing, editable, content, onStartEditing, onChange, on
             border: 'none',
             resize: 'none',
             color: 'white',
+            cursor: 'pointer'
           }}
         />
         {editable &&

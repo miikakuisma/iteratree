@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from "prop-types";
 import Question from './Question'
-// import Switcher from './Switcher'
 import './Questionnaire.css'
 
 const propTypes = {
@@ -70,7 +69,6 @@ class Questionnaire extends React.Component {
     const {
       boxVisible,
       today,
-      // switcherRunning
     } = this.state
     const { preview } = this.props;  
 
@@ -109,7 +107,7 @@ class Questionnaire extends React.Component {
       />)
     } else {
       
-      // No sub nodes left
+      // This comes if there is no more subnodes left
       return (<div style={{
         display: 'flex',
         flexDirection: 'column',
@@ -128,25 +126,6 @@ class Questionnaire extends React.Component {
             }
           }}
         />
-        {/* <div className="buttons">
-          {node.title && <button
-            onClick={() => {
-              if (preview) {
-                return;
-              }
-              this.setState({ switcherRunning: true })
-              setTimeout(() => {
-                this.setState({
-                  switcherRunning: false
-                })
-              }, 1000)
-              setTimeout(() => {
-                this.setState({ node: this.getInitialNode() })
-              }, 1111)
-            }}
-          >Start Over</button>}
-        </div> */}
-        {/* {!preview && <Switcher isVisible={switcherRunning} />} */}
       </div>)
     }    
   }

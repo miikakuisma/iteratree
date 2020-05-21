@@ -73,28 +73,3 @@ export const Button = posed.button({
     }
   }
 });
-
-export const Zoomer = posed.div({
-  hidden: {
-    scaleY: 0,
-    scaleX: 0,
-    filter: 'hue-rotate(-30deg) brightness(1)',
-    transition: {
-      y: (props) => ({
-        duration: 2000,
-        ease: 'anticipate'
-      })
-    }
-  },
-  visible: {
-    scaleY: 3,
-    scaleX: 3,
-    filter: 'hue-rotate(0deg) brightness(1.3)',
-    transition: {
-      y: (props) => ({
-        duration: 2000,
-        ease: 'anticipate'
-      })
-    }
-  }
-})
