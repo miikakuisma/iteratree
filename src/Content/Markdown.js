@@ -11,10 +11,11 @@ const propTypes = {
   editable: PropTypes.bool,
   content: PropTypes.string,
   onStartEditing: PropTypes.func,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  onCancel: PropTypes.func
 }
 
-export function Markdown({ editing, editable, content, onStartEditing, onChange }) {
+export function Markdown({ editing, editable, content, onStartEditing, onChange, onCancel }) {
 
   if (editing) {
     return (
@@ -25,6 +26,9 @@ export function Markdown({ editing, editable, content, onStartEditing, onChange 
           autoFocus
           onBlur={onChange}
           defaultValue={content || ""}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") { onCancel(); }
+          }}
         />
         <p style={{ color: 'rgba(255,255,255,0.5)'}}>Clear all text and leave editing to delete</p>
       </Fragment>

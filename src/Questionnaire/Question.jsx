@@ -76,17 +76,20 @@ export function Question({ isVisible, isPreviewing, node, onClickNode }) {
           pose={isVisible ? 'visible' : 'hidden'}
         >
           <span className="title">&nbsp;</span>
-          <p
+          {/* <p
             className="question"
             style={{
               color: node.color || 'white'
             }}
-          >{node.title}</p>
+          >{node.title}</p> */}
           <Content
             content={node.content}
             editable={isPreviewing}
             onUpdate={(newContent) => {
               node.content = newContent;
+              if (newContent.find(c => c.type === 'title')) {
+                node.title = newContent.find(c => c.type === 'title').value;
+              }
               store.onRefresh();
             }}
           />

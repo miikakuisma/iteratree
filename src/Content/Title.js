@@ -12,18 +12,26 @@ const propTypes = {
   onCancel: PropTypes.func
 }
 
-export function Background({ editing, editable, content, onStartEditing, onChange, onCancel }) {
+export function Title({ editing, editable, content, onStartEditing, onChange, onCancel }) {
 
   if (editing) {
+    const { TextArea } = Input;
     return (
       <Fragment>
-        <Input
-          placeholder="Image URL"
+        <TextArea
+          placeholder="Title text"
+          autoSize 
           autoFocus
           onBlur={onChange}
           defaultValue={content || ""}
           onKeyDown={(e) => {
             if (e.key === "Escape") { onCancel(); }
+          }}
+          style={{
+            fontWeight: '600',
+            fontSize: '38px',
+            lineHeight: '1.23',
+            textAlign: 'center'
           }}
         />
         <p style={{ color: 'rgba(255,255,255,0.5)'}}>Clear all text and leave editing to delete</p>
@@ -32,18 +40,34 @@ export function Background({ editing, editable, content, onStartEditing, onChang
   }
 
   if (content) {
+    const { TextArea } = Input;
+
     return (    
       <div
         className={editable ? "the-content editable" : "the-content"}
         onClick={onStartEditing}
         style={{
-          height: '30px',
           position: 'relative',
           color: '#949393',
           paddingTop: '3px'
         }}
       >
-        <div className="background-" />
+        <TextArea
+          placeholder="Title text"
+          disabled={true}
+          autoSize
+          value={content || ""}
+          style={{
+            fontWeight: '600',
+            fontSize: '38px',
+            lineHeight: '1.23',
+            textAlign: 'center',
+            background: 'transparent',
+            border: 'none',
+            resize: 'none',
+            color: 'white',
+          }}
+        />
         {editable &&
           <Tooltip title="Background Image" placement="left">
             <FileImageOutlined className="edit-icon" />
@@ -56,5 +80,5 @@ export function Background({ editing, editable, content, onStartEditing, onChang
   return null;
 }
 
-Background.propTypes = propTypes;
-export default Background;
+Title.propTypes = propTypes;
+export default Title;

@@ -13,6 +13,7 @@ import {
   ApiOutlined,
   CreditCardOutlined
 } from '@ant-design/icons';
+import Title from './Title';
 import Video from './Video';
 import Markdown from "./Markdown";
 import Background from "./Background";
@@ -52,17 +53,16 @@ export function Content({
   const addElement = (type) => {
     let contentItem = {
       type,
-      value: ""
+      value: " "
     }
     let newContent = content || [];
     newContent.push(contentItem)
     onUpdate(newContent);
-    setEditing(newContent.length - 1);
+    handleStartEditing(newContent.length - 1);
   }
 
   const handleChange = (e) => {
     const value = e.target.value;
-    UI.setState({ editingContent: false });
     let newContent = content;
     if (value === "") {
       newContent.splice(editing, 1);
@@ -70,11 +70,18 @@ export function Content({
       newContent[editing].value = value;
     }
     onUpdate(newContent);
+    UI.setState({ editingContent: false });
     setEditing(null);
   }
 
   const addMenu = (
     <Menu>
+      <Menu.Item
+        disabled={false}
+        onClick={() => {
+          addElement('title');
+        }}
+      ><FileImageOutlined />Title</Menu.Item>
       <Menu.Item
         disabled={content && content.length > 0 && content.find(c => c.type === 'background')}
         onClick={() => {
@@ -123,6 +130,17 @@ export function Content({
   );
 
   const contentList = content && content.length > 0 && content.map((contentItem, index) => {
+    if (contentItem.type === 'title') {
+      return <Title
+        key={`content-${index}`}
+        editing={editing === index}
+        editable={editable}
+        content={contentItem.value}
+        onStartEditing={() => handleStartEditing(index)}
+        onChange={handleChange}
+        onCancel={() => setEditing(null)}
+      />
+    }
     if (contentItem.type === 'background') {
       return <Background
         key={`content-${index}`}
@@ -131,6 +149,7 @@ export function Content({
         content={contentItem.value}
         onStartEditing={() => handleStartEditing(index)}
         onChange={handleChange}
+        onCancel={() => setEditing(null)}
       />
     }
     if (contentItem.type === 'video') {
@@ -141,6 +160,7 @@ export function Content({
         content={contentItem.value}
         onStartEditing={() => handleStartEditing(index)}
         onChange={handleChange}
+        onCancel={() => setEditing(null)}
       />
     }
     if (contentItem.type === 'markdown') {
@@ -151,6 +171,7 @@ export function Content({
         content={contentItem.value}
         onStartEditing={() => handleStartEditing(index)}
         onChange={handleChange}
+        onCancel={() => setEditing(null)}
       />
     }
   });

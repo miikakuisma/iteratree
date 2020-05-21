@@ -143,25 +143,21 @@ function Tree() {
   };
 
   function addNode(node, select) {
+    const newNode = {
+      id: Date.now(),
+      title: "New",
+      content: [{type: "title", value: "New"}],
+      selected: select || false
+    }
     if (select) {
       unselectAll();
     }
     if (node.options && node.options.length > 0) {
-      node.options.push({
-        id: Date.now(),
-        title: "New",
-        selected: select || false
-      });
+      node.options.push(newNode);
       onRefresh();
     } else {
       unselectAll();
-      node.options = [
-        {
-          id: Date.now(),
-          title: "New",
-          selected: select || false
-        }
-      ];
+      node.options = [newNode];
       onRefresh();
     }
   }
