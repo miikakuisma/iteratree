@@ -21,6 +21,7 @@ import Title from './Title';
 import Video from './Video';
 import Markdown from "./Markdown";
 import Background from "./Background";
+import Photo from "./Photo";
 import { arrayMove } from '../lib/helpers';
 
 const propTypes = {
@@ -109,6 +110,12 @@ export function Content({
       <Menu.Item
         disabled={content && content.length > 0 && content.find(c => c.type === 'background')}
         onClick={() => {
+          addElement('photo');
+        }}
+      ><FileImageOutlined />Photo</Menu.Item>
+      <Menu.Item
+        disabled={content && content.length > 0 && content.find(c => c.type === 'background')}
+        onClick={() => {
           addElement('background');
         }}
       ><FileImageOutlined />Background Image</Menu.Item>
@@ -180,6 +187,21 @@ export function Content({
   const contentList = content && content.length > 0 && content.map((contentItem, index) => {
     if (contentItem.type === 'title') {
       return <Title
+        key={`content-${index}`}
+        index={index}
+        editing={editing === index}
+        editable={editable}
+        content={contentItem.value}
+        onStartEditing={() => handleStartEditing(index)}
+        onChange={handleChange}
+        onCancel={() => setEditing(null)}
+        onMoveUp={handleMoveUp}
+        onMoveDown={handleMoveDown}
+        onDelete={handleDelete}
+      />
+    }
+    if (contentItem.type === 'photo') {
+      return <Photo
         key={`content-${index}`}
         index={index}
         editing={editing === index}

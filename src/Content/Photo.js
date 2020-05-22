@@ -11,17 +11,19 @@ const propTypes = {
   onStartEditing: PropTypes.func,
   onChange: PropTypes.func,
   onCancel: PropTypes.func,
-  onDelete: PropTypes.func
+  onDelete: PropTypes.func,
+  onMoveUp: PropTypes.func,
+  onMoveDown: PropTypes.func
 }
 
-export function Background({ index, editing, editable, content, onStartEditing, onChange, onCancel, onDelete }) {
+export function Photo({ index, editing, editable, content, onStartEditing, onChange, onCancel, onDelete, onMoveUp, onMoveDown }) {
 
   const menu = (
     <Menu>
-      <Menu.ItemGroup title="Background Image">
-        {/* <Menu.Item key="1" onClick={() => onMoveUp(index)}>Move Up</Menu.Item>
+      <Menu.ItemGroup title="Photo">
+        <Menu.Item key="1" onClick={() => onMoveUp(index)}>Move Up</Menu.Item>
         <Menu.Item key="2" onClick={() => onMoveDown(index)}>Move Down</Menu.Item>
-        <Menu.Divider /> */}
+        <Menu.Divider />
         <Menu.Item key="3"onClick={() => onDelete(index)}>Remove</Menu.Item>
       </Menu.ItemGroup>
     </Menu>
@@ -59,6 +61,7 @@ export function Background({ index, editing, editable, content, onStartEditing, 
           paddingTop: '3px'
         }}
       >
+        <div className="photo"><img src={content} /></div>
         {editable && <Dropdown overlay={menu} className="edit-icon"><SettingFilled /></Dropdown>}
       </div>
     )
@@ -67,5 +70,5 @@ export function Background({ index, editing, editable, content, onStartEditing, 
   return null;
 }
 
-Background.propTypes = propTypes;
-export default Background;
+Photo.propTypes = propTypes;
+export default Photo;
