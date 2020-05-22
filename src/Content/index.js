@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { UIContext } from '../Store';
-import Unsplash, { toJson } from 'unsplash-js';
+// import Unsplash, { toJson } from 'unsplash-js';
 import { Tooltip, Dropdown, Menu } from 'antd';
 import {
   PlusCircleOutlined,
@@ -11,7 +11,11 @@ import {
   CommentOutlined,
   CodeOutlined,
   ApiOutlined,
-  CreditCardOutlined
+  CreditCardOutlined,
+  PhoneOutlined,
+  FilePdfOutlined,
+  ContactsOutlined,
+  SmileOutlined
 } from '@ant-design/icons';
 import Title from './Title';
 import Video from './Video';
@@ -33,15 +37,14 @@ export function Content({
   const UI = useContext(UIContext);
   const [editing, setEditing] = useState(null);
 
-  const unsplash = new Unsplash({ accessKey: "BwmlWZDZ9rebOdV8o5UWOgzmtWVARTMYOW2mQlFxdVw" });
-
-  const handleSearch = () => {
-    unsplash.search.photos("dogs", 1, 10, { orientation: "portrait" })
-    .then(toJson)
-    .then(json => {
-      console.log(json);
-    });  
-  }
+  // const unsplash = new Unsplash({ accessKey: "BwmlWZDZ9rebOdV8o5UWOgzmtWVARTMYOW2mQlFxdVw" });
+  // const handleSearch = () => {
+  //   unsplash.search.photos("dogs", 1, 10, { orientation: "portrait" })
+  //   .then(toJson)
+  //   .then(json => {
+  //     console.log(json);
+  //   });  
+  // }
 
   const handleStartEditing = (index) => {
     if (!editable) {
@@ -122,6 +125,30 @@ export function Content({
         }}
       ><FileMarkdownOutlined />Text (markdown)</Menu.Item>
       <Menu.ItemGroup title="Coming up">
+        <Menu.Item
+          disabled={true}
+          onClick={() => {
+
+          }}
+        ><PhoneOutlined />Phone Call button</Menu.Item>
+        <Menu.Item
+          disabled={true}
+          onClick={() => {
+
+          }}
+        ><FilePdfOutlined />PDF document</Menu.Item>
+        <Menu.Item
+          disabled={true}
+          onClick={() => {
+
+          }}
+        ><ContactsOutlined />vCard</Menu.Item>
+        <Menu.Item
+          disabled={true}
+          onClick={() => {
+
+          }}
+        ><SmileOutlined />Stickers</Menu.Item>
         <Menu.Item
           disabled={true}
           onClick={() => {
