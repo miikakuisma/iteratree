@@ -195,41 +195,64 @@ export function deleteTree({ id, onSuccess, onError }) {
   });
 }
 
-export function saveNodeContent({ treeId, nodeId, content }) {
-  logger('API Request (save content)');
+export function saveImage({ name, type, size, base64 }) {
   return new Promise(
     function (resolve, reject) {
-
       const currentUser = Parse.User.current();
       if (!currentUser) {
         reject("You must be signed in first");
       }
-
-      const ContentClass = Parse.Object.extend('nodeContent');
-      const newContent = new ContentClass();
-
-      newContent.set('treeId', treeId);
-      newContent.set('nodeId', nodeId.toString());
-      newContent.set('content', content);
-      newContent.set('owner', currentUser.id);
-
-      newContent.save().then(
-        (result) => {
-          if (typeof document !== 'undefined') {
-            resolve(JSON.parse(JSON.stringify(result)));
-          }
-        },
-        (error) => {
-          if (typeof document !== 'undefined') {
-            reject(error);
-          }
-        }
-      );
+    
+      let uploadedFile = new Parse.File(name, { base64 });
+      let PhotoClass = Parse.Object.extend('Photo');
+      let photo = new PhotoClass();
+      photo.set('photo', uploadedFile);
+      photo.set('owner', currentUser.id);
+      photo.set('type', type);
+      photo.set('size', size);
+      photo.save()
+      .catch((error) => reject(error))
+      .then((results) => resolve(JSON.parse(JSON.stringify(results))))
     }
-  )  
+  );
 }
 
 
+
+
+// export function saveNodeContent({ treeId, nodeId, content }) {
+//   logger('API Request (save content)');
+//   return new Promise(
+//     function (resolve, reject) {
+
+//       const currentUser = Parse.User.current();
+//       if (!currentUser) {
+//         reject("You must be signed in first");
+//       }
+
+//       const ContentClass = Parse.Object.extend('nodeContent');
+//       const newContent = new ContentClass();
+
+//       newContent.set('treeId', treeId);
+//       newContent.set('nodeId', nodeId.toString());
+//       newContent.set('content', content);
+//       newContent.set('owner', currentUser.id);
+
+//       newContent.save().then(
+//         (result) => {
+//           if (typeof document !== 'undefined') {
+//             resolve(JSON.parse(JSON.stringify(result)));
+//           }
+//         },
+//         (error) => {
+//           if (typeof document !== 'undefined') {
+//             reject(error);
+//           }
+//         }
+//       );
+//     }
+//   )  
+// }
 
 // export function updateNodeContent({ contentId, content }) {
 //   logger('API Request (update content)');
