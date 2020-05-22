@@ -1,18 +1,31 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import { Input, Tooltip } from 'antd';
-import { FileImageOutlined } from '@ant-design/icons';
+import { Input, Menu, Dropdown } from 'antd';
+import { SettingFilled } from '@ant-design/icons';
 
 const propTypes = {
+  index: PropTypes.number,
   editing: PropTypes.bool,
   editable: PropTypes.bool,
   content: PropTypes.string,
   onStartEditing: PropTypes.func,
   onChange: PropTypes.func,
-  onCancel: PropTypes.func
+  onCancel: PropTypes.func,
+  onDelete: PropTypes.func
 }
 
-export function Background({ editing, editable, content, onStartEditing, onChange, onCancel }) {
+export function Background({ index, editing, editable, content, onStartEditing, onChange, onCancel, onDelete }) {
+
+  const menu = (
+    <Menu>
+      <Menu.ItemGroup title="Background Image">
+        {/* <Menu.Item key="1" onClick={() => onMoveUp(index)}>Move Up</Menu.Item>
+        <Menu.Item key="2" onClick={() => onMoveDown(index)}>Move Down</Menu.Item>
+        <Menu.Divider /> */}
+        <Menu.Item key="3"onClick={() => onDelete(index)}>Remove</Menu.Item>
+      </Menu.ItemGroup>
+    </Menu>
+  );
 
   if (editing) {
     return (
@@ -35,7 +48,11 @@ export function Background({ editing, editable, content, onStartEditing, onChang
     return (    
       <div
         className={editable ? "the-content editable" : "the-content"}
-        onClick={onStartEditing}
+        onClick={(e) => {
+          if (!e.target.classList.contains("ant-dropdown-menu-item")) {
+            onStartEditing();
+          }
+        }}
         style={{
           height: '30px',
           position: 'relative',
@@ -44,11 +61,7 @@ export function Background({ editing, editable, content, onStartEditing, onChang
         }}
       >
         <div className="background-" />
-        {editable &&
-          <Tooltip title="Background Image" placement="left">
-            <FileImageOutlined className="edit-icon" />
-          </Tooltip>
-        }
+        {editable && <Dropdown overlay={menu} className="edit-icon"><SettingFilled /></Dropdown>}
       </div>
     )
   }

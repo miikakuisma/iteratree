@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import { Input, Menu, Dropdown } from 'antd';
-import { SettingFilled } from '@ant-design/icons';
+import { Input, Tooltip, Menu, Dropdown } from 'antd';
+import { FileImageOutlined } from '@ant-design/icons';
 
 const propTypes = {
   index: PropTypes.number,
@@ -16,16 +16,14 @@ const propTypes = {
   onDelete: PropTypes.func
 }
 
-export function Title({ index, editing, editable, content, onStartEditing, onChange, onCancel, onMoveUp, onMoveDown, onDelete }) {
+export function ContentItem({ index, editing, editable, content, onStartEditing, onChange, onCancel, onMoveUp, onMoveDown, onDelete }) {
 
   const menu = (
     <Menu>
-      <Menu.ItemGroup title="Title">
-        <Menu.Item key="1" onClick={() => onMoveUp(index)}>Move Up</Menu.Item>
-        <Menu.Item key="2" onClick={() => onMoveDown(index)}>Move Down</Menu.Item>
-        <Menu.Divider />
-        <Menu.Item key="3"onClick={() => onDelete(index)}>Remove</Menu.Item>
-      </Menu.ItemGroup>
+      <Menu.Item key="1" onClick={() => onMoveUp(index)}>Move Up</Menu.Item>
+      <Menu.Item key="2" onClick={() => onMoveDown(index)}>Move Down</Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="3"onClick={() => onDelete(index)}>Remove</Menu.Item>
     </Menu>
   );
 
@@ -60,35 +58,37 @@ export function Title({ index, editing, editable, content, onStartEditing, onCha
     return (    
       <div
         className={editable ? "the-content editable" : "the-content"}
-        onClick={(e) => {
-          if (!e.target.classList.contains("ant-dropdown-menu-item")) {
-            onStartEditing();
-          }
-        }}
+        onClick={onStartEditing}
         style={{
           position: 'relative',
           color: '#949393',
           paddingTop: '3px'
         }}
       >
-        <TextArea
-          placeholder="Title text"
-          disabled={true}
-          autoSize
-          value={content || ""}
-          style={{
-            fontWeight: '600',
-            fontSize: '38px',
-            lineHeight: '1.23',
-            textAlign: 'center',
-            background: 'transparent',
-            border: 'none',
-            resize: 'none',
-            color: 'white',
-            cursor: 'pointer'
-          }}
-        />
-        {editable && <Dropdown overlay={menu} className="edit-icon"><SettingFilled /></Dropdown>}
+        <Dropdown overlay={menu} trigger={['contextMenu']}>
+          <TextArea
+            placeholder="Title text"
+            disabled={true}
+            autoSize
+            value={content || ""}
+            style={{
+              fontWeight: '600',
+              fontSize: '38px',
+              lineHeight: '1.23',
+              textAlign: 'center',
+              background: 'transparent',
+              border: 'none',
+              resize: 'none',
+              color: 'white',
+              cursor: 'pointer'
+            }}
+          />
+        </Dropdown>
+        {editable &&
+          <Tooltip title="Background Image" placement="left">
+            <FileImageOutlined className="edit-icon" />
+          </Tooltip>
+        }
       </div>
     )
   }
@@ -96,5 +96,5 @@ export function Title({ index, editing, editable, content, onStartEditing, onCha
   return null;
 }
 
-Title.propTypes = propTypes;
-export default Title;
+ContentItem.propTypes = propTypes;
+export default ContentItem;

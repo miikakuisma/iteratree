@@ -1,22 +1,35 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import { Input, Tooltip } from 'antd';
-import {
-  YoutubeOutlined,
-} from '@ant-design/icons';
+import { Input, Menu, Dropdown } from 'antd';
+import { SettingFilled } from '@ant-design/icons';
 
 const propTypes = {
+  index: PropTypes.number,
   editing: PropTypes.bool,
   editable: PropTypes.bool,
   content: PropTypes.string,
   onStartEditing: PropTypes.func,
   onChange: PropTypes.func,
-  onCancel: PropTypes.func
+  onCancel: PropTypes.func,
+  onMoveUp: PropTypes.func,
+  onMoveDown: PropTypes.func,
+  onDelete: PropTypes.func
 }
 
-export function Video({ editing, editable, content, onStartEditing, onChange, onCancel }) {
+export function Video({ index, editing, editable, content, onStartEditing, onChange, onCancel, onMoveUp, onMoveDown, onDelete }) {
   const isYoutube = content && content.includes('youtube.com');
   const isVimeo = content && content.includes('vimeo.com');
+
+  const menu = (
+    <Menu>
+      <Menu.ItemGroup title="Video">
+        <Menu.Item key="1" onClick={() => onMoveUp(index)}>Move Up</Menu.Item>
+        <Menu.Item key="2" onClick={() => onMoveDown(index)}>Move Down</Menu.Item>
+        <Menu.Divider />
+        <Menu.Item key="3"onClick={() => onDelete(index)}>Remove</Menu.Item>
+      </Menu.ItemGroup>
+    </Menu>
+  );
 
   if (editing) {
     return (
@@ -39,7 +52,11 @@ export function Video({ editing, editable, content, onStartEditing, onChange, on
     return (
       <div
         className={editable ? "the-content editable" : "the-content"}
-        onClick={onStartEditing}
+        onClick={(e) => {
+          if (!e.target.classList.contains("ant-dropdown-menu-item")) {
+            onStartEditing();
+          }
+        }}
       >
         {isYoutube && <iframe
           src={content.replace('https://www.youtube.com/watch?v=', 'https://www.youtube.com/embed/')}
@@ -54,14 +71,8 @@ export function Video({ editing, editable, content, onStartEditing, onChange, on
           allow="autoplay; fullscreen"
           allowFullScreen
           title='video'
-        >
-        
-        </iframe>}
-        {editable &&
-          <Tooltip title="Video" placement="left">
-            <YoutubeOutlined className="edit-icon" />
-          </Tooltip>
-        }
+        />}
+        {editable && <Dropdown overlay={menu} className="edit-icon"><SettingFilled /></Dropdown>}
       </div>
     )
   }

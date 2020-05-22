@@ -17,6 +17,7 @@ import Title from './Title';
 import Video from './Video';
 import Markdown from "./Markdown";
 import Background from "./Background";
+import { arrayMove } from '../lib/helpers';
 
 const propTypes = {
   content: PropTypes.array,
@@ -74,6 +75,26 @@ export function Content({
     setEditing(null);
   }
 
+  const handleDelete = (index) => {
+    let newContent = content;
+    newContent.splice(index, 1);
+    onUpdate(newContent);
+    UI.setState({ editingContent: false });
+    setEditing(null);
+  }
+
+  const handleMoveUp = (index) => {
+    let newContent = content;
+    arrayMove(newContent, index, index - 1);
+    onUpdate(newContent);
+  }
+
+  const handleMoveDown = (index) => {
+    let newContent = content;
+    arrayMove(newContent, index, index + 1);
+    onUpdate(newContent);    
+  }
+
   const addMenu = (
     <Menu>
       <Menu.Item
@@ -87,7 +108,7 @@ export function Content({
         onClick={() => {
           addElement('background');
         }}
-      ><FileImageOutlined />Background</Menu.Item>
+      ><FileImageOutlined />Background Image</Menu.Item>
       <Menu.Item
         disabled={false}
         onClick={() => {
@@ -133,45 +154,59 @@ export function Content({
     if (contentItem.type === 'title') {
       return <Title
         key={`content-${index}`}
+        index={index}
         editing={editing === index}
         editable={editable}
         content={contentItem.value}
         onStartEditing={() => handleStartEditing(index)}
         onChange={handleChange}
         onCancel={() => setEditing(null)}
+        onMoveUp={handleMoveUp}
+        onMoveDown={handleMoveDown}
+        onDelete={handleDelete}
       />
     }
     if (contentItem.type === 'background') {
       return <Background
         key={`content-${index}`}
+        index={index}
         editing={editing === index}
         editable={editable}
         content={contentItem.value}
         onStartEditing={() => handleStartEditing(index)}
         onChange={handleChange}
         onCancel={() => setEditing(null)}
+        onDelete={handleDelete}
       />
     }
     if (contentItem.type === 'video') {
       return <Video
         key={`content-${index}`}
+        index={index}
         editing={editing === index}
         editable={editable}
         content={contentItem.value}
         onStartEditing={() => handleStartEditing(index)}
         onChange={handleChange}
         onCancel={() => setEditing(null)}
+        onMoveUp={handleMoveUp}
+        onMoveDown={handleMoveDown}
+        onDelete={handleDelete}
       />
     }
     if (contentItem.type === 'markdown') {
       return <Markdown
         key={`content-${index}`}
+        index={index}
         editing={editing === index}
         editable={editable}
         content={contentItem.value}
         onStartEditing={() => handleStartEditing(index)}
         onChange={handleChange}
         onCancel={() => setEditing(null)}
+        onMoveUp={handleMoveUp}
+        onMoveDown={handleMoveDown}
+        onDelete={handleDelete}
       />
     }
   });
