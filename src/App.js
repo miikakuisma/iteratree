@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { TreeContext, UIContext, initialAppState, initialUIState } from './Store';
 import { Layout, notification } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import { getCurrentUser, getMyTrees, loadTree } from "./lib/parse";
 import { logger } from "./lib/helpers";
 import TopMenu from "./TopMenu/";
@@ -32,7 +33,6 @@ export default function App() {
 
   // On launch
   useEffect(() => {
-    updateUI({ ...UI, loading: true });
     // Fetch user data
     getCurrentUser({
       onSuccess: (response) => {
@@ -118,6 +118,27 @@ export default function App() {
       ...UI,
       ...newState      
     });
+  }
+
+  if (mode === "loading") {
+    return (
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          background: '#f0f2f5'
+        }}
+      >
+        <LoadingOutlined
+          style={{
+            fontSize: 128
+          }}
+        />
+      </div>
+    )
   }
 
   return (
