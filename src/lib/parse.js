@@ -217,7 +217,33 @@ export function saveImage({ name, type, size, base64 }) {
   );
 }
 
+export function getImage({ id }) {
+  return new Promise(
+    function (resolve, reject) {
+      let PhotoClass = Parse.Object.extend('Photo');
+      const query = new Parse.Query(PhotoClass);
+      query.get(id)
+      .catch((error) => reject(error))
+      .then((object) => {
+        resolve(JSON.parse(JSON.stringify(object)))
+      })
+    }
+  );
+}
 
+export function deleteImage({ id }) {
+  return new Promise(
+    function (resolve, reject) {
+      let PhotoClass = Parse.Object.extend('Photo');
+      const query = new Parse.Query(PhotoClass);
+      query.get(id).then((object) => {
+        object.destroy()
+        .catch((error) => reject(error))
+        .then(() => resolve(`Image ${id} was deleted`))  
+      })
+    }
+  )
+}
 
 
 // export function saveNodeContent({ treeId, nodeId, content }) {

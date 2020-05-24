@@ -88,7 +88,7 @@
   right: 0; */
 }
 
-.Questionnaire button {
+.Questionnaire .buttons button {
   font-size: 1.7em;
   color: white;
   width: 100%;
@@ -113,4 +113,18 @@
   z-index: 11;
   border-radius: 50%;
   background-color: white;
+}
+
+.Questionnaire .box .photo-upload {
+  border: 1px dashed white;
+  border-radius: 9px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.Questionnaire .box .photo-upload h3 {
+  color: white;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #ccc;
 }

@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { UIContext } from '../Store';
 // import Unsplash, { toJson } from 'unsplash-js';
-import { Tooltip, Dropdown, Menu } from 'antd';
+import { Tooltip, Dropdown, Menu, message } from 'antd';
 import {
   PlusCircleOutlined,
   FileMarkdownOutlined,
@@ -23,6 +23,7 @@ import Markdown from "./Markdown";
 import Background from "./Background";
 import Photo from "./Photo";
 import { arrayMove } from '../lib/helpers';
+import { deleteImage } from '../lib/parse';
 
 const propTypes = {
   content: PropTypes.array,
@@ -81,6 +82,11 @@ export function Content({
 
   const handleDelete = (index) => {
     let newContent = content;
+    if (content[index].type === "photo") {
+      deleteImage({ id: content[index].value }).then(() => {
+        message.success("Image was deleted");
+      });
+    }
     newContent.splice(index, 1);
     onUpdate(newContent);
     UI.setState({ editingContent: false });
@@ -110,7 +116,7 @@ export function Content({
         }}
       ><FileImageOutlined />Title</Menu.Item>
       <Menu.Item
-        disabled={content && content.length > 0 && content.find(c => c.type === 'photo')}
+        disabled={false}
         onClick={() => {
           addElement('photo');
         }}

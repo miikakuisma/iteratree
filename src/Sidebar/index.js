@@ -1,11 +1,10 @@
 import React, { Fragment, useContext } from "react";
 import PropTypes from "prop-types";
 import { TreeContext, UIContext } from '../Store';
-import { Button, Typography, message } from 'antd';
+import { Button, Typography } from 'antd';
 import { LeftSquareFilled, RightSquareFilled } from '@ant-design/icons';
 import { SidebarContainer } from './animations';
 import Questionnaire from '../Questionnaire';
-import { saveImage } from '../lib/parse';
 import ContentTools from './ContentTools';
 
 const { Text } = Typography;
@@ -24,31 +23,6 @@ export function Sidebar({ open, selectedNode, onSelectNode }) {
   const { sidebarOpen, user, loggedIn } = UI.state;
   const userLoggedIn = user && loggedIn;
   const treeId = tree[0].root.id;
-
-  const toBase64 = file => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
-
-  async function handleUpload() {
-    const file = document.querySelector('#myfile').files[0];
-    saveImage({
-      name: file.name,
-      type: file.type,
-      size: file.size,
-      base64: await toBase64(file)
-    })
-    .catch((error) => {
-      message.error(error);
-    })
-    .then((response) => {
-      message.success("Image was uploaded");
-      console.log(response);
-    });
-  }
-
 
   return (
     <SidebarContainer className="sidebar" pose={open ? 'visible' : 'hidden'} style={{ overflow: open ? 'overlay' : 'visible' }}>
@@ -93,10 +67,6 @@ export function Sidebar({ open, selectedNode, onSelectNode }) {
         </div>
       </div>
       {/* <ContentTools selectedNode={selectedNode} /> */}
-      <div style={{
-        position: 'absolute',
-        zIndex: 9999
-      }}><input type="file" id="myfile" onChange={handleUpload} /></div>
       <Questionnaire
         flow={selectedNode || tree[0]}
         preview={true}
