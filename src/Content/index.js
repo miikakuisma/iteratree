@@ -95,8 +95,10 @@ export function Content({
 
   const handleMoveDown = (index) => {
     let newContent = content;
-    arrayMove(newContent, index, index + 1);
-    onUpdate(newContent);    
+    if (newContent.length > index + 1) {
+      arrayMove(newContent, index, index + 1);
+      onUpdate(newContent);      
+    }
   }
 
   const addMenu = (
