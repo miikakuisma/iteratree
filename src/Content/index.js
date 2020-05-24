@@ -58,7 +58,7 @@ export function Content({
   const addElement = (type) => {
     let contentItem = {
       type,
-      value: " "
+      value: ""
     }
     let newContent = content || [];
     newContent.push(contentItem)
@@ -110,7 +110,7 @@ export function Content({
         }}
       ><FileImageOutlined />Title</Menu.Item>
       <Menu.Item
-        disabled={content && content.length > 0 && content.find(c => c.type === 'background')}
+        disabled={content && content.length > 0 && content.find(c => c.type === 'photo')}
         onClick={() => {
           addElement('photo');
         }}
