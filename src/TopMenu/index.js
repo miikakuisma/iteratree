@@ -162,8 +162,9 @@ function TopMenu() {
           ><FolderOpenOutlined />Open</Menu.Item>
           <Menu.Item
             key="setting:3"
+            disabled={!userLoggedIn}
             onClick={() => {
-              if (!userLoggedIn || !treeId || treeId === "") {
+              if (!treeId || treeId === "") {
                 saveAs(tree);
               } else {
                 updateTree(tree);
@@ -172,7 +173,7 @@ function TopMenu() {
           ><FileAddOutlined />Save</Menu.Item>
           <Menu.Item
             key="setting:5"
-            disabled={!userLoggedIn || (treeId === "")}
+            disabled={!treeId || treeId === ""}
             onClick={() => {
               navigator.clipboard.writeText(`https://iteratree.com/?view=${treeId}`);
               notification.success({

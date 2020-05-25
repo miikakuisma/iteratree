@@ -1,8 +1,9 @@
 import React, { Fragment, useContext } from "react";
 import PropTypes from "prop-types";
 import { TreeContext, UIContext } from '../Store';
-import { Button, Typography } from 'antd';
+import { Button, Typography, message, notification } from 'antd';
 import { LeftSquareFilled, RightSquareFilled } from '@ant-design/icons';
+import { saveNewTree, updateSavedTree } from "../lib/parse";
 import { SidebarContainer } from './animations';
 import Questionnaire from '../Questionnaire';
 // import ContentTools from './ContentTools';
@@ -24,6 +25,46 @@ export function Sidebar({ open, selectedNode, onSelectNode }) {
   const userLoggedIn = user && loggedIn;
   const treeId = tree[0].root.id;
 
+  // SAME AS IN TOPMENU (REFACTOR SOMEHOW??)
+  function saveAs(tree) {
+    message.loading('Saving in progress..');
+    saveNewTree({
+      tree,
+      onSuccess: (response) => {
+        // logger("NEW TREE", response);
+        // logger(store.tree[0])
+        store.tree[0].root.id = response.objectId;
+        store.tree[0].root.author = UI.state.user.objectId;
+        // Let's update the saved Tree so that the ID that just got generated during saving gets saved to the data
+        updateTree(store.tree);
+        message.destroy();
+        // window.location.reload();
+      },
+      onError: (response) => {
+        notification.error({ message: "Cannot save", description: response });
+        message.destroy();
+        // logger('ERROR', response)
+      }
+    });
+  }
+
+  // SAME AS IN TOPMENU (REFACTOR SOMEHOW??)
+  function updateTree(tree) {
+    message.loading('Saving in progress..');
+    updateSavedTree({
+      tree,
+      onSuccess: () => {
+        message.destroy();
+        store.onRefresh();
+        notification.success({ message: "Saved to Cloud" });
+      },
+      onError: (response) => {
+        notification.error({ message: "Cannot save", description: response });
+        message.destroy();
+      }
+    })
+  }
+
   return (
     <SidebarContainer className="sidebar" pose={open ? 'visible' : 'hidden'} style={{ overflow: open ? 'overlay' : 'visible' }}>
       <div className="top">
@@ -32,11 +73,17 @@ export function Sidebar({ open, selectedNode, onSelectNode }) {
           <Button
             type="primary"
             size="small"
-            disabled={!userLoggedIn || (treeId === "")}
+            disabled={!userLoggedIn}
             onClick={() => {
               // onEnterPreview();
               // UI.setState({ view: true });
-              UI.setState({ codeModal: true });
+              if (!treeId || treeId === "") {
+                saveAs(tree);
+                UI.setState({ codeModal: true });
+              } else {
+                updateTree(tree);
+                UI.setState({ codeModal: true });
+              }
             }}
           >Publish</Button>
         </Fragment>}
