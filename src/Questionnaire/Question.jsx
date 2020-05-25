@@ -56,7 +56,7 @@ export function Question({ isVisible, isPreviewing, node, onClickNode }) {
         position: 'relative'
       })
     }
-    if (node.content.length && node.content.find(c => c.type === 'background')) {
+    if (node.content && node.content.find(c => c.type === 'background')) {
       getImage({ id: node.content.find(c => c.type === 'background').value })
       .catch(() => {
         setBackground(null)
