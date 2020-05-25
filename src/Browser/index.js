@@ -175,7 +175,7 @@ export default function Browser() {
     });
   }
 
-  const myTreeList = myTrees && myTrees.map((item, index) => <Col key={`tree-${index}`} span={6}>
+  const myTreeList = myTrees && myTrees.map((item, index) => <Col key={`tree-${index}`} span={4}>
     <Card
       title={item.name}
       bordered={false}
@@ -203,7 +203,7 @@ export default function Browser() {
     </Card>
   </Col>);
 
-  const exampleList = examples.map((item, index) => <Col key={`example-${index}`} span={6}>
+  const exampleList = examples.map((item, index) => <Col key={`example-${index}`} span={4}>
     <Card
       title={item.name}
       bordered={false}
@@ -218,7 +218,7 @@ export default function Browser() {
   </Col>);
 
   const AddNew = () => {
-    return (<Col span={6}>
+    return (<Col span={4}>
       <Card
         title="New"
         bordered={false}

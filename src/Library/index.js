@@ -82,7 +82,7 @@ export function Library({ selected, onCancel, onSelect }) {
   }
 
   const Upload = () => {
-    return (<Col span={6}>
+    return (<Col span={4}>
       <Card
         title="Upload"
         bordered={false}
@@ -107,7 +107,7 @@ export function Library({ selected, onCancel, onSelect }) {
     </Col>)
   }
 
-  const myImageList = myImages && myImages.map((item, index) => <Col key={`tree-${index}`} span={6}>
+  const myImageList = myImages && myImages.map((item, index) => <Col key={`tree-${index}`} span={4}>
     <Card
       bordered={false}
       hoverable={true}
@@ -152,6 +152,14 @@ export function Library({ selected, onCancel, onSelect }) {
         onChange={handleTabChange}
       >
         <TabPane tab="My Images" key="1">
+          <div className="site-card-wrapper">
+            <Row gutter={[16, 16]}>
+              <Upload />
+              {myImageList || <LoadingOutlined />}
+            </Row>
+          </div>
+        </TabPane>
+        <TabPane tab="Unsplash (Coming soon)" key="2" disabled={true}>
           <div className="site-card-wrapper">
             <Row gutter={[16, 16]}>
               <Upload />
