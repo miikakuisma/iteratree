@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import { TreeContext, UIContext } from '../Store';
-import { Modal, Tabs, message, notification, Card, Col, Row } from 'antd';
-import { ExclamationCircleOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import { loadTree, getMyTrees } from "../lib/parse";
+import { Modal, Tabs, message, notification, Card, Col, Row, Popconfirm } from 'antd';
+import { ExclamationCircleOutlined, LoadingOutlined, PlusOutlined, CloseCircleFilled } from '@ant-design/icons';
+import { loadTree, getMyTrees, deleteTree } from "../lib/parse";
 import { blank, examples } from '../lib/examples';
 import Thumbnail from "../Thumbnail";
 
@@ -17,7 +17,7 @@ export default function Browser() {
   const UI = useContext(UIContext);
   const { myTrees } = UI.state;
 
-  useEffect(() => {
+  const refreshList = () => {
     getMyTrees({
       onSuccess: (response2) => {
         UI.setState({
@@ -28,6 +28,10 @@ export default function Browser() {
         // couldn't get the trees (maybe there was none)
       }
     });
+  }
+
+  useEffect(() => {
+    refreshList();
   }, [])
 
   function handleTabChange(key) {
@@ -138,17 +142,64 @@ export default function Browser() {
     });
   }
 
+  // SAME AS IN TREENAME (REFACTOR??)
+  function handleDeleteTree(id) {
+    const { confirm } = Modal;
+
+    UI.setState({ modalOpen: true });
+    confirm({
+      title: 'Delete this tree?',
+      icon: <ExclamationCircleOutlined />,
+      content: 'There is no way to undo',
+      onOk() {
+        UI.setState({ modalOpen: false });
+        message.loading('Deleting tree..');
+        deleteTree({
+          id,
+          onSuccess: (response) => {
+            notification.success({ message: response });
+            window.localStorage.removeItem('tree');
+            window.location.reload();
+            message.destroy();
+          },
+          onError: (response) => {
+            notification.error({ message: "Cannot delete", description: response });
+            message.destroy();
+            // logger('ERROR', response);
+          }
+        })
+      },
+      onCancel() {
+        UI.setState({ modalOpen: false });
+      },
+    });
+  }
+
   const myTreeList = myTrees && myTrees.map((item, index) => <Col key={`tree-${index}`} span={6}>
     <Card
       title={item.name}
       bordered={false}
       hoverable={true}
+      className={store.tree[0].root.id === item.objectId && "selected"}
       size="small"
-      onClick={() => {
+      onClick={(e) => {
+        if (!e.target.classList.contains("ant-card-body")) {
+          return
+        }
         fetchTree(item.objectId);
       }}
     >
       <Thumbnail tree={item.tree || []} />
+      <Popconfirm
+        title="Delete this file from the server?"
+        onConfirm={() => {
+          handleDeleteTree(item.objectId);
+        }}
+        okText="Yes"
+        cancelText="No"
+      >
+        <CloseCircleFilled className="delete-button" />
+      </Popconfirm>
     </Card>
   </Col>);
 

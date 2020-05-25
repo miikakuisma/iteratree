@@ -436,8 +436,6 @@ p.question {
 .browser .ant-card-small > .ant-card-body {
   height: 180px;
   overflow: hidden;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
 }
 
 .browser .ant-card-small > .ant-card-body:hover {
@@ -459,7 +457,11 @@ p.question {
   max-width: 100%;
 }
 
-.library .ant-card.selected {
+.browser .ant-card, .library .ant-card {
+  border: 4px solid white;
+}
+
+.browser .ant-card.selected, .library .ant-card.selected {
   border: 4px solid #1890ff;
 }
 
@@ -493,7 +495,7 @@ p.question {
   color: #1890ff;
 }
 
-.library .delete-button {
+.browser .delete-button, .library .delete-button {
   position: absolute;
   right: -12px;
   top: -12px;
@@ -504,7 +506,7 @@ p.question {
   filter: grayscale(1);
 }
 
-.library .delete-button:hover {
+.browser .delete-button:hover, .library .delete-button:hover {
   filter: grayscale(0);
 }
 
