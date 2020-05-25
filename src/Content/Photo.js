@@ -1,8 +1,10 @@
-import React, { Fragment, useState } from "react";
+import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
-import { Button, Menu, Dropdown, message } from 'antd';
-import { SettingFilled, LoadingOutlined } from '@ant-design/icons';
-import { getImage, saveImage } from '../lib/parse';
+import { UIContext } from '../Store';
+import { Menu, Dropdown } from 'antd';
+import { SettingFilled } from '@ant-design/icons';
+import { getImage } from '../lib/parse';
+import Library from "../Library";
 
 const propTypes = {
   index: PropTypes.number,
@@ -18,10 +20,7 @@ const propTypes = {
 }
 
 export function Photo({ index, editing, editable, content, onStartEditing, onChange, onCancel, onDelete, onMoveUp, onMoveDown }) {
-
   const [photo, setPhoto] = useState(null);
-  const [enableUpload, setEnableUpload] = useState(false);
-  const [uploading, setUploading] = useState(false);
 
   const menu = (
     <Menu>
@@ -34,33 +33,6 @@ export function Photo({ index, editing, editable, content, onStartEditing, onCha
     </Menu>
   );
 
-  const toBase64 = file => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
-
-  async function handleUpload() {
-    setUploading(true);
-    const file = document.querySelector('#myfile').files[0];
-    saveImage({
-      name: file.name,
-      type: file.type,
-      size: file.size,
-      base64: await toBase64(file)
-    })
-    .catch((error) => {
-      message.error(error);
-      setUploading(false);
-    })
-    .then((response) => {
-      message.success("Image was uploaded");
-      setUploading(false);
-      onChange({ target: { value: response.objectId }});
-    });
-  }
-
   if (content) {
     getImage({ id: content })
     .then((response) => {
@@ -70,15 +42,14 @@ export function Photo({ index, editing, editable, content, onStartEditing, onCha
 
   if (editing) {
     return (
-      <div className="photo-upload">
-        <h3>Upload Photo</h3>
-        <input type="file" id="myfile" onChange={() => { setEnableUpload(true) }} />
-        <div style={{ margin: '30px 0 10px 0' }}>
-          <Button onClick={onCancel}>Cancel</Button>
-          &nbsp;
-          <Button type="primary" icon={uploading && <LoadingOutlined />} disabled={!enableUpload} onClick={handleUpload}>Upload &amp; Add</Button>
-        </div>
-      </div>
+      <Library
+        onCancel={onCancel}
+        onSelect={(id) => {
+          onChange({
+            target: { value: id }
+          });
+        }}
+      />
     )
   }
 

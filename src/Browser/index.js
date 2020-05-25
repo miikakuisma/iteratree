@@ -203,9 +203,11 @@ export default function Browser() {
         onChange={handleTabChange}
       >
         <TabPane tab="Examples" key="1">
-          <Row gutter={[16, 16]}>
-            {exampleList}
-          </Row>
+          <div className="site-card-wrapper">
+            <Row gutter={[16, 16]}>
+              {exampleList}
+            </Row>
+          </div>
         </TabPane>
         <TabPane tab="My Trees" key="2">
           <div className="site-card-wrapper">

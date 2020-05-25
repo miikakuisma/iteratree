@@ -82,11 +82,6 @@ export function Content({
 
   const handleDelete = (index) => {
     let newContent = content;
-    if (content[index].type === "photo") {
-      deleteImage({ id: content[index].value }).then(() => {
-        message.success("Image was deleted");
-      });
-    }
     newContent.splice(index, 1);
     onUpdate(newContent);
     UI.setState({ editingContent: false });

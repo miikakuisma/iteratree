@@ -18,5 +18,6 @@ export const initialUIState = {
   codeModal: false,
   loggedIn: false,
   user: null,
-  myTrees: []
+  myTrees: [],
+  myImages: []
 }

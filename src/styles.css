@@ -444,6 +444,21 @@ p.question {
   overflow: overlay;
 }
 
+.library .site-card-wrapper {
+  background: #ececec;
+  padding: 30px;
+  height: calc(100vh - 350px);
+  overflow-y: auto;
+}
+
+.library .ant-tabs {
+  margin-top: -10px;
+}
+
+.library .ant-card-body img {
+  max-width: 100%;
+}
+
 .thumbnailContainer {
   width: 640px;
   position: fixed;
@@ -462,6 +477,26 @@ p.question {
   align-items: center;
   font-size: 48px;
   color: #1890ff;
+}
+
+.library .addNewThumb {
+  width: 100%;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 48px;
+  color: #1890ff;
+}
+
+.library .delete-button {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+}
+
+.ant-modal-footer {
+  display: none;
 }
 
 @media screen and (max-width: 380px) {

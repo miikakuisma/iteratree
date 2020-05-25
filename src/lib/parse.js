@@ -217,6 +217,32 @@ export function saveImage({ name, type, size, base64 }) {
   );
 }
 
+export function listImages() {
+  return new Promise(
+    function (resolve, reject) {
+      const currentUser = Parse.User.current();
+      if (!currentUser) {
+        reject("You must be signed in first");
+      }
+      let PhotoClass = Parse.Object.extend('Photo');
+      const query = new Parse.Query(PhotoClass);
+      query.equalTo("owner", currentUser.id);
+      query.find().then((results) => {
+        if (typeof document !== 'undefined') {
+          if (results) {
+            // logger(JSON.parse(JSON.stringify(results)))
+            resolve(JSON.parse(JSON.stringify(results)));
+          }
+        }
+      }, (error) => {
+        if (typeof document !== 'undefined') {
+          reject(error);
+        }
+      });
+    }
+  );
+}
+
 export function getImage({ id }) {
   return new Promise(
     function (resolve, reject) {
@@ -225,7 +251,9 @@ export function getImage({ id }) {
       query.get(id)
       .catch((error) => reject(error))
       .then((object) => {
-        resolve(JSON.parse(JSON.stringify(object)))
+        if (object) {
+          resolve(JSON.parse(JSON.stringify(object)))
+        }
       })
     }
   );
