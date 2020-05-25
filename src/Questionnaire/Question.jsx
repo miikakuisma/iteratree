@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useRef, useState, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { TreeContext } from '../Store';
 import BigButton from './BigButton'
@@ -84,9 +84,14 @@ export function Question({ isVisible, isPreviewing, node, onClickNode }) {
         <div className="background"
           style={{
             backgroundImage: `url(${background})`,
-            backgroundColor: node.background || '#111111'
+            backgroundColor: node.background || '#111111',
           }}
         />
+        {background &&  <div className="background overlay"
+          style={{
+            backgroundColor: 'rgba(0,0,0,0.5)',
+          }}
+        />}
         {node.title && <QuestionBox
           className="box"
           pose={isVisible ? 'visible' : 'hidden'}
