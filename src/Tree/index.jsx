@@ -74,7 +74,7 @@ function Tree() {
     switch (e.key) {
       // COPY
       case "c":
-        if (e.metaKey || e.ctrlKey && selectNode) {
+        if ((e.metaKey || e.ctrlKey) && selectNode) {
           getSelectedNode((node) => copyNode(node));
         }
         break;

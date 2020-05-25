@@ -5,7 +5,7 @@ import { Button, Typography } from 'antd';
 import { LeftSquareFilled, RightSquareFilled } from '@ant-design/icons';
 import { SidebarContainer } from './animations';
 import Questionnaire from '../Questionnaire';
-import ContentTools from './ContentTools';
+// import ContentTools from './ContentTools';
 
 const { Text } = Typography;
 

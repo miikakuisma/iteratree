@@ -56,14 +56,15 @@ export function Question({ isVisible, isPreviewing, node, onClickNode }) {
         position: 'relative'
       })
     }
+    if (node.content && node.content.find(c => c.type === 'background')) {
+      getImage({ id: node.content.find(c => c.type === 'background').value })
+      .then((response) => {
+        setBackground(response.photo.url);
+      });  
+    } else {
+      setBackground(null)
+    }
   }, [node]);
-
-  if (node.content && node.content.find(c => c.type === 'background')) {
-    getImage({ id: node.content.find(c => c.type === 'background').value })
-    .then((response) => {
-      setBackground(response.photo.url);
-    });  
-  }
 
   return (
     <div style={{

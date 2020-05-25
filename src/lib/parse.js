@@ -244,6 +244,7 @@ export function listImages() {
 }
 
 export function getImage({ id }) {
+  if (!id) { return false }
   return new Promise(
     function (resolve, reject) {
       let PhotoClass = Parse.Object.extend('Photo');
