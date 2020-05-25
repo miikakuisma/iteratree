@@ -244,9 +244,11 @@ export function listImages() {
 }
 
 export function getImage({ id }) {
-  if (!id) { return false }
   return new Promise(
     function (resolve, reject) {
+      if (!id) {
+        reject('no id')
+      }
       let PhotoClass = Parse.Object.extend('Photo');
       const query = new Parse.Query(PhotoClass);
       query.get(id)
