@@ -158,9 +158,12 @@ export default function Browser() {
           id,
           onSuccess: (response) => {
             notification.success({ message: response });
-            window.localStorage.removeItem('tree');
-            window.location.reload();
+            refreshList();
             message.destroy();
+            if (store.tree[0].root.id === id) {
+              window.localStorage.removeItem('tree');
+              window.location.reload();
+            }
           },
           onError: (response) => {
             notification.error({ message: "Cannot delete", description: response });
@@ -265,6 +268,13 @@ export default function Browser() {
             <Row gutter={[16, 16]}>
               {<AddNew />}
               {myTrees ? myTreeList : <LoadingOutlined />}
+            </Row>
+          </div>
+        </TabPane>
+        <TabPane tab="Templates (Coming soon)" key="3" disabled={true}>
+          <div className="site-card-wrapper">
+            <Row gutter={[16, 16]}>
+
             </Row>
           </div>
         </TabPane>

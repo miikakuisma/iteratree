@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import { TreeContext, UIContext } from './Store';
+import { Modal } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import QRCode from "react-qr-code";
 import domtoimage from 'dom-to-image';
-import { Modal } from 'antd';
 
 import "./styles.css";
 
@@ -26,6 +27,8 @@ export default function ShowCode() {
     });
   }
 
+  console.log(id)
+
   return (
     <Modal
       title="Published QR-Code"
@@ -42,7 +45,7 @@ export default function ShowCode() {
       }}
     >
       <div id="qr-code" onClick={handleDownload}>
-        <QRCode value={`https://iteratree.com/?view=${id}`} />
+        {id && id.length === 10 ? <QRCode value={`https://iteratree.com/?view=${id}`} /> : <LoadingOutlined style={{ fontSize: 128, width: '100%' }} />}
       </div>
     </Modal>
   );
