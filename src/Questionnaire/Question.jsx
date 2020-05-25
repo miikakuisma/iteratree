@@ -5,6 +5,7 @@ import BigButton from './BigButton'
 import { QuestionBox } from './lib'
 import './Questionnaire.css'
 import Content from '../Content'
+import { getImage } from '../lib/parse';
 
 const propTypes = {
   isVisible: PropTypes.bool.isRequired,
@@ -21,6 +22,8 @@ export function Question({ isVisible, isPreviewing, node, onClickNode }) {
 
   const boxRef = useRef(null);
   const buttonsRef = useRef(null);
+
+  const [background, setBackground] = useState(null);
 
   const buttons = node.options && node.options.map((option, index) => <BigButton
     key={index}
@@ -55,6 +58,13 @@ export function Question({ isVisible, isPreviewing, node, onClickNode }) {
     }
   }, [node]);
 
+  if (node.content && node.content.find(c => c.type === 'background')) {
+    getImage({ id: node.content.find(c => c.type === 'background').value })
+    .then((response) => {
+      setBackground(response.photo.url);
+    });  
+  }
+
   return (
     <div style={{
       display: 'flex',
@@ -67,7 +77,7 @@ export function Question({ isVisible, isPreviewing, node, onClickNode }) {
       >
         <div className="background"
           style={{
-            backgroundImage: `url(${node.content && node.content.find(c => c.type === 'background') && node.content.find(c => c.type === 'background').value})`,
+            backgroundImage: `url(${background})`,
             backgroundColor: node.background || '#111111'
           }}
         />

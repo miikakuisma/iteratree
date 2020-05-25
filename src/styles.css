@@ -459,6 +459,10 @@ p.question {
   max-width: 100%;
 }
 
+.library .ant-card.selected {
+  border: 4px solid #1890ff;
+}
+
 .thumbnailContainer {
   width: 640px;
   position: fixed;
@@ -491,8 +495,17 @@ p.question {
 
 .library .delete-button {
   position: absolute;
-  right: 12px;
-  top: 12px;
+  right: -12px;
+  top: -12px;
+  font-size: 24px;
+  color: red;
+  background: white;
+  border-radius: 50%;
+  filter: grayscale(1);
+}
+
+.library .delete-button:hover {
+  filter: grayscale(0);
 }
 
 .ant-modal-footer {

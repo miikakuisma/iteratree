@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Input, Menu, Dropdown } from 'antd';
 import { SettingFilled } from '@ant-design/icons';
+import Library from "../Library";
 
 const propTypes = {
   index: PropTypes.number,
@@ -26,6 +27,20 @@ export function Background({ index, editing, editable, content, onStartEditing, 
       </Menu.ItemGroup>
     </Menu>
   );
+
+  if (editing) {
+    return (
+      <Library
+        selected={content}
+        onCancel={onCancel}
+        onSelect={(id) => {
+          onChange({
+            target: { value: id }
+          });
+        }}
+      />
+    )
+  }
 
   if (editing) {
     return (

@@ -1,8 +1,7 @@
 import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { UIContext } from '../Store';
-// import Unsplash, { toJson } from 'unsplash-js';
-import { Tooltip, Dropdown, Menu, message } from 'antd';
+import { Tooltip, Dropdown, Menu } from 'antd';
 import {
   PlusCircleOutlined,
   FileMarkdownOutlined,
@@ -23,7 +22,6 @@ import Markdown from "./Markdown";
 import Background from "./Background";
 import Photo from "./Photo";
 import { arrayMove } from '../lib/helpers';
-import { deleteImage } from '../lib/parse';
 
 const propTypes = {
   content: PropTypes.array,
@@ -38,15 +36,6 @@ export function Content({
 }) {
   const UI = useContext(UIContext);
   const [editing, setEditing] = useState(null);
-
-  // const unsplash = new Unsplash({ accessKey: "BwmlWZDZ9rebOdV8o5UWOgzmtWVARTMYOW2mQlFxdVw" });
-  // const handleSearch = () => {
-  //   unsplash.search.photos("dogs", 1, 10, { orientation: "portrait" })
-  //   .then(toJson)
-  //   .then(json => {
-  //     console.log(json);
-  //   });  
-  // }
 
   const handleStartEditing = (index) => {
     if (!editable) {

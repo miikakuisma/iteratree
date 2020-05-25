@@ -15,3 +15,8 @@ export function arrayMove(arr, old_index, new_index) {
   arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
   return arr;
 }
+
+export function getDate(timestamp) {
+  let date = new Date(timestamp).toLocaleDateString('fi-FI');
+  return date.toString();
+}

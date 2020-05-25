@@ -1,18 +1,24 @@
 import React, { useContext, useEffect, useState, Fragment } from "react";
+import PropTypes from "prop-types";
 import { UIContext } from '../Store';
 import { Modal, Tabs, message, Button, Card, Col, Row, Popconfirm } from 'antd';
+// import Unsplash, { toJson } from 'unsplash-js';
 import { saveImage } from '../lib/parse';
-import { LoadingOutlined, PlusOutlined, DeleteFilled } from '@ant-design/icons';
+import { LoadingOutlined, PlusOutlined, CloseCircleFilled } from '@ant-design/icons';
 import { listImages, deleteImage } from "../lib/parse";
 
-const { TabPane } = Tabs;
-const { confirm } = Modal;
+const propTypes = {
+  selected: PropTypes.string,
+  onCancel: PropTypes.func,
+  onSelect: PropTypes.func,
+};
 
-export default function Library({ onCancel, onSelect }) {
+const { TabPane } = Tabs;
+
+export function Library({ selected, onCancel, onSelect }) {
   const UI = useContext(UIContext);
   const { myImages } = UI.state;
 
-  const [enableUpload, setEnableUpload] = useState(false);
   const [uploading, setUploading] = useState(false);
 
   const refreshList = () => {
@@ -38,6 +44,15 @@ export default function Library({ onCancel, onSelect }) {
         break;
     }
   }
+
+  // const unsplash = new Unsplash({ accessKey: "BwmlWZDZ9rebOdV8o5UWOgzmtWVARTMYOW2mQlFxdVw" });
+  // const handleSearch = () => {
+  //   unsplash.search.photos("dogs", 1, 10, { orientation: "portrait" })
+  //   .then(toJson)
+  //   .then(json => {
+  //     console.log(json);
+  //   });  
+  // }
 
   const toBase64 = file => new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -92,16 +107,11 @@ export default function Library({ onCancel, onSelect }) {
     </Col>)
   }
 
-  // const getDate = (timestamp) => {
-  //   let date = new Date(timestamp).toLocaleDateString('fi-FI');
-  //   return date.toString();
-  // }
-
   const myImageList = myImages && myImages.map((item, index) => <Col key={`tree-${index}`} span={6}>
     <Card
-      // title={getDate(item.createdAt)}
       bordered={false}
       hoverable={true}
+      className={selected === item.objectId && "selected"}
       size="small"
       onClick={(e) => {
         if (e.target.classList.length > 1) {
@@ -122,7 +132,7 @@ export default function Library({ onCancel, onSelect }) {
         okText="Yes"
         cancelText="No"
       >
-        <Button shape="circle" danger className="delete-button" icon={<DeleteFilled />}></Button>
+        <CloseCircleFilled className="delete-button" />
       </Popconfirm>
     </Card>
   </Col>);
@@ -153,3 +163,6 @@ export default function Library({ onCancel, onSelect }) {
     </Modal>
   );
 }
+
+Library.propTypes = propTypes;
+export default Library;

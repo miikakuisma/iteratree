@@ -1,6 +1,5 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { UIContext } from '../Store';
 import { Menu, Dropdown } from 'antd';
 import { SettingFilled } from '@ant-design/icons';
 import { getImage } from '../lib/parse';
@@ -43,6 +42,7 @@ export function Photo({ index, editing, editable, content, onStartEditing, onCha
   if (editing) {
     return (
       <Library
+        selected={content}
         onCancel={onCancel}
         onSelect={(id) => {
           onChange({
