@@ -46,10 +46,25 @@ export function Content({
     setEditing(index);
   }
 
+  function getDefaultContent(type) {
+    switch (type) {
+      case "title":
+        return "title";
+      case "photo":
+        return "";
+      case "background":
+        return "";
+      case "video":
+        return "";
+      case "text":
+        return ""
+    }
+  }
+
   const addElement = (type) => {
     let contentItem = {
       type,
-      value: ""
+      value: getDefaultContent(type)
     }
     let newContent = content || [];
     newContent.push(contentItem)

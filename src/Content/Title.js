@@ -42,7 +42,7 @@ export function Title({ index, editing, editable, content, selected, onSelect, o
           autoSize 
           autoFocus
           onBlur={onChange}
-          defaultValue={content || ""}
+          defaultValue={content === "title" ? "" : content}
           onKeyDown={(e) => {
             if (e.key === "Escape") { onCancel(); }
           }}

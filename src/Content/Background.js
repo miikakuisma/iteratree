@@ -36,7 +36,11 @@ export function Background({ index, editing, editable, content, selected, onSele
     return (
       <Library
         selected={content}
-        onCancel={onCancel}
+        onCancel={() => {
+          onChange({
+            target: { value: "" }
+          });
+        }}
         onSelect={(id) => {
           onChange({
             target: { value: id }
