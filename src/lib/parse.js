@@ -195,14 +195,14 @@ export function deleteTree({ id, onSuccess, onError }) {
   });
 }
 
-export function saveImage({ name, type, size, base64 }) {
+export function saveImage({ name, type, size, width, height, base64 }) {
   return new Promise(
     function (resolve, reject) {
       const currentUser = Parse.User.current();
       if (!currentUser) {
         reject("You must be signed in first");
       }
-    
+
       let uploadedFile = new Parse.File(name, { base64 });
       let PhotoClass = Parse.Object.extend('Photo');
       let photo = new PhotoClass();
@@ -210,6 +210,8 @@ export function saveImage({ name, type, size, base64 }) {
       photo.set('owner', currentUser.id);
       photo.set('type', type);
       photo.set('size', size);
+      photo.set('width', width);
+      photo.set('height', height);
       photo.save()
       .catch((error) => reject(error))
       .then((results) => resolve(JSON.parse(JSON.stringify(results))))

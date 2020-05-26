@@ -11,6 +11,7 @@ const propTypes = {
   selected: PropTypes.string,
   onCancel: PropTypes.func,
   onSelect: PropTypes.func,
+  onDelete: PropTypes.func
 };
 
 const { TabPane } = Tabs;
@@ -61,24 +62,39 @@ export function Library({ selected, onCancel, onSelect }) {
     reader.onerror = error => reject(error);
   });
 
-  async function handleUpload() {
+  function handleUpload() {
     setUploading(true);
     const file = document.querySelector('#myfile').files[0];
-    saveImage({
-      name: file.name,
-      type: file.type,
-      size: file.size,
-      base64: await toBase64(file)
-    })
-    .catch((error) => {
-      message.error(error);
-      setUploading(false);
-    })
-    .then((response) => {
-      message.success("Image was uploaded");
-      onSelect(response.objectId);
-      setUploading(false);
-    });
+    let width, height;
+    if (file) {
+      // Find out image dimensions
+      let _URL = window.URL || window.webkitURL;
+      let img = new Image();
+      var objectUrl = _URL.createObjectURL(file);
+      img.onload = async function () {
+        width = this.width;
+        height = this.height;
+        _URL.revokeObjectURL(objectUrl);
+        saveImage({
+          name: file.name,
+          type: file.type,
+          size: file.size,
+          width,
+          height,
+          base64: await toBase64(file)
+        })
+        .catch((error) => {
+          message.error(error);
+          setUploading(false);
+        })
+        .then((response) => {
+          message.success("Image was uploaded");
+          onSelect(response.objectId);
+          setUploading(false);
+        });
+      };
+      img.src = objectUrl;
+    }    
   }
 
   const Upload = () => {
@@ -114,15 +130,14 @@ export function Library({ selected, onCancel, onSelect }) {
       className={selected === item.objectId && "selected"}
       size="small"
       onClick={(e) => {
-        if (e.target.classList.length > 1) {
-          return
+        if (e.target.classList.contains("image")) {
+          onSelect(item.objectId);
         }
-        onSelect(item.objectId);
       }}
     >
-      <img src={item.photo.url} />
+      <img src={item.photo.url} className="image" />
       <Popconfirm
-        title="Delete this file from the server?"
+        title="Delete this file from the server and all projects?"
         onConfirm={() => {
           deleteImage({ id: item.objectId }).then(() => {
             message.success("Image was deleted");
@@ -145,7 +160,13 @@ export function Library({ selected, onCancel, onSelect }) {
       maskClosable={true}
       cancelText='Cancel'
       className="library"
-      onCancel={onCancel}
+      onCancel={() => {
+        if (selected) {
+          onSelect(selected);
+        } else {
+          onCancel();
+        }
+      }}
     >
       <Tabs
         defaultActiveKey={"1"}

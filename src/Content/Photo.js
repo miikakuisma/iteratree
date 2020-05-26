@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { Menu, Dropdown } from 'antd';
 import { SettingFilled } from '@ant-design/icons';
@@ -19,7 +19,9 @@ const propTypes = {
 }
 
 export function Photo({ index, editing, editable, content, onStartEditing, onChange, onCancel, onDelete, onMoveUp, onMoveDown }) {
-  const [photo, setPhoto] = useState(null);
+  const [image, setImage] = useState(null);
+
+  const containerRef = useRef(null);
 
   const menu = (
     <Menu>
@@ -32,18 +34,23 @@ export function Photo({ index, editing, editable, content, onStartEditing, onCha
     </Menu>
   );
 
-  if (content) {
-    getImage({ id: content })
-    .then((response) => {
-      setPhoto(response.photo.url);
-    });  
-  }
+  React.useEffect(() => {
+    if (content) {
+      getImage({ id: content })
+      .then((response) => {
+        setImage(response);
+      });  
+    }
+  }, [content])
 
   if (editing) {
     return (
       <Library
         selected={content}
         onCancel={onCancel}
+        onDelete={() => {
+          onDelete(index);
+        }}
         onSelect={(id) => {
           onChange({
             target: { value: id }
@@ -54,8 +61,13 @@ export function Photo({ index, editing, editable, content, onStartEditing, onCha
   }
 
   if (content) {
+    const aspectRatio = image ? (image.width / image.height) : 0;
+    const imageWidth = containerRef.current && containerRef.current.offsetWidth - 2;
+    const imageHeight = containerRef.current && (imageWidth / aspectRatio);
+
     return (    
       <div
+        ref={containerRef}
         className={editable ? "the-content editable" : "the-content"}
         onClick={(e) => {
           if (!e.target.classList.contains("ant-dropdown-menu-item")) {
@@ -68,7 +80,9 @@ export function Photo({ index, editing, editable, content, onStartEditing, onCha
           paddingTop: '3px'
         }}
       >
-        <div className="photo"><img src={photo} /></div>
+        <div className="photo">
+          <img src={image && image.photo.url} width={imageWidth} height={imageHeight} />
+        </div>
         {editable && <Dropdown overlay={menu} className="edit-icon"><SettingFilled /></Dropdown>}
       </div>
     )
