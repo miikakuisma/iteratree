@@ -354,19 +354,18 @@ p.question {
 
 .node-content .the-content {
   margin-bottom: 20px;
+  border: 4px solid transparent;
 }
 
 .node-content .the-content.selected {
   position: relative;
-  margin: -3px;
   border: 4px solid #1890ff;
-  margin-bottom: 17px;
 }
 
 .node-content .the-content.editable {
   position: relative;
   cursor: pointer;
-  border: 1px dashed transparent;
+  border: 4px solid transparent;
 }
 
 .node-content .the-content.editable iframe {
@@ -374,7 +373,7 @@ p.question {
 }
 
 .node-content .the-content.editable:hover {
-  border: 1px dashed rgba(255,255,255,0.5);
+  border: 4px dotted rgba(255,255,255,0.5);
 }
 
 .node-content .the-content img {
