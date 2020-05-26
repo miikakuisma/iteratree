@@ -23,12 +23,12 @@ export const QuestionBox = posed.div({
 
 export const ContentImage = posed.div({
   hidden: {
-    y: -10,
+    y: 0,
     opacity: 0,
-    scaleY: 0.9,
-    scaleX: 0.9,
+    scaleY: 0.6,
+    scaleX: 0.6,
     transition: {
-      y: (props) => ({ type: 'spring', stiffness: 10, damping: 5 })
+      y: (props) => ({ type: 'spring', stiffness: 200, damping: 5 })
     }
   },
   visible: {

@@ -4,6 +4,7 @@ import { Menu, Dropdown } from 'antd';
 import { SettingFilled } from '@ant-design/icons';
 import { getImage } from '../lib/parse';
 import Library from "../Library";
+import { ContentImage } from "../Questionnaire/lib/animations";
 
 const propTypes = {
   index: PropTypes.number,
@@ -60,7 +61,7 @@ export function Photo({ index, editing, editable, content, onStartEditing, onCha
     )
   }
 
-  if (content) {
+  if (image) {
     const aspectRatio = image ? (image.width / image.height) : 0;
     const imageWidth = containerRef.current && containerRef.current.offsetWidth - 2;
     const imageHeight = containerRef.current && (imageWidth / aspectRatio);
@@ -80,9 +81,9 @@ export function Photo({ index, editing, editable, content, onStartEditing, onCha
           paddingTop: '3px'
         }}
       >
-        <div className="photo">
+        <ContentImage className="photo">
           <img src={image && image.photo.url} width={imageWidth} height={imageHeight} />
-        </div>
+        </ContentImage>
         {editable && <Dropdown overlay={menu} className="edit-icon"><SettingFilled /></Dropdown>}
       </div>
     )
