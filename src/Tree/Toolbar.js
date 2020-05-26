@@ -1,8 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Space, Dropdown, Menu, Tooltip } from 'antd';
-import { BgColorsOutlined, EditFilled, CopyOutlined, DiffOutlined, DeleteOutlined, UndoOutlined } from '@ant-design/icons';
+import { BgColorsOutlined, EditFilled, CopyOutlined, DiffOutlined, DeleteOutlined } from '@ant-design/icons';
 import { palette } from '../lib/colors';
+import { Undo } from '../lib/icons';
+import Icon from '@ant-design/icons';
 
 const propTypes = {
   selectedNode: PropTypes.object,
@@ -52,7 +54,8 @@ function Toolbar({ selectedNode, clipboard, sidebarOpen, onAction, onUndo }) {
       }}
     >
       <Tooltip title="Undo" placement="top">
-        <UndoOutlined
+        <Icon
+          component={Undo}
           style={{
             position: 'fixed',
             left: '20px' // calc(50% - 30px)
