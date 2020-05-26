@@ -64,13 +64,13 @@ function Toolbar({ selectedNode, clipboard, sidebarOpen, onAction, onUndo }) {
       </Tooltip>
       <Space>
         <Dropdown disabled={!selectedNode} overlay={menu} placement="topCenter">
-          <Tooltip title="Color" placement="left">
+          {selectedNode ? <Tooltip title="Color" placement="left">
             <BgColorsOutlined
               onClick={() => {
                 onAction("edit");
               }}
             />
-          </Tooltip>
+          </Tooltip> : <BgColorsOutlined style={{ pointerEvents: 'none' }} />}
         </Dropdown>
         <Tooltip title="Edit (Enter)" placement="top">
           <EditFilled
