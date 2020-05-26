@@ -15,7 +15,7 @@ const traverse = require("traverse");
 function Tree() {
   const store = useContext(TreeContext);
   const UI = useContext(UIContext);
-  const { tree, onRefresh } = store;
+  const { tree, onRefresh, onUndo } = store;
   const { sidebarOpen, userModal, modalOpen, editingContent } = UI.state;
 
   const [clipboard, setClipboard] = useState(null);
@@ -413,6 +413,7 @@ function Tree() {
           clipboard={clipboard}
           sidebarOpen={sidebarOpen}
           onAction={handleInspectorAction}
+          onUndo={onUndo}
         />
         {nodeTree}
       </div>

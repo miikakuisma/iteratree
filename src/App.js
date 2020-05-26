@@ -12,6 +12,7 @@ import Questionnaire from "./Questionnaire";
 import Shortcuts from "./Shortcuts";
 import ShowCode from "./ShowCode";
 import Browser from "./Browser";
+import { pastTrees } from "./history";
 import "./styles.css";
 
 const { Content } = Layout;
@@ -106,10 +107,18 @@ export default function App() {
   }
 
   function refreshTree(loadNewTree) {
+    pastTrees.push(tree);
     let newTree = JSON.stringify(loadNewTree) || JSON.stringify(tree);
     updateTree(JSON.parse(newTree));
     if (mode === "editor") {
       window.localStorage.setItem("tree", JSON.stringify(tree));
+    }
+  }
+
+  function undo() {
+    if (pastTrees.length > 1) {
+      updateTree(pastTrees[pastTrees.length - 2]);
+      pastTrees.pop()
     }
   }
 
@@ -142,7 +151,7 @@ export default function App() {
   }
 
   return (
-    <TreeContext.Provider value={{ tree, onRefresh: refreshTree }}>
+    <TreeContext.Provider value={{ tree, onRefresh: refreshTree, onUndo: undo }}>
       <UIContext.Provider value={{ state: UI, setState: refreshUI }}>
         {mode === "view" && <Questionnaire flow={tree} preview={false} />}
         {mode === "editor" && <Layout>

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Space, Dropdown, Menu, Tooltip } from 'antd';
-import { BgColorsOutlined, EditFilled, CopyOutlined, DiffOutlined, DeleteOutlined } from '@ant-design/icons';
+import { BgColorsOutlined, EditFilled, CopyOutlined, DiffOutlined, DeleteOutlined, UndoOutlined } from '@ant-design/icons';
 import { palette } from '../lib/colors';
 
 const propTypes = {
@@ -9,9 +9,10 @@ const propTypes = {
   clipboard: PropTypes.object,
   sidebarOpen: PropTypes.bool,
   onAction: PropTypes.func,
+  onUndo: PropTypes.func
 };
 
-function Toolbar({ selectedNode, clipboard, sidebarOpen, onAction }) {
+function Toolbar({ selectedNode, clipboard, sidebarOpen, onAction, onUndo }) {
 
   const handleSelectColor = (item) => {
     onAction("changeColor", item);
@@ -47,9 +48,20 @@ function Toolbar({ selectedNode, clipboard, sidebarOpen, onAction }) {
     <div
       className="actions"
       style={{
-        right: sidebarOpen ? '385px' : '20px'
+        right: sidebarOpen ? '376px' : '0px'
       }}
     >
+      <Tooltip title="Undo" placement="top">
+        <UndoOutlined
+          style={{
+            position: 'fixed',
+            left: '20px' // calc(50% - 30px)
+          }}
+          onClick={() => {
+            onUndo();
+          }}
+        />
+      </Tooltip>
       <Space>
         <Dropdown disabled={!selectedNode} overlay={menu} placement="topCenter">
           <Tooltip title="Color" placement="left">
