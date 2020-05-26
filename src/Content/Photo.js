@@ -28,7 +28,7 @@ export function Photo({ index, editing, editable, content, selected, onSelect, o
 
   const menu = (
     <Menu>
-      <Menu.ItemGroup title="Photo">
+      <Menu.ItemGroup title="Image">
         <Menu.Item key="0" onClick={() => onStartEditing()}>Replace</Menu.Item>
         <Menu.Divider />
         <Menu.Item key="1" onClick={() => onMoveUp(index)}>Move Up</Menu.Item>
