@@ -11,6 +11,8 @@ const propTypes = {
   editing: PropTypes.bool,
   editable: PropTypes.bool,
   content: PropTypes.string,
+  selected: PropTypes.bool,
+  onSelect: PropTypes.func,
   onStartEditing: PropTypes.func,
   onChange: PropTypes.func,
   onCancel: PropTypes.func,
@@ -19,7 +21,7 @@ const propTypes = {
   onMoveDown: PropTypes.func
 }
 
-export function Photo({ index, editing, editable, content, onStartEditing, onChange, onCancel, onDelete, onMoveUp, onMoveDown }) {
+export function Photo({ index, editing, editable, content, selected, onSelect, onStartEditing, onChange, onCancel, onDelete, onMoveUp, onMoveDown }) {
   const [image, setImage] = useState(null);
 
   const containerRef = useRef(null);
@@ -27,6 +29,8 @@ export function Photo({ index, editing, editable, content, onStartEditing, onCha
   const menu = (
     <Menu>
       <Menu.ItemGroup title="Photo">
+        <Menu.Item key="0" onClick={() => onStartEditing()}>Replace</Menu.Item>
+        <Menu.Divider />
         <Menu.Item key="1" onClick={() => onMoveUp(index)}>Move Up</Menu.Item>
         <Menu.Item key="2" onClick={() => onMoveDown(index)}>Move Down</Menu.Item>
         <Menu.Divider />
@@ -69,22 +73,25 @@ export function Photo({ index, editing, editable, content, onStartEditing, onCha
     return (    
       <div
         ref={containerRef}
-        className={editable ? "the-content editable" : "the-content"}
+        className={editable ? ( selected ? "the-content selected" : "the-content editable") : "the-content"}
         onClick={(e) => {
           if (!e.target.classList.contains("ant-dropdown-menu-item")) {
-            onStartEditing();
+            if (!selected) {
+              onSelect();
+            } else {
+              onStartEditing();
+            }
           }
         }}
         style={{
           position: 'relative',
-          color: '#949393',
-          paddingTop: '3px'
+          color: '#949393'
         }}
       >
         <ContentImage className="photo">
           <img src={image && image.photo.url} width={imageWidth} height={imageHeight} />
         </ContentImage>
-        {editable && <Dropdown overlay={menu} className="edit-icon"><SettingFilled /></Dropdown>}
+        {editable && selected && <Dropdown overlay={menu} className="edit-icon"><SettingFilled /></Dropdown>}
       </div>
     )
   }

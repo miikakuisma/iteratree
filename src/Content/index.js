@@ -36,6 +36,7 @@ export function Content({
 }) {
   const UI = useContext(UIContext);
   const [editing, setEditing] = useState(null);
+  const [selected, setSelected] = useState(null);
 
   const handleStartEditing = (index) => {
     if (!editable) {
@@ -184,6 +185,8 @@ export function Content({
         editing={editing === index}
         editable={editable}
         content={contentItem.value}
+        selected={selected === index}
+        onSelect={() => setSelected(index)}
         onStartEditing={() => handleStartEditing(index)}
         onChange={handleChange}
         onCancel={() => setEditing(null)}
@@ -199,6 +202,8 @@ export function Content({
         editing={editing === index}
         editable={editable}
         content={contentItem.value}
+        selected={selected === index}
+        onSelect={() => setSelected(index)}
         onStartEditing={() => handleStartEditing(index)}
         onChange={handleChange}
         onCancel={() => setEditing(null)}
@@ -214,6 +219,8 @@ export function Content({
         editing={editing === index}
         editable={editable}
         content={contentItem.value}
+        selected={selected === index}
+        onSelect={() => setSelected(index)}
         onStartEditing={() => handleStartEditing(index)}
         onChange={handleChange}
         onCancel={() => setEditing(null)}
@@ -227,6 +234,8 @@ export function Content({
         editing={editing === index}
         editable={editable}
         content={contentItem.value}
+        selected={selected === index}
+        onSelect={() => setSelected(index)}
         onStartEditing={() => handleStartEditing(index)}
         onChange={handleChange}
         onCancel={() => setEditing(null)}
@@ -242,6 +251,8 @@ export function Content({
         editing={editing === index}
         editable={editable}
         content={contentItem.value}
+        selected={selected === index}
+        onSelect={() => setSelected(index)}
         onStartEditing={() => handleStartEditing(index)}
         onChange={handleChange}
         onCancel={() => setEditing(null)}
@@ -253,7 +264,11 @@ export function Content({
   });
 
   return (
-    <div className="node-content">
+    <div className="node-content" onClick={(e) => {
+      if(e.target.classList.contains("node-content")) {
+        setSelected(null);
+      }
+    }}>
       {contentList}
       {/* <button onClick={handleSearch}>Search</button> */}
       {editable &&

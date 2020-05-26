@@ -27,8 +27,6 @@ export default function ShowCode() {
     });
   }
 
-  console.log(id)
-
   return (
     <Modal
       title="Published QR-Code"

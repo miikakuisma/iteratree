@@ -356,11 +356,21 @@ p.question {
   margin-bottom: 20px;
 }
 
+.node-content .the-content.selected {
+  position: relative;
+  margin: -3px;
+  border: 4px solid #1890ff;
+  margin-bottom: 17px;
+}
+
 .node-content .the-content.editable {
   position: relative;
   cursor: pointer;
   border: 1px dashed transparent;
-  border-right: 1px solid rgba(255,255,255,0.5);
+}
+
+.node-content .the-content.editable iframe {
+  pointer-events: none;
 }
 
 .node-content .the-content.editable:hover {
@@ -394,7 +404,7 @@ p.question {
   top: 3px;
   right: -32px;
   font-size: 24px;
-  color: rgba(255,255,255,0.5);
+  color: rgb(24, 144, 255);
 }
 
 .node-content .edit-icon:hover {

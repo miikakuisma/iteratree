@@ -8,6 +8,8 @@ const propTypes = {
   editing: PropTypes.bool,
   editable: PropTypes.bool,
   content: PropTypes.string,
+  selected: PropTypes.bool,
+  onSelect: PropTypes.func,
   onStartEditing: PropTypes.func,
   onChange: PropTypes.func,
   onCancel: PropTypes.func,
@@ -16,11 +18,13 @@ const propTypes = {
   onDelete: PropTypes.func
 }
 
-export function Title({ index, editing, editable, content, onStartEditing, onChange, onCancel, onMoveUp, onMoveDown, onDelete }) {
+export function Title({ index, editing, editable, content, selected, onSelect, onStartEditing, onChange, onCancel, onMoveUp, onMoveDown, onDelete }) {
 
   const menu = (
     <Menu>
       <Menu.ItemGroup title="Title">
+        <Menu.Item key="0" onClick={() => onStartEditing()}>Edit</Menu.Item>
+        <Menu.Divider />
         <Menu.Item key="1" onClick={() => onMoveUp(index)}>Move Up</Menu.Item>
         <Menu.Item key="2" onClick={() => onMoveDown(index)}>Move Down</Menu.Item>
         <Menu.Divider />
@@ -59,10 +63,14 @@ export function Title({ index, editing, editable, content, onStartEditing, onCha
 
     return (    
       <div
-        className={editable ? "the-content editable" : "the-content"}
+        className={editable ? ( selected ? "the-content selected" : "the-content editable") : "the-content"}
         onClick={(e) => {
           if (!e.target.classList.contains("ant-dropdown-menu-item")) {
-            onStartEditing();
+            if (!selected) {
+              onSelect();
+            } else {
+              onStartEditing();
+            }
           }
         }}
         style={{
@@ -88,7 +96,7 @@ export function Title({ index, editing, editable, content, onStartEditing, onCha
             cursor: 'pointer'
           }}
         />
-        {editable && <Dropdown overlay={menu} className="edit-icon"><SettingFilled /></Dropdown>}
+        {editable && selected && <Dropdown overlay={menu} className="edit-icon"><SettingFilled /></Dropdown>}
       </div>
     )
   }
