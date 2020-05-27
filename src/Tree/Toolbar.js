@@ -2,19 +2,21 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Space, Dropdown, Menu, Tooltip } from 'antd';
 import { BgColorsOutlined, EditFilled, CopyOutlined, DiffOutlined, DeleteOutlined } from '@ant-design/icons';
-import { palette } from '../lib/colors';
-import { Undo } from '../lib/icons';
 import Icon from '@ant-design/icons';
+import { palette } from '../lib/colors';
+import { Undo, Redo } from '../lib/icons';
+import { pastTrees, futureTrees } from "../history";
 
 const propTypes = {
   selectedNode: PropTypes.object,
   clipboard: PropTypes.object,
   sidebarOpen: PropTypes.bool,
   onAction: PropTypes.func,
-  onUndo: PropTypes.func
+  onUndo: PropTypes.func,
+  onRedo: PropTypes.func
 };
 
-function Toolbar({ selectedNode, clipboard, sidebarOpen, onAction, onUndo }) {
+function Toolbar({ selectedNode, clipboard, sidebarOpen, onAction, onUndo, onRedo }) {
 
   const handleSelectColor = (item) => {
     onAction("changeColor", item);
@@ -46,6 +48,8 @@ function Toolbar({ selectedNode, clipboard, sidebarOpen, onAction, onUndo }) {
     </Menu>
   );
 
+  console.log(pastTrees, futureTrees)
+
   return(
     <div
       className="actions"
@@ -58,10 +62,24 @@ function Toolbar({ selectedNode, clipboard, sidebarOpen, onAction, onUndo }) {
           component={Undo}
           style={{
             position: 'fixed',
-            left: '20px' // calc(50% - 30px)
+            left: 'calc(50% - 14px)',
+            opacity: pastTrees.length > 0 ? 1 : 0.5
           }}
           onClick={() => {
             onUndo();
+          }}
+        />
+      </Tooltip>
+      <Tooltip title="Redo" placement="top">
+        <Icon
+          component={Redo}
+          style={{
+            position: 'fixed',
+            left: 'calc(50% + 14px)',
+            opacity: futureTrees.length > 0 ? 1 : 0.5
+          }}
+          onClick={() => {
+            onRedo();
           }}
         />
       </Tooltip>

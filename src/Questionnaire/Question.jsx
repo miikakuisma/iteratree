@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState, Fragment } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { TreeContext } from '../Store';
 import BigButton from './BigButton'
@@ -19,6 +19,7 @@ const propTypes = {
 
 export function Question({ isVisible, isPreviewing, node, onClickNode }) {
   const store = useContext(TreeContext);
+  const { tree, onAddHistory } = store;
 
   const boxRef = useRef(null);
   const buttonsRef = useRef(null);
@@ -107,7 +108,9 @@ export function Question({ isVisible, isPreviewing, node, onClickNode }) {
             content={node.content}
             editable={isPreviewing}
             onUpdate={(newContent) => {
+              onAddHistory(tree);
               node.content = newContent;
+              // Update node title when the first title element is updated
               if (newContent.find(c => c.type === 'title')) {
                 node.title = newContent.find(c => c.type === 'title').value;
               }

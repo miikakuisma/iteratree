@@ -4,6 +4,7 @@ import { Modal, Tabs, message, notification, Card, Col, Row, Popconfirm } from '
 import { ExclamationCircleOutlined, LoadingOutlined, PlusOutlined, CloseCircleFilled } from '@ant-design/icons';
 import { loadTree, getMyTrees, deleteTree } from "../lib/parse";
 import { blank, examples } from '../lib/examples';
+import { pastTrees, futureTrees } from "../history";
 import Thumbnail from "../Thumbnail";
 
 const { TabPane } = Tabs;
@@ -120,6 +121,8 @@ export default function Browser() {
           modalOpen: false,
           browserOpen: false
         });
+        pastTrees.length = 0;
+        futureTrees.length = 0;
         message.loading('Loading tree..');
         loadTree({
           id,
@@ -163,6 +166,8 @@ export default function Browser() {
             if (store.tree[0].root.id === id) {
               window.localStorage.removeItem('tree');
               window.location.reload();
+              pastTrees.length = 0;
+              futureTrees.length = 0;
             }
           },
           onError: (response) => {

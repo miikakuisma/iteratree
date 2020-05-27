@@ -12,7 +12,7 @@ import Questionnaire from "./Questionnaire";
 import Shortcuts from "./Shortcuts";
 import ShowCode from "./ShowCode";
 import Browser from "./Browser";
-import { pastTrees } from "./history";
+import { pastTrees, futureTrees } from "./history";
 import "./styles.css";
 
 const { Content } = Layout;
@@ -106,19 +106,32 @@ export default function App() {
     }
   }
 
-  function refreshTree(loadNewTree) {
-    pastTrees.push(tree);
+  function refreshTree(loadNewTree, historyOperation) {
     let newTree = JSON.stringify(loadNewTree) || JSON.stringify(tree);
     updateTree(JSON.parse(newTree));
+    if (!historyOperation && futureTrees.length > 0) {
+      futureTrees.length = 0;
+    }
     if (mode === "editor") {
       window.localStorage.setItem("tree", JSON.stringify(tree));
     }
   }
 
+  function addHistory(state) {
+    pastTrees.push(state);
+  }
+
   function undo() {
-    if (pastTrees.length > 1) {
-      updateTree(pastTrees[pastTrees.length - 2]);
-      pastTrees.pop()
+    if (pastTrees.length) {
+      futureTrees.push(pastTrees.pop());
+      refreshTree(futureTrees[futureTrees.length - 1], true);
+    }
+  }
+
+  function redo() {
+    if (futureTrees.length) {
+      pastTrees.push(futureTrees.pop());
+      refreshTree(pastTrees[pastTrees.length - 1], true);
     }
   }
 
@@ -151,7 +164,7 @@ export default function App() {
   }
 
   return (
-    <TreeContext.Provider value={{ tree, onRefresh: refreshTree, onUndo: undo }}>
+    <TreeContext.Provider value={{ tree, onRefresh: refreshTree, onUndo: undo, onRedo: redo, onAddHistory: addHistory }}>
       <UIContext.Provider value={{ state: UI, setState: refreshUI }}>
         {mode === "view" && <Questionnaire flow={tree} preview={false} />}
         {mode === "editor" && <Layout>

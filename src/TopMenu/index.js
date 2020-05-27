@@ -18,6 +18,7 @@ import {
 } from '@ant-design/icons';
 import { signOut, saveNewTree, updateSavedTree } from "../lib/parse";
 import { blank } from '../lib/examples';
+import { pastTrees, futureTrees } from "../history";
 import md5 from "md5";
 import "../styles.css";
 
@@ -50,6 +51,8 @@ function TopMenu() {
       icon: <ExclamationCircleOutlined />,
       content: 'Unsaved changes will be lost',
       onOk() {
+        pastTrees.length = 0;
+        futureTrees.length = 0;
         window.localStorage.removeItem('tree');
         window.localStorage.removeItem('content');
         load(blank, true);
@@ -73,6 +76,8 @@ function TopMenu() {
         content: 'Are you sure you want to open this project?',
         onOk() {
           UI.setState({ modalOpen: false });
+          pastTrees.length = 0;
+          futureTrees.length = 0;
           store.onRefresh(tree);
         },
         onCancel() {

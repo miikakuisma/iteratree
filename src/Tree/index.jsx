@@ -15,7 +15,7 @@ const traverse = require("traverse");
 function Tree() {
   const store = useContext(TreeContext);
   const UI = useContext(UIContext);
-  const { tree, onRefresh, onUndo } = store;
+  const { tree, onRefresh, onUndo, onRedo, onAddHistory } = store;
   const { sidebarOpen, userModal, modalOpen, editingContent } = UI.state;
 
   const [clipboard, setClipboard] = useState(null);
@@ -143,6 +143,8 @@ function Tree() {
   };
 
   function addNode(node, select) {
+    onAddHistory(tree);
+    console.log(tree)
     const newNode = {
       id: Date.now(),
       title: "New",
@@ -163,6 +165,7 @@ function Tree() {
   }
 
   function updateNodeColor(node, item) {
+    onAddHistory(tree);
     traverse(tree).forEach(function(x) {
       if (typeof x === 'object' && x === node) {
         if (!item.color) {
@@ -183,6 +186,7 @@ function Tree() {
   }
 
   function pasteNode(node) {
+    onAddHistory(tree);
     // Each pasted node should have new ID
     let pastedNode = clipboard;
     pastedNode.id = Date.now();
@@ -233,6 +237,7 @@ function Tree() {
   }
 
   function moveNode({ direction, node, parent}) {
+    onAddHistory(tree);
     // Moves child node left-right inside the parent
     let newParent = JSON.parse(JSON.stringify(parent.parent.node));
     let oldIndex;
@@ -266,6 +271,7 @@ function Tree() {
       message.error(`Cannot delete root node`);
       return
     }
+    onAddHistory(tree);
     if (isDeleting) {
       traverse(tree).forEach(function(x) {
         if (x === node) {
@@ -349,6 +355,7 @@ function Tree() {
           }
         }}
         onUpdateNode={(key, value) => {
+          onAddHistory(tree);
           node[key] = value;
           onRefresh();
           setEditing(null);
@@ -414,6 +421,7 @@ function Tree() {
           sidebarOpen={sidebarOpen}
           onAction={handleInspectorAction}
           onUndo={onUndo}
+          onRedo={onRedo}
         />
         {nodeTree}
       </div>
