@@ -118,21 +118,22 @@ export default function App() {
   }
 
   function addHistory() {
-    console.log('add history')
     pastTrees.push(JSON.stringify(tree));
   }
 
   function undo() {
     if (pastTrees.length) {
-      futureTrees.push(pastTrees.pop());
-      refreshTree(JSON.parse(futureTrees[futureTrees.length - 1]), true);
+      const data = pastTrees.pop()
+      futureTrees.push(JSON.stringify(tree));
+      refreshTree(JSON.parse(data), true);
     }
   }
 
   function redo() {
     if (futureTrees.length) {
-      pastTrees.push(futureTrees.pop());
-      refreshTree(JSON.parse(pastTrees[pastTrees.length - 1]), true);
+      const data = futureTrees.pop();
+      pastTrees.push(JSON.stringify(tree));
+      refreshTree(JSON.parse(data), true);
     }
   }
 
