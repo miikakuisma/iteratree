@@ -117,21 +117,22 @@ export default function App() {
     }
   }
 
-  function addHistory(state) {
-    pastTrees.push(state);
+  function addHistory() {
+    console.log('add history')
+    pastTrees.push(JSON.stringify(tree));
   }
 
   function undo() {
     if (pastTrees.length) {
       futureTrees.push(pastTrees.pop());
-      refreshTree(futureTrees[futureTrees.length - 1], true);
+      refreshTree(JSON.parse(futureTrees[futureTrees.length - 1]), true);
     }
   }
 
   function redo() {
     if (futureTrees.length) {
       pastTrees.push(futureTrees.pop());
-      refreshTree(pastTrees[pastTrees.length - 1], true);
+      refreshTree(JSON.parse(pastTrees[pastTrees.length - 1]), true);
     }
   }
 

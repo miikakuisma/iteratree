@@ -143,8 +143,7 @@ function Tree() {
   };
 
   function addNode(node, select) {
-    onAddHistory(tree);
-    console.log(tree)
+    onAddHistory();
     const newNode = {
       id: Date.now(),
       title: "New",
@@ -158,14 +157,14 @@ function Tree() {
       node.options.push(newNode);
       onRefresh();
     } else {
-      unselectAll();
+      // unselectAll();
       node.options = [newNode];
       onRefresh();
     }
   }
 
   function updateNodeColor(node, item) {
-    onAddHistory(tree);
+    onAddHistory();
     traverse(tree).forEach(function(x) {
       if (typeof x === 'object' && x === node) {
         if (!item.color) {
@@ -186,7 +185,7 @@ function Tree() {
   }
 
   function pasteNode(node) {
-    onAddHistory(tree);
+    onAddHistory();
     // Each pasted node should have new ID
     let pastedNode = clipboard;
     pastedNode.id = Date.now();
@@ -237,7 +236,7 @@ function Tree() {
   }
 
   function moveNode({ direction, node, parent}) {
-    onAddHistory(tree);
+    onAddHistory();
     // Moves child node left-right inside the parent
     let newParent = JSON.parse(JSON.stringify(parent.parent.node));
     let oldIndex;
@@ -271,7 +270,7 @@ function Tree() {
       message.error(`Cannot delete root node`);
       return
     }
-    onAddHistory(tree);
+    onAddHistory();
     if (isDeleting) {
       traverse(tree).forEach(function(x) {
         if (x === node) {
@@ -355,7 +354,7 @@ function Tree() {
           }
         }}
         onUpdateNode={(key, value) => {
-          onAddHistory(tree);
+          onAddHistory();
           node[key] = value;
           onRefresh();
           setEditing(null);

@@ -67,7 +67,7 @@ export function Content({
       value: getDefaultContent(type)
     }
     let newContent = content || [];
-    newContent.push(contentItem)
+    newContent.push(contentItem);
     onUpdate(newContent);
     handleStartEditing(newContent.length - 1);
   }
