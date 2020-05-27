@@ -19,8 +19,6 @@ const propTypes = {
 
 export function Question({ isVisible, isPreviewing, node, onClickNode }) {
   const store = useContext(TreeContext);
-  const { onAddHistory } = store;
-
   const boxRef = useRef(null);
   const buttonsRef = useRef(null);
 
@@ -108,7 +106,6 @@ export function Question({ isVisible, isPreviewing, node, onClickNode }) {
             content={node.content}
             editable={isPreviewing}
             onUpdate={(newContent) => {
-              onAddHistory();
               node.content = newContent;
               // Update node title when the first title element is updated
               if (newContent.find(c => c.type === 'title')) {

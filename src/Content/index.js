@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
-import { UIContext } from '../Store';
+import { TreeContext, UIContext } from '../Store';
 import { Tooltip, Dropdown, Menu } from 'antd';
 import {
   PlusCircleOutlined,
@@ -35,6 +35,9 @@ export function Content({
   onUpdate
 }) {
   const UI = useContext(UIContext);
+  const store = useContext(TreeContext);
+  const { onAddHistory } = store;
+
   const [editing, setEditing] = useState(null);
   const [selected, setSelected] = useState(null);
 
@@ -76,8 +79,10 @@ export function Content({
     const value = e.target.value;
     let newContent = content;
     if (value === "") {
+      onAddHistory();
       newContent.splice(editing, 1);
     } else {
+      onAddHistory();
       newContent[editing].value = value;
     }
     onUpdate(newContent);
@@ -86,6 +91,7 @@ export function Content({
   }
 
   const handleDelete = (index) => {
+    onAddHistory();
     let newContent = content;
     newContent.splice(index, 1);
     onUpdate(newContent);
@@ -94,12 +100,14 @@ export function Content({
   }
 
   const handleMoveUp = (index) => {
+    onAddHistory();
     let newContent = content;
     arrayMove(newContent, index, index - 1);
     onUpdate(newContent);
   }
 
   const handleMoveDown = (index) => {
+    onAddHistory();
     let newContent = content;
     if (newContent.length > index + 1) {
       arrayMove(newContent, index, index + 1);
