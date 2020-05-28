@@ -313,6 +313,7 @@ function Tree() {
         });
       } else {
         // If deleting just one node, don't ask for confirm
+        setPreviewDeleteNode(null);
         setDeleting(true);
         traverse(tree).forEach(function(x) {
           if (x === node) {
