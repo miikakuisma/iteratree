@@ -22,19 +22,19 @@ export default function Shortcuts() {
     },
     {
       title: 'Enter',
-      description: 'Rename node'
+      description: 'Rename node / Edit content'
     },
     {
-      title: 'Left / Right',
-      description: 'Select next node from left or right'
+      title: 'Left / Right / Up / Down',
+      description: 'Select next item from left or right'
     },
     {
-      title: 'Cmd + Left / Right',
-      description: 'Move selected node left or right'
+      title: 'Cmd + Left / Right / Up / Down',
+      description: 'Move selected item left or right'
     },
     {
       title: 'Backspace',
-      description: 'Delete node'
+      description: 'Delete item'
     },
   ];
 
