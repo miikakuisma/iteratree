@@ -62,6 +62,9 @@ export function Content({
           }
           break;
         case "Enter":
+          // if (selected) {
+          //   handleStartEditing(selected);
+          // }
           break;
         default:
           break;
