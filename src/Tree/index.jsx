@@ -68,10 +68,10 @@ function Tree() {
   }
 
   document.onkeydown = e => {
-    if (isAskingToConfirm || userModal || editingContent ) {
-      return
-    }
     if (activeUiSection === 'tree') {
+      if (isAskingToConfirm || userModal || editingContent ) {
+        return
+      }
       switch (e.key) {
         // COPY
         case "c":
@@ -338,7 +338,7 @@ function Tree() {
         node={node}
         subNodes={subNodes}
         pasteEnabled={clipboard !== null}
-        keyboardListenerDisabled={isAskingToConfirm || modalOpen || editingContent}
+        keyboardListenerDisabled={isAskingToConfirm || modalOpen || editingContent || activeUiSection !== "tree"}
         isEditing={isEditing === node.id}
         isPreviewingRemove={previewDeleteNode === node.id}
         isSelected={node.selected}

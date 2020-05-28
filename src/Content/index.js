@@ -52,19 +52,44 @@ export function Content({
           break;
         case "ArrowRight":
           break;
-        case "ArrowDown":
-          break;
         case "ArrowUp":
+          if (!editing) {
+            if (e.metaKey || e.ctrlKey) {
+              handleMoveUp(selected);
+              if (selected > 0) {
+                setSelected(parseInt(selected) - 1);
+              }
+            } else {
+              if (selected > 0) {
+                setSelected(parseInt(selected) - 1);
+              }
+            }
+          }
+          break;
+        case "ArrowDown":
+          if (!editing) {
+            if (e.metaKey || e.ctrlKey) {
+              handleMoveDown(selected);
+              if (selected < (content.length - 1)) {
+                setSelected(parseInt(selected) + 1);
+              }
+            } else {
+              if (selected < (content.length - 1)) {
+                setSelected(parseInt(selected) + 1);
+              }
+            }
+          }
           break;
         case "Backspace":
-          if (selected) {
+          if (selected && !editing) {
             handleDelete(selected);
           }
           break;
         case "Enter":
-          // if (selected) {
-          //   handleStartEditing(selected);
-          // }
+          if (selected && !editing) {
+            e.preventDefault();  
+            handleStartEditing(selected);
+          }
           break;
         default:
           break;
