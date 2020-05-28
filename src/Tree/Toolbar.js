@@ -48,8 +48,6 @@ function Toolbar({ selectedNode, clipboard, sidebarOpen, onAction, onUndo, onRed
     </Menu>
   );
 
-  console.log(pastTrees, futureTrees)
-
   return(
     <div
       className="actions"

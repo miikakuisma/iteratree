@@ -118,7 +118,11 @@ export default function App() {
   }
 
   function addHistory() {
+    const maxSteps = 50;
     pastTrees.push(JSON.stringify(tree));
+    if (pastTrees.length > maxSteps) {
+      pastTrees.shift();
+    }
   }
 
   function undo() {
