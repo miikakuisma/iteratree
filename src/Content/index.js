@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { TreeContext, UIContext } from '../Store';
-import { Tooltip, Dropdown, Menu } from 'antd';
+import { Tooltip, Dropdown, Menu, message } from 'antd';
 import {
   PlusCircleOutlined,
   FileMarkdownOutlined,
@@ -40,13 +40,25 @@ export function Content({
 
   const [editing, setEditing] = useState(null);
   const [selected, setSelected] = useState(null);
+  const [clipboard, setClipboard] = useState(null);
 
   window.onkeydown = e => {
     if (UI.state.activeUiSection === 'sidebar') {
       switch (e.key) {
         case "c":
+          if (!editing && (e.metaKey || e.ctrlKey)) {
+            setClipboard(content[selected]);
+            message.info(`Content copied to clipboard`);
+          }
           break;
         case "v":
+          if (!editing && (e.metaKey || e.ctrlKey)) {
+            onAddHistory();
+            let pastedItem = clipboard;
+            let newContent = content || [];
+            newContent.push(pastedItem);
+            onUpdate(newContent);
+          }
           break;
         case "ArrowLeft":
           break;
