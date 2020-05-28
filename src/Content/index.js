@@ -47,17 +47,12 @@ export function Content({
       switch (e.key) {
         case "c":
           if (!editing && (e.metaKey || e.ctrlKey)) {
-            setClipboard(content[selected]);
-            message.info(`Content copied to clipboard`);
+            handleCopy();
           }
           break;
         case "v":
           if (!editing && (e.metaKey || e.ctrlKey)) {
-            onAddHistory();
-            let pastedItem = clipboard;
-            let newContent = content || [];
-            newContent.push(pastedItem);
-            onUpdate(newContent);
+            handlePaste();
           }
           break;
         case "ArrowLeft":
@@ -183,6 +178,19 @@ export function Content({
     }
   }
 
+  const handleCopy = () => {
+    setClipboard(content[selected]);
+    message.info(`Content copied to clipboard`);
+  }
+
+  const handlePaste = () => {
+    onAddHistory();
+    let pastedItem = clipboard;
+    let newContent = content || [];
+    newContent.push(pastedItem);
+    onUpdate(newContent);
+  }
+
   const addMenu = (
     <Menu>
       <Menu.Item
@@ -284,6 +292,8 @@ export function Content({
         onMoveUp={handleMoveUp}
         onMoveDown={handleMoveDown}
         onDelete={handleDelete}
+        onCopy={handleCopy}
+        onPaste={handlePaste}
       />
     }
     if (contentItem.type === 'photo') {
@@ -301,6 +311,8 @@ export function Content({
         onMoveUp={handleMoveUp}
         onMoveDown={handleMoveDown}
         onDelete={handleDelete}
+        onCopy={handleCopy}
+        onPaste={handlePaste}
       />
     }
     if (contentItem.type === 'background') {
@@ -333,6 +345,8 @@ export function Content({
         onMoveUp={handleMoveUp}
         onMoveDown={handleMoveDown}
         onDelete={handleDelete}
+        onCopy={handleCopy}
+        onPaste={handlePaste}
       />
     }
     if (contentItem.type === 'markdown') {
@@ -350,6 +364,8 @@ export function Content({
         onMoveUp={handleMoveUp}
         onMoveDown={handleMoveDown}
         onDelete={handleDelete}
+        onCopy={handleCopy}
+        onPaste={handlePaste}
       />
     }
   });

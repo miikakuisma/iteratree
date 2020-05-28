@@ -17,17 +17,31 @@ const propTypes = {
   onDelete: PropTypes.func
 }
 
-export function Background({ index, editing, editable, content, selected, onSelect, onStartEditing, onChange, onCancel, onDelete }) {
+export function Background({
+  index,
+  editing,
+  editable,
+  content,
+  selected,
+  onSelect,
+  onStartEditing,
+  onChange,
+  onCancel,
+  onDelete
+}) {
 
   const menu = (
     <Menu>
       <Menu.ItemGroup title="Background Image">
-        <Menu.Item key="0" onClick={() => onStartEditing()}>Replace</Menu.Item>
+        <Menu.Item key="0" onClick={() => onStartEditing()}>Edit</Menu.Item>
         <Menu.Divider />
-        {/* <Menu.Item key="1" onClick={() => onMoveUp(index)}>Move Up</Menu.Item>
-        <Menu.Item key="2" onClick={() => onMoveDown(index)}>Move Down</Menu.Item>
+        {/* <Menu.Item key="1" onClick={() => onCopy(index)}>Copy</Menu.Item>
+        <Menu.Item key="2" onClick={() => onPaste(index)}>Paste</Menu.Item>
+        <Menu.Divider />
+        <Menu.Item key="3" onClick={() => onMoveUp(index)}>Move Up</Menu.Item>
+        <Menu.Item key="4" onClick={() => onMoveDown(index)}>Move Down</Menu.Item>
         <Menu.Divider /> */}
-        <Menu.Item key="3"onClick={() => onDelete(index)}>Remove</Menu.Item>
+        <Menu.Item key="5"onClick={() => onDelete(index)}>Remove</Menu.Item>
       </Menu.ItemGroup>
     </Menu>
   );
