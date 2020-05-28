@@ -41,6 +41,34 @@ export function Content({
   const [editing, setEditing] = useState(null);
   const [selected, setSelected] = useState(null);
 
+  window.onkeydown = e => {
+    if (UI.state.activeUiSection === 'sidebar') {
+      switch (e.key) {
+        case "c":
+          break;
+        case "v":
+          break;
+        case "ArrowLeft":
+          break;
+        case "ArrowRight":
+          break;
+        case "ArrowDown":
+          break;
+        case "ArrowUp":
+          break;
+        case "Backspace":
+          if (selected) {
+            handleDelete(selected);
+          }
+          break;
+        case "Enter":
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
   const handleStartEditing = (index) => {
     if (!editable) {
       return

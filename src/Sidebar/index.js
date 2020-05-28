@@ -66,7 +66,16 @@ export function Sidebar({ open, selectedNode, onSelectNode }) {
   }
 
   return (
-    <SidebarContainer className="sidebar" pose={open ? 'visible' : 'hidden'} style={{ overflow: open ? 'overlay' : 'visible' }}>
+    <SidebarContainer
+      className="sidebar"
+      pose={open ? 'visible' : 'hidden'}
+      style={{ overflow: open ? 'overlay' : 'visible' }}
+      onClick={() => {
+        UI.setState({
+          activeUiSection: 'sidebar'
+        });
+      }}
+    >
       <div className="top">
         {sidebarOpen && <Fragment>
           <Text style={{ color: 'white' }}>Preview</Text>

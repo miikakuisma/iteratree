@@ -16,7 +16,7 @@ function Tree() {
   const store = useContext(TreeContext);
   const UI = useContext(UIContext);
   const { tree, onRefresh, onUndo, onRedo, onAddHistory } = store;
-  const { sidebarOpen, userModal, modalOpen, editingContent } = UI.state;
+  const { sidebarOpen, userModal, modalOpen, editingContent, activeUiSection } = UI.state;
 
   const [clipboard, setClipboard] = useState(null);
   const [selectedNode, setSelectedNode] = useState(null);
@@ -67,78 +67,80 @@ function Tree() {
     onRefresh();
   }
 
-  window.onkeydown = e => {
-    if (isAskingToConfirm || userModal || editingContent) {
+  document.onkeydown = e => {
+    if (isAskingToConfirm || userModal || editingContent ) {
       return
     }
-    switch (e.key) {
-      // COPY
-      case "c":
-        if ((e.metaKey || e.ctrlKey) && selectNode) {
-          getSelectedNode((node) => copyNode(node));
-        }
-        break;
-      // PASTE
-      case "v":
-        if (isEditing === null && clipboard) {
-          if (e.metaKey || e.ctrlKey) {
-            getSelectedNode((node) => pasteNode(node));
+    if (activeUiSection === 'tree') {
+      switch (e.key) {
+        // COPY
+        case "c":
+          if ((e.metaKey || e.ctrlKey) && selectNode) {
+            getSelectedNode((node) => copyNode(node));
           }
-        }
-        break;
-      // MOVE and SELECT
-      case "ArrowLeft":
-        if (isEditing === null) {
-          if (e.metaKey || e.ctrlKey) {
+          break;
+        // PASTE
+        case "v":
+          if (isEditing === null && clipboard) {
+            if (e.metaKey || e.ctrlKey) {
+              getSelectedNode((node) => pasteNode(node));
+            }
+          }
+          break;
+        // MOVE and SELECT
+        case "ArrowLeft":
+          if (isEditing === null) {
+            if (e.metaKey || e.ctrlKey) {
+              e.preventDefault();
+              getSelectedNode((node, parent) => moveNode({ direction: 'left', node, parent }));
+            } else {
+              getSelectedNode((node, parent) => selectChildNode({ direction: 'left', node, parent }));
+            }
+          }
+          break;
+        case "ArrowRight":
+          if (isEditing === null) {
+            if (e.metaKey || e.ctrlKey) {
+              e.preventDefault();
+              getSelectedNode((node, parent) => moveNode({ direction: 'right', node, parent }));
+            } else {
+              getSelectedNode((node, parent) => selectChildNode({ direction: 'right', node, parent }));
+            }
+          }
+          break;
+        // ADD NODES
+        case "ArrowDown":
+          // add new child
+          if (isEditing === null) {
+            if (selectedNode && selectedNode.options) {
+              const middle = Math.floor(selectedNode.options.length / 2);
+              selectNode(selectedNode.options[middle]);
+            } else {
+              getSelectedNode((node) => addNode(node, true));
+            }
+          }
+          break;
+        case "Tab":
+          if (isEditing === null) {
+            // add new under same parent
             e.preventDefault();
-            getSelectedNode((node, parent) => moveNode({ direction: 'left', node, parent }));
-          } else {
-            getSelectedNode((node, parent) => selectChildNode({ direction: 'left', node, parent }));
+            getSelectedNode((node, parent) => addNode(parent.parent.node, true));
           }
-        }
-        break;
-      case "ArrowRight":
-        if (isEditing === null) {
-          if (e.metaKey || e.ctrlKey) {
-            e.preventDefault();
-            getSelectedNode((node, parent) => moveNode({ direction: 'right', node, parent }));
-          } else {
-            getSelectedNode((node, parent) => selectChildNode({ direction: 'right', node, parent }));
+          break;
+          // SELECT PARENT
+        case "ArrowUp":
+          getSelectedNode((node, parent) => selectParentNode(parent));
+          break;
+        case "Backspace":
+          if (isEditing === null && !isAskingToConfirm) {
+            getSelectedNode((node) => deleteNode(node));
           }
-        }
-        break;
-      // ADD NODES
-      case "ArrowDown":
-        // add new child
-        if (isEditing === null) {
-          if (selectedNode && selectedNode.options) {
-            const middle = Math.floor(selectedNode.options.length / 2);
-            selectNode(selectedNode.options[middle]);
-          } else {
-            getSelectedNode((node) => addNode(node, true));
-          }
-        }
-        break;
-      case "Tab":
-        if (isEditing === null) {
-          // add new under same parent
-          e.preventDefault();
-          getSelectedNode((node, parent) => addNode(parent.parent.node, true));
-        }
-        break;
-        // SELECT PARENT
-      case "ArrowUp":
-        getSelectedNode((node, parent) => selectParentNode(parent));
-        break;
-      case "Backspace":
-        if (isEditing === null && !isAskingToConfirm) {
-          getSelectedNode((node) => deleteNode(node));
-        }
-        break;
-      case "Enter":
-        break;
-      default:
-        break;
+          break;
+        case "Enter":
+          break;
+        default:
+          break;
+      }
     }
   };
 
@@ -407,6 +409,9 @@ function Tree() {
       <div
         className="nodeTree"
         onClick={(e) => {
+          UI.setState({
+            activeUiSection: 'tree'
+          });
           if (e.target.classList.contains('nodeContainer')) { 
             unselectAll();
           }
