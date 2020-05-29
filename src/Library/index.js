@@ -111,9 +111,6 @@ export function Library({ selected, onCancel, onSelect }) {
         {!uploading && (
           <Fragment>
             <PlusOutlined className="addNewThumb" />
-            <div className="photo-upload" style={{ display: 'none' }}>
-              <input type="file" id="myfile" onChange={handleUpload} />
-            </div>
           </Fragment>
         )}
         {uploading && (
@@ -189,6 +186,9 @@ export function Library({ selected, onCancel, onSelect }) {
           </div>
         </TabPane>
       </Tabs>
+      <div className="photo-upload" style={{ display: 'none' }}>
+        <input type="file" id="myfile" onChange={handleUpload} />
+      </div>
     </Modal>
   );
 }
