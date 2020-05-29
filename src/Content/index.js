@@ -16,12 +16,8 @@ import {
   ContactsOutlined,
   SmileOutlined
 } from '@ant-design/icons';
-import Title from './Title';
-import Video from './Video';
-import Markdown from "./Markdown";
-import Background from "./Background";
-import Photo from "./Photo";
 import { arrayMove } from '../lib/helpers';
+import ContentBlock from "./ContentBlock";
 
 const propTypes = {
   content: PropTypes.array,
@@ -167,6 +163,9 @@ export function Content({
     let newContent = content;
     arrayMove(newContent, index, index - 1);
     onUpdate(newContent);
+    if (selected > 0) {
+      setSelected(parseInt(selected) - 1);
+    }
   }
 
   const handleMoveDown = (index) => {
@@ -174,7 +173,10 @@ export function Content({
     let newContent = content;
     if (newContent.length > index + 1) {
       arrayMove(newContent, index, index + 1);
-      onUpdate(newContent);      
+      onUpdate(newContent);
+      if (selected < (content.length - 1)) {
+        setSelected(parseInt(selected) + 1);
+      }
     }
   }
 
@@ -277,97 +279,24 @@ export function Content({
   );
 
   const contentList = content && content.length > 0 && content.map((contentItem, index) => {
-    if (contentItem.type === 'title') {
-      return <Title
-        key={`content-${index}`}
-        index={index}
-        editing={editing === index}
-        editable={editable}
-        content={contentItem.value}
-        selected={selected === index}
-        onSelect={() => setSelected(index)}
-        onStartEditing={() => handleStartEditing(index)}
-        onChange={handleChange}
-        onCancel={() => setEditing(null)}
-        onMoveUp={handleMoveUp}
-        onMoveDown={handleMoveDown}
-        onDelete={handleDelete}
-        onCopy={handleCopy}
-        onPaste={handlePaste}
-      />
-    }
-    if (contentItem.type === 'photo') {
-      return <Photo
-        key={`content-${index}`}
-        index={index}
-        editing={editing === index}
-        editable={editable}
-        content={contentItem.value}
-        selected={selected === index}
-        onSelect={() => setSelected(index)}
-        onStartEditing={() => handleStartEditing(index)}
-        onChange={handleChange}
-        onCancel={() => setEditing(null)}
-        onMoveUp={handleMoveUp}
-        onMoveDown={handleMoveDown}
-        onDelete={handleDelete}
-        onCopy={handleCopy}
-        onPaste={handlePaste}
-      />
-    }
-    if (contentItem.type === 'background') {
-      return <Background
-        key={`content-${index}`}
-        index={index}
-        editing={editing === index}
-        editable={editable}
-        content={contentItem.value}
-        selected={selected === index}
-        onSelect={() => setSelected(index)}
-        onStartEditing={() => handleStartEditing(index)}
-        onChange={handleChange}
-        onCancel={() => setEditing(null)}
-        onDelete={handleDelete}
-      />
-    }
-    if (contentItem.type === 'video') {
-      return <Video
-        key={`content-${index}`}
-        index={index}
-        editing={editing === index}
-        editable={editable}
-        content={contentItem.value}
-        selected={selected === index}
-        onSelect={() => setSelected(index)}
-        onStartEditing={() => handleStartEditing(index)}
-        onChange={handleChange}
-        onCancel={() => setEditing(null)}
-        onMoveUp={handleMoveUp}
-        onMoveDown={handleMoveDown}
-        onDelete={handleDelete}
-        onCopy={handleCopy}
-        onPaste={handlePaste}
-      />
-    }
-    if (contentItem.type === 'markdown') {
-      return <Markdown
-        key={`content-${index}`}
-        index={index}
-        editing={editing === index}
-        editable={editable}
-        content={contentItem.value}
-        selected={selected === index}
-        onSelect={() => setSelected(index)}
-        onStartEditing={() => handleStartEditing(index)}
-        onChange={handleChange}
-        onCancel={() => setEditing(null)}
-        onMoveUp={handleMoveUp}
-        onMoveDown={handleMoveDown}
-        onDelete={handleDelete}
-        onCopy={handleCopy}
-        onPaste={handlePaste}
-      />
-    }
+    return <ContentBlock
+      key={`content-${index}`}
+      index={index}
+      type={contentItem.type}
+      editing={editing === index}
+      editable={editable}
+      content={contentItem.value}
+      selected={selected === index}
+      onSelect={() => setSelected(index)}
+      onStartEditing={() => handleStartEditing(index)}
+      onChange={handleChange}
+      onCancel={() => setEditing(null)}
+      onMoveUp={handleMoveUp}
+      onMoveDown={handleMoveDown}
+      onDelete={handleDelete}
+      onCopy={handleCopy}
+      onPaste={handlePaste}
+    />
   });
 
   return (

@@ -1,7 +1,5 @@
 import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
-import { Menu, Dropdown } from 'antd';
-import { SettingFilled } from '@ant-design/icons';
 import { getImage } from '../lib/parse';
 import Library from "../Library";
 import { ContentImage } from "../Questionnaire/lib/animations";
@@ -9,55 +7,16 @@ import { ContentImage } from "../Questionnaire/lib/animations";
 const propTypes = {
   index: PropTypes.number,
   editing: PropTypes.bool,
-  editable: PropTypes.bool,
   content: PropTypes.string,
-  selected: PropTypes.bool,
-  onSelect: PropTypes.func,
-  onStartEditing: PropTypes.func,
   onChange: PropTypes.func,
   onCancel: PropTypes.func,
   onDelete: PropTypes.func,
-  onMoveUp: PropTypes.func,
-  onMoveDown: PropTypes.func,
-  onCopy: PropTypes.func,
-  onPaste: PropTypes.func
 }
 
-export function Photo({
-  index,
-  editing,
-  editable,
-  content,
-  selected,
-  onSelect,
-  onStartEditing,
-  onChange,
-  onCancel,
-  onMoveUp,
-  onMoveDown,
-  onDelete,
-  onCopy,
-  onPaste
-}) {
+export function Photo({ index, editing, content, onChange, onCancel, onDelete }) {
   const [image, setImage] = useState(null);
 
   const containerRef = useRef(null);
-
-  const menu = (
-    <Menu>
-      <Menu.ItemGroup title="Image">
-        <Menu.Item key="0" onClick={() => onStartEditing()}>Edit</Menu.Item>
-        <Menu.Divider />
-        <Menu.Item key="1" onClick={() => onCopy(index)}>Copy</Menu.Item>
-        <Menu.Item key="2" onClick={() => onPaste(index)}>Paste</Menu.Item>
-        <Menu.Divider />
-        <Menu.Item key="3" onClick={() => onMoveUp(index)}>Move Up</Menu.Item>
-        <Menu.Item key="4" onClick={() => onMoveDown(index)}>Move Down</Menu.Item>
-        <Menu.Divider />
-        <Menu.Item key="5"onClick={() => onDelete(index)}>Remove</Menu.Item>
-      </Menu.ItemGroup>
-    </Menu>
-  );
 
   React.useEffect(() => {
     if (content) {
@@ -91,28 +50,9 @@ export function Photo({
     const imageHeight = containerRef.current && (imageWidth / aspectRatio);
 
     return (    
-      <div
-        ref={containerRef}
-        className={editable ? ( selected ? "the-content selected" : "the-content editable") : "the-content"}
-        onClick={(e) => {
-          if (!e.target.classList.contains("ant-dropdown-menu-item")) {
-            if (!selected) {
-              onSelect();
-            } else {
-              onStartEditing();
-            }
-          }
-        }}
-        style={{
-          position: 'relative',
-          color: '#949393'
-        }}
-      >
-        <ContentImage className="photo">
-          <img src={image && image.photo.url} width={imageWidth} height={imageHeight} />
-        </ContentImage>
-        {editable && selected && <Dropdown overlay={menu} className="edit-icon"><SettingFilled /></Dropdown>}
-      </div>
+      <ContentImage className="photo">
+        <img src={image && image.photo.url} width={imageWidth} height={imageHeight} />
+      </ContentImage>
     )
   }
 
