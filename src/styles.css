@@ -298,6 +298,7 @@ button.ant-btn[disabled] {
   position: fixed;
   top: calc(50vh - 48px);
   cursor: pointer;
+  z-index: 9;
 }
 
 .content-tools {

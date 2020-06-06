@@ -430,7 +430,12 @@ function Tree() {
         />
         {nodeTree}
       </div>
-      <Sidebar open={sidebarOpen} selectedNode={selectedNode || tree[0]} onSelectNode={(next) => selectNode(next)} />
+      <Sidebar
+        open={sidebarOpen}
+        selectedNode={selectedNode || tree[0]}
+        onSelectNode={(next) => selectNode(next)}
+        onToggleSidebar={() => UI.setState({ sidebarOpen: !sidebarOpen })}
+      />
     </Fragment>
   );
 }

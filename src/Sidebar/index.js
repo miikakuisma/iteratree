@@ -14,9 +14,10 @@ const propTypes = {
   open: PropTypes.bool,
   selectedNode: PropTypes.object,
   onSelectNode: PropTypes.func,
+  onToggleSidebar: PropTypes.func
 };
 
-export function Sidebar({ open, selectedNode, onSelectNode }) {
+export function Sidebar({ open, selectedNode, onSelectNode, onToggleSidebar }) {
   const store = useContext(TreeContext);
   const UI = useContext(UIContext);
 
@@ -70,11 +71,6 @@ export function Sidebar({ open, selectedNode, onSelectNode }) {
       className="sidebar"
       pose={open ? 'visible' : 'hidden'}
       style={{ overflow: open ? 'overlay' : 'visible' }}
-      onClick={() => {
-        UI.setState({
-          activeUiSection: 'sidebar'
-        });
-      }}
     >
       <div className="top">
         {sidebarOpen && <Fragment>
@@ -98,13 +94,14 @@ export function Sidebar({ open, selectedNode, onSelectNode }) {
         </Fragment>}
         <div
           className="opener"
-          onClick={() => UI.setState({ sidebarOpen: !sidebarOpen })}
+          onClick={onToggleSidebar}
           style={{
             right: open ? '376px' : '0px'
           }}
         >
           {sidebarOpen ?
             <RightSquareFilled
+              className="opener-icon"
               style={{
                 fontSize: 20,
                 color: '#eee',
@@ -114,6 +111,7 @@ export function Sidebar({ open, selectedNode, onSelectNode }) {
             />
             :
             <LeftSquareFilled
+              className="opener-icon"
               style={{
                 fontSize: 20,
                 color: '#111',
@@ -123,11 +121,20 @@ export function Sidebar({ open, selectedNode, onSelectNode }) {
         </div>
       </div>
       {/* <ContentTools selectedNode={selectedNode} /> */}
-      <Questionnaire
-        flow={selectedNode || tree[0]}
-        preview={true}
-        onAnswer={onSelectNode}
-      />
+      <div
+        className="main"
+        onClick={(e) => {
+          UI.setState({
+            activeUiSection: 'sidebar'
+          });
+        }}
+      >
+        <Questionnaire
+          flow={selectedNode || tree[0]}
+          preview={true}
+          onAnswer={onSelectNode}
+        />
+      </div>
     </SidebarContainer>
   );
 }
