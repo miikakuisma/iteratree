@@ -1,10 +1,10 @@
 import React from "react";
-import { happy } from "./lib/examples";
+import { tutorial } from "./lib/examples";
 
 export let TreeContext = React.createContext();
 export let UIContext = React.createContext();
 
-export const initialAppState = happy;
+export const initialAppState = tutorial;
 
 export const initialUIState = {
   loading: false,
