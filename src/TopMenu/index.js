@@ -211,7 +211,7 @@ function TopMenu() {
           ><QrcodeOutlined />Get QR-Code</Menu.Item>
           <Menu.Item
             key="setting:8"
-            disabled={!userLoggedIn || (treeId === "")}
+            disabled={false}
             onClick={() => {
               resetCounts(tree);
               store.onRefresh();
