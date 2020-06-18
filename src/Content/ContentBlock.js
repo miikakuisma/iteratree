@@ -72,6 +72,7 @@ export function ContentBlock({
         return <Video editing={true} content={content} onChange={onChange} onCancel={onCancel} />
       case "background":
         return <Background editing={true} content={content} onChange={onChange} onCancel={onCancel} />
+      default:
       }
   }
 
@@ -87,6 +88,7 @@ export function ContentBlock({
         return <Video editing={false} content={content} />
       case "background":
         return <Background editing={false} content={content} />
+      default:
     }
   }
 

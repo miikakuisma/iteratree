@@ -33,11 +33,13 @@ export function Library({ selected, onCancel, onSelect }) {
 
   useEffect(() => {
     refreshList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   function handleTabChange(key) {
     window.localStorage.setItem('lastBrowserTab', key);
     switch (key) {
+      default:
       case 1:
         refreshList();
         break;
@@ -132,7 +134,7 @@ export function Library({ selected, onCancel, onSelect }) {
         }
       }}
     >
-      <img src={item.photo.url} className="image" />
+      <img src={item.photo.url} alt="thumbnail" className="image" />
       <Popconfirm
         title="Delete this file from the server and all projects?"
         onConfirm={() => {

@@ -49,6 +49,7 @@ class Questionnaire extends React.Component {
     this.setState({
       boxVisible: false,
     })
+    // eslint-disable-next-line no-eval
     const nextNode = eval(node)
     if (this.props.preview) {
       this.props.onAnswer(nextNode);

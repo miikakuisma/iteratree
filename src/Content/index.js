@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { TreeContext, UIContext } from '../Store';
-import { Tooltip, Dropdown, Menu, message } from 'antd';
+import { Tooltip, Dropdown, Menu, message, Button } from 'antd';
 import {
   PlusCircleOutlined,
   FileMarkdownOutlined,
@@ -119,6 +119,8 @@ export function Content({
       case "video":
         return "";
       case "text":
+        return ""
+      default:
         return ""
     }
   }
@@ -310,9 +312,15 @@ export function Content({
       {editable &&
         <Tooltip title="Add Content" placement="top">
           <Dropdown overlay={addMenu} trigger={['click']}>
-            <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+            <Button
+              onClick={e => e.preventDefault()}
+              style={{
+                background: 'transparent',
+                border: 'none'
+              }}
+            >
               <PlusCircleOutlined className="add-icon" />
-            </a>
+            </Button>
           </Dropdown>
         </Tooltip>
       }

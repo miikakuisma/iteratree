@@ -33,11 +33,13 @@ export default function Browser() {
 
   useEffect(() => {
     refreshList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   function handleTabChange(key) {
     window.localStorage.setItem('lastBrowserTab', key);
     switch (key) {
+      default:
       case 1:
         getMyTrees({
           onSuccess: (response2) => {

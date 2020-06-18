@@ -51,7 +51,7 @@ export function Photo({ index, editing, content, onChange, onCancel, onDelete })
 
     return (    
       <ContentImage className="photo">
-        <img src={image && image.photo.url} width={imageWidth} height={imageHeight} />
+        <img src={image && image.photo.url} width={imageWidth} height={imageHeight} alt="uploaded" />
       </ContentImage>
     )
   }

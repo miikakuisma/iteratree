@@ -29,6 +29,7 @@ function Tree() {
     getSelectedNode((node) => {
       setSelectedNode(node)
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tree]);
 
   function getSelectedNode(callback) {

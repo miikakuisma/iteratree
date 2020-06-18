@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { TreeContext, UIContext } from '../Store';
-import { Input, message, Menu, Dropdown, notification, Modal } from 'antd';
+import { Input, message, Menu, Dropdown, notification, Modal, Button } from 'antd';
 import { BranchesOutlined, DownOutlined, EditOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { renameTree, deleteTree } from '../lib/parse';
 
@@ -84,9 +84,15 @@ export default function TreeName() {
         <div className="name">
           <span title={id}>{name}</span>
           <Dropdown overlay={menu} trigger={['hover']}>
-            <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+            <Button
+              onClick={e => e.preventDefault()}
+              style={{
+                border: 'none',
+                marginLeft: 0
+              }}
+            >
               <DownOutlined />
-            </a>
+            </Button>
           </Dropdown>
         </div>
       </div>
