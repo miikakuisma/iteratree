@@ -4,6 +4,3 @@
 
 Visit at https://iteratree.com
 
-Documentation is coming later (when I have the time for it)
-
-
